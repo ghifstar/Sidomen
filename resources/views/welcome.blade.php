@@ -527,7 +527,409 @@
                 $keteranganVal = $rekap ? $rekap->pengeluaran_keterangan : '';
             @endphp
 
-            <div class="space-y-8">
+            <div class="space-y-6">
+                <!-- TAB SWITCHER KASIR CABANG -->
+                <div class="yellow-card rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-2 border-gold-400">
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-1.5 rounded-xl bg-cocoa-900 text-gold-300 font-black text-xs uppercase tracking-wide">
+                            <i class="fa-solid fa-cash-register mr-1.5"></i> KASIR CABANG {{ strtoupper($myCabang->nama_cabang) }}
+                        </span>
+                        <span class="text-xs font-extrabold text-cocoa-900">
+                            • Shift Aktif: <strong class="text-amber-700">Pagi - Siang</strong>
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-1.5 bg-gold-300 p-1 rounded-xl border border-gold-500 text-xs font-black">
+                        <button type="button" onclick="switchKasirTab('pos')" id="btn-tab-pos"
+                            class="px-4 py-2 rounded-lg bg-cocoa-900 text-gold-300 shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-cart-shopping"></i> Mesin Kasir (POS)
+                        </button>
+                        <button type="button" onclick="switchKasirTab('laporan')" id="btn-tab-laporan"
+                            class="px-4 py-2 rounded-lg text-cocoa-900 hover:bg-gold-400 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-invoice-dollar"></i> Tutup Shift & Laporan Harian
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ========================================================================= -->
+                <!-- TAB 1: MESIN KASIR / POS DONAT MENAK (FITUR SEPERTI KASIR PADA UMUMNYA)  -->
+                <!-- ========================================================================= -->
+                <div id="tab-kasir-pos" class="space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                        
+                        <!-- PANEL KIRI: KATALOG MENU PRODUK DONAT MENAK (7 KOLOM) -->
+                        <div class="lg:col-span-7 yellow-card rounded-2xl p-6 space-y-5">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-gold-400 pb-3.5">
+                                <div>
+                                    <h3 class="text-lg font-display font-black text-cocoa-950 flex items-center gap-2">
+                                        <i class="fa-solid fa-utensils text-amber-600"></i>
+                                        <span>Katalog Menu Donat Menak</span>
+                                    </h3>
+                                    <p class="text-xs text-cocoa-800 font-medium">Klik menu produk untuk menambahkan ke keranjang kasir</p>
+                                </div>
+                                
+                                <!-- PILIH KATEGORI PILLS -->
+                                <div class="flex flex-wrap items-center gap-1.5 text-xs font-black">
+                                    <button type="button" onclick="filterPosKategori('semua')" class="pos-kat-btn px-3 py-1 rounded-lg bg-cocoa-900 text-gold-300 border border-gold-500 shadow-sm" data-kat="semua">Semua</button>
+                                    <button type="button" onclick="filterPosKategori('klasik')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="klasik">Klasik</button>
+                                    <button type="button" onclick="filterPosKategori('premium')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="premium">Premium</button>
+                                    <button type="button" onclick="filterPosKategori('box')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="box">Paket Box</button>
+                                    <button type="button" onclick="filterPosKategori('minuman')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="minuman">Minuman</button>
+                                </div>
+                            </div>
+
+                            <!-- GRID KATALOG MENU -->
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[520px] overflow-y-auto custom-scrollbar pr-1" id="pos-menu-grid">
+                                <!-- Donat Klasik 1 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="klasik" onclick="addToCart('Donat Gula Aren Klasik', 8000, 'klasik', 1)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-bold border border-amber-300 group-hover:scale-110 transition">
+                                                🍩
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-900 text-[10px] font-black">Klasik</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Gula Aren Klasik</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 8.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Donat Klasik 2 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="klasik" onclick="addToCart('Donat Gula Halus Tradisional', 8000, 'klasik', 1)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-bold border border-amber-300 group-hover:scale-110 transition">
+                                                🍩
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-900 text-[10px] font-black">Klasik</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Gula Halus Tradisional</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 8.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Donat Premium 1 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="premium" onclick="addToCart('Donat Cokelat Belgia Lumer', 10000, 'premium', 1)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
+                                                🍫
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Cokelat Belgia Lumer</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 10.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Donat Premium 2 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="premium" onclick="addToCart('Donat Keju Cheddar Susu', 10000, 'premium', 1)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
+                                                🧀
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Keju Cheddar Susu</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 10.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Donat Premium 3 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="premium" onclick="addToCart('Donat Matcha Almond Crunchy', 11000, 'premium', 1)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-sm font-bold border border-emerald-300 group-hover:scale-110 transition">
+                                                🍵
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Matcha Almond Crunchy</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 11.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Donat Premium 4 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="premium" onclick="addToCart('Donat Red Velvet Cream Cheese', 12000, 'premium', 1)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-red-100 text-red-800 flex items-center justify-center text-sm font-bold border border-red-300 group-hover:scale-110 transition">
+                                                🍰
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Red Velvet Cream Cheese</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 12.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Donat Premium 5 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="premium" onclick="addToCart('Donat Tiramisu Lotus Biscoff', 12000, 'premium', 1)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
+                                                🍪
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Tiramisu Lotus Biscoff</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 12.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Paket Box 1 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="box" onclick="addToCart('Paket Box Hemat 6 Pcs (Campur)', 55000, 'box', 6)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center text-sm font-bold border border-purple-300 group-hover:scale-110 transition">
+                                                📦
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-purple-200 text-purple-900 text-[10px] font-black">Box 6 Pcs</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Paket Box Hemat 6 Pcs (Campur)</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 55.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Paket Box 2 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="box" onclick="addToCart('Paket Party Box 12 Pcs (Spesial)', 105000, 'box', 12)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center text-sm font-bold border border-purple-300 group-hover:scale-110 transition">
+                                                🎁
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-purple-200 text-purple-900 text-[10px] font-black">Box 12 Pcs</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Paket Party Box 12 Pcs (Spesial)</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 105.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Minuman 1 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="minuman" onclick="addToCart('Kopi Susu Gula Aren Menak', 15000, 'minuman', 0)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-300 group-hover:scale-110 transition">
+                                                ☕
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-black">Minuman</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Kopi Susu Gula Aren Menak</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 15.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Minuman 2 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="minuman" onclick="addToCart('Es Teh Lychee Segar', 12000, 'minuman', 0)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-red-100 text-red-800 flex items-center justify-center text-sm font-bold border border-red-300 group-hover:scale-110 transition">
+                                                🍹
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-black">Minuman</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Es Teh Lychee Segar</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 12.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- Minuman 3 -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="minuman" onclick="addToCart('Cokelat Dingin Menak Spesial', 16000, 'minuman', 0)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-950 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
+                                                🧋
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-black">Minuman</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Cokelat Dingin Menak Spesial</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 16.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PANEL KANAN: KERANJANG BELANJA & PEMBAYARAN KASIR (5 KOLOM) -->
+                        <div class="lg:col-span-5 yellow-card rounded-2xl p-6 space-y-5 sticky top-4">
+                            <div class="flex items-center justify-between border-b-2 border-gold-400 pb-3">
+                                <div>
+                                    <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                                        <i class="fa-solid fa-cart-shopping text-amber-600"></i>
+                                        <span>Keranjang Pesanan</span>
+                                    </h3>
+                                    <span class="text-[10px] font-mono font-bold text-cocoa-800" id="pos-invoice-num">INV/DM-{{ $myCabang->id }}/{{ date('Ymd') }}-01</span>
+                                </div>
+                                <button type="button" onclick="clearPosCart()"
+                                    class="px-2.5 py-1 rounded-lg bg-red-100 hover:bg-red-200 text-red-700 text-[11px] font-black border border-red-300 transition">
+                                    <i class="fa-solid fa-trash-can mr-1"></i> Kosongkan
+                                </button>
+                            </div>
+
+                            <!-- DAFTAR ITEM KERANJANG -->
+                            <div id="pos-cart-container" class="min-h-[160px] max-h-[220px] overflow-y-auto custom-scrollbar space-y-2.5 pr-1">
+                                <!-- STATE KOSONG DEFAULT -->
+                                <div id="pos-empty-state" class="py-10 text-center space-y-2">
+                                    <div class="w-12 h-12 mx-auto rounded-full bg-gold-200 flex items-center justify-center text-amber-700 text-xl">
+                                        <i class="fa-solid fa-basket-shopping"></i>
+                                    </div>
+                                    <p class="text-xs font-bold text-cocoa-800">Belum ada item pesanan di keranjang.</p>
+                                    <p class="text-[11px] text-cocoa-700">Klik menu di sebelah kiri untuk memilih produk.</p>
+                                </div>
+                            </div>
+
+                            <!-- KALKULASI TAGIHAN -->
+                            <div class="border-t-2 border-gold-400 pt-3 space-y-2 text-xs font-bold">
+                                <div class="flex justify-between items-center text-cocoa-800">
+                                    <span>Subtotal Pesanan:</span>
+                                    <span class="font-mono font-extrabold text-cocoa-950" id="pos-subtotal-txt">Rp 0</span>
+                                </div>
+                                <div class="flex justify-between items-center text-cocoa-800">
+                                    <span>Diskon / Promo Cabang:</span>
+                                    <span class="font-mono font-extrabold text-emerald-700" id="pos-diskon-txt">Rp 0</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-cocoa-900 p-3 rounded-xl text-gold-300 border border-cocoa-950 shadow-sm">
+                                    <span class="text-sm font-black uppercase tracking-wide">Total Tagihan:</span>
+                                    <span class="text-lg font-display font-black text-white" id="pos-total-txt">Rp 0</span>
+                                </div>
+                            </div>
+
+                            <!-- METODE PEMBAYARAN & UANG BAYAR -->
+                            <div class="space-y-3 pt-1">
+                                <label class="block text-xs font-black text-cocoa-950">Pilih Metode Pembayaran:</label>
+                                <div class="grid grid-cols-2 gap-2 text-xs font-black">
+                                    <button type="button" onclick="setMetodeBayar('Tunai (Cash)')" id="btn-metode-cash"
+                                        class="py-2.5 px-3 rounded-xl bg-cocoa-900 text-gold-300 border-2 border-gold-500 shadow transition flex items-center justify-center gap-1.5">
+                                        <i class="fa-solid fa-money-bill-1-wave"></i> Tunai (Cash)
+                                    </button>
+                                    <button type="button" onclick="setMetodeBayar('QRIS / Non-Tunai')" id="btn-metode-qris"
+                                        class="py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition flex items-center justify-center gap-1.5">
+                                        <i class="fa-solid fa-qrcode"></i> QRIS / Cashless
+                                    </button>
+                                </div>
+
+                                <!-- INPUT BAYAR TUNAI -->
+                                <div id="box-pembayaran-cash" class="bg-gold-200/90 p-3.5 rounded-xl border-2 border-gold-400 space-y-2.5">
+                                    <div>
+                                        <label class="block text-[11px] font-black text-cocoa-950 mb-1">Uang Diterima dari Pelanggan (Rp):</label>
+                                        <input type="number" id="pos-uang-bayar" min="0" step="1000" placeholder="0" oninput="hitungKembalianPos()"
+                                            class="w-full px-3 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-black text-sm focus:border-amber-600 focus:outline-none">
+                                    </div>
+
+                                    <!-- SHORTCUT UANG PAS / PECAHAN -->
+                                    <div class="flex flex-wrap gap-1.5 text-[11px] font-black">
+                                        <button type="button" onclick="setUangBayar('pas')" class="px-2.5 py-1 rounded-lg bg-white hover:bg-gold-100 text-cocoa-950 border border-gold-400">Uang Pas</button>
+                                        <button type="button" onclick="setUangBayar(20000)" class="px-2.5 py-1 rounded-lg bg-white hover:bg-gold-100 text-cocoa-950 border border-gold-400">20.000</button>
+                                        <button type="button" onclick="setUangBayar(50000)" class="px-2.5 py-1 rounded-lg bg-white hover:bg-gold-100 text-cocoa-950 border border-gold-400">50.000</button>
+                                        <button type="button" onclick="setUangBayar(100000)" class="px-2.5 py-1 rounded-lg bg-white hover:bg-gold-100 text-cocoa-950 border border-gold-400">100.000</button>
+                                    </div>
+
+                                    <div class="flex justify-between items-center pt-1 border-t border-gold-400 text-xs font-black">
+                                        <span class="text-cocoa-900">Kembalian:</span>
+                                        <span class="font-mono text-sm text-emerald-800" id="pos-kembalian-txt">Rp 0</span>
+                                    </div>
+                                </div>
+
+                                <!-- INFO BOX QRIS (HIDDEN DEFAULT) -->
+                                <div id="box-pembayaran-qris" class="hidden bg-white p-4 rounded-xl border-2 border-gold-400 text-center space-y-2">
+                                    <div class="w-24 h-24 mx-auto bg-gold-100 rounded-xl border-2 border-cocoa-900 flex items-center justify-center text-4xl text-cocoa-900">
+                                        <i class="fa-solid fa-qrcode"></i>
+                                    </div>
+                                    <p class="text-xs font-black text-cocoa-950">QRIS Resmi Donat Menak — {{ $myCabang->nama_cabang }}</p>
+                                    <p class="text-[10px] text-cocoa-800 font-semibold">Tunjukkan kepada pelanggan untuk scan via GoPay, OVO, Dana, BCA, Mandiri</p>
+                                </div>
+                            </div>
+
+                            <!-- TOMBOL PROSES PEMBAYARAN POS -->
+                            <button type="button" onclick="prosesTransaksiPos({{ $myCabang->id }}, '{{ $myCabang->nama_cabang }}')"
+                                class="w-full py-4 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm tracking-wide shadow-lg transition flex items-center justify-center gap-2 border-2 border-emerald-500">
+                                <i class="fa-solid fa-print text-base"></i> BAYAR & CETAK STRUK KASIR
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- LOG RIWAYAT TRANSAKSI KASIR SESI HARI INI -->
+                    <div class="yellow-card rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b-2 border-gold-400 pb-3">
+                            <h4 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                                <i class="fa-solid fa-receipt text-amber-600"></i>
+                                <span>Riwayat Transaksi Sesi Kasir Hari Ini</span>
+                            </h4>
+                            <span class="text-xs font-black text-cocoa-800" id="pos-log-count">0 Transaksi Selesai</span>
+                        </div>
+                        <div class="overflow-x-auto max-h-56 overflow-y-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b-2 border-gold-400 text-xs font-black uppercase text-cocoa-900 bg-gold-300/60 sticky top-0">
+                                        <th class="py-2.5 px-4 rounded-l-xl">No. Struk</th>
+                                        <th class="py-2.5 px-4">Jam</th>
+                                        <th class="py-2.5 px-4">Detail Item</th>
+                                        <th class="py-2.5 px-4">Metode Bayar</th>
+                                        <th class="py-2.5 px-4 text-right rounded-r-xl">Total Bayar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pos-log-tbody" class="divide-y divide-gold-300 text-xs font-semibold text-cocoa-950">
+                                    <tr id="pos-log-empty">
+                                        <td colspan="5" class="py-6 text-center text-cocoa-700 font-bold">Belum ada transaksi di sesi shift ini.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========================================================================= -->
+                <!-- TAB 2: TUTUP SHIFT & LAPORAN HARIAN (REKAP KEUANGAN & STOK PREMIX)        -->
+                <!-- ========================================================================= -->
+                <div id="tab-kasir-laporan" class="hidden space-y-8">
                 <!-- BAGIAN 1: REKAP KEUANGAN HARIAN CABANG (PEMASUKAN & PENGELUARAN) -->
                 <div class="yellow-card rounded-2xl p-6 space-y-6">
                     <div class="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-gold-400 pb-4 gap-2">
@@ -718,6 +1120,60 @@
                         </button>
                     </div>
                 </div>
+                </div> <!-- END #tab-kasir-laporan -->
+
+                <!-- MODAL STRUK TRANSAKSI POS (THERMAL RECEIPT STYLE) -->
+                <div id="modal-struk-pos" class="fixed inset-0 bg-cocoa-950/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+                    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border-4 border-gold-400 text-cocoa-950 space-y-4">
+                        <!-- HEADER STRUK THERMAL -->
+                        <div class="text-center border-b-2 border-dashed border-cocoa-400 pb-3 space-y-1">
+                            <h3 class="text-base font-display font-black tracking-wider uppercase">DONAT MENAK</h3>
+                            <p class="text-[11px] font-bold text-cocoa-800">Cabang <span id="struk-cabang">{{ $myCabang->nama_cabang }}</span></p>
+                            <p class="text-[10px] text-cocoa-700">Jl. Raya Bandung No. 128 • Telp (022) 876543</p>
+                        </div>
+
+                        <!-- META STRUK -->
+                        <div class="text-[11px] font-mono border-b border-dashed border-cocoa-400 pb-2 space-y-1">
+                            <div class="flex justify-between"><span>No. Struk:</span><strong id="struk-inv">INV-01</strong></div>
+                            <div class="flex justify-between"><span>Tanggal:</span><span id="struk-tgl">{{ date('d/m/Y H:i') }}</span></div>
+                            <div class="flex justify-between"><span>Kasir:</span><span>Kasir Cabang</span></div>
+                            <div class="flex justify-between"><span>Metode:</span><strong id="struk-metode">Tunai</strong></div>
+                        </div>
+
+                        <!-- ITEM LIST STRUK -->
+                        <div id="struk-item-list" class="text-[11px] font-mono space-y-1.5 border-b-2 border-dashed border-cocoa-400 pb-3 max-h-40 overflow-y-auto">
+                            <!-- Populated dynamically -->
+                        </div>
+
+                        <!-- TOTALS STRUK -->
+                        <div class="text-xs font-mono space-y-1 border-b-2 border-dashed border-cocoa-400 pb-3">
+                            <div class="flex justify-between"><span>Subtotal:</span><span id="struk-subtotal">Rp 0</span></div>
+                            <div class="flex justify-between"><span>Diskon:</span><span id="struk-diskon">Rp 0</span></div>
+                            <div class="flex justify-between font-black text-sm"><span>TOTAL:</span><span id="struk-total">Rp 0</span></div>
+                            <div class="flex justify-between text-cocoa-800"><span>Bayar:</span><span id="struk-bayar">Rp 0</span></div>
+                            <div class="flex justify-between text-cocoa-800"><span>Kembalian:</span><span id="struk-kembalian">Rp 0</span></div>
+                        </div>
+
+                        <!-- FOOTER STRUK -->
+                        <div class="text-center text-[10px] text-cocoa-700 italic space-y-1">
+                            <p>*** TERIMA KASIH ATAS KUNJUNGAN ANDA ***</p>
+                            <p>Donat empuk kebanggaan Bandung • @donatmenak</p>
+                        </div>
+
+                        <!-- TOMBOL AKSI MODAL STRUK -->
+                        <div class="flex gap-2 pt-2">
+                            <button type="button" onclick="window.print()"
+                                class="flex-1 py-2.5 px-3 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black text-xs transition flex items-center justify-center gap-1.5 border border-gold-400">
+                                <i class="fa-solid fa-print"></i> Cetak Struk
+                            </button>
+                            <button type="button" onclick="tutupModalStruk()"
+                                class="flex-1 py-2.5 px-3 rounded-xl bg-gold-200 hover:bg-gold-300 text-cocoa-950 font-black text-xs transition">
+                                Selesai / Transaksi Baru
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endif
 
 
@@ -1832,6 +2288,305 @@
                 }
             } catch (err) {
                 alert('Gagal memproses permintaan belanja.');
+            }
+        }
+
+        // =========================================================================
+        // HANDLER MESIN KASIR (POS DONAT MENAK - FITUR KASIR PADA UMUMNYA)
+        // =========================================================================
+        let posCart = [];
+        let posMetode = 'Tunai (Cash)';
+        let posLogCount = 0;
+
+        function switchKasirTab(tab) {
+            const btnPos = document.getElementById('btn-tab-pos');
+            const btnLaporan = document.getElementById('btn-tab-laporan');
+            const secPos = document.getElementById('tab-kasir-pos');
+            const secLaporan = document.getElementById('tab-kasir-laporan');
+
+            if (tab === 'pos') {
+                secPos?.classList.remove('hidden');
+                secLaporan?.classList.add('hidden');
+                btnPos?.classList.add('bg-cocoa-900', 'text-gold-300', 'shadow');
+                btnPos?.classList.remove('text-cocoa-900', 'hover:bg-gold-400');
+                btnLaporan?.classList.remove('bg-cocoa-900', 'text-gold-300', 'shadow');
+                btnLaporan?.classList.add('text-cocoa-900', 'hover:bg-gold-400');
+            } else {
+                secPos?.classList.add('hidden');
+                secLaporan?.classList.remove('hidden');
+                btnLaporan?.classList.add('bg-cocoa-900', 'text-gold-300', 'shadow');
+                btnLaporan?.classList.remove('text-cocoa-900', 'hover:bg-gold-400');
+                btnPos?.classList.remove('bg-cocoa-900', 'text-gold-300', 'shadow');
+                btnPos?.classList.add('text-cocoa-900', 'hover:bg-gold-400');
+            }
+        }
+
+        function filterPosKategori(kat) {
+            document.querySelectorAll('.pos-kat-btn').forEach(btn => {
+                if (btn.getAttribute('data-kat') === kat) {
+                    btn.className = 'pos-kat-btn px-3 py-1 rounded-lg bg-cocoa-900 text-gold-300 border border-gold-500 shadow-sm';
+                } else {
+                    btn.className = 'pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300';
+                }
+            });
+
+            document.querySelectorAll('.pos-item-card').forEach(card => {
+                if (kat === 'semua' || card.getAttribute('data-kat') === kat) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function addToCart(nama, harga, kategori, donatPcs) {
+            const idx = posCart.findIndex(item => item.nama === nama);
+            if (idx >= 0) {
+                posCart[idx].qty += 1;
+            } else {
+                posCart.push({
+                    nama: nama,
+                    harga: harga,
+                    qty: 1,
+                    donatPcs: donatPcs
+                });
+            }
+            renderPosCart();
+        }
+
+        function updateCartQty(idx, delta) {
+            posCart[idx].qty += delta;
+            if (posCart[idx].qty <= 0) {
+                posCart.splice(idx, 1);
+            }
+            renderPosCart();
+        }
+
+        function clearPosCart() {
+            if (posCart.length === 0) return;
+            if (confirm('Kosongkan keranjang pesanan?')) {
+                posCart = [];
+                renderPosCart();
+            }
+        }
+
+        function renderPosCart() {
+            const container = document.getElementById('pos-cart-container');
+            if (!container) return;
+
+            if (posCart.length === 0) {
+                container.innerHTML = `
+                    <div id="pos-empty-state" class="py-10 text-center space-y-2">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-gold-200 flex items-center justify-center text-amber-700 text-xl">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </div>
+                        <p class="text-xs font-bold text-cocoa-800">Belum ada item pesanan di keranjang.</p>
+                        <p class="text-[11px] text-cocoa-700">Klik menu di sebelah kiri untuk memilih produk.</p>
+                    </div>`;
+            } else {
+                let html = '';
+                posCart.forEach((item, idx) => {
+                    const subtotal = item.harga * item.qty;
+                    html += `
+                        <div class="p-3 rounded-xl bg-white border border-gold-400 flex items-center justify-between text-xs font-bold shadow-sm">
+                            <div class="flex-1 pr-2">
+                                <span class="block text-cocoa-950 font-black">${item.nama}</span>
+                                <span class="text-[11px] text-amber-800">Rp ${item.harga.toLocaleString('id-ID')}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="flex items-center bg-gold-200 rounded-lg border border-gold-400">
+                                    <button type="button" onclick="updateCartQty(${idx}, -1)" class="w-6 h-6 flex items-center justify-center text-cocoa-900 font-black hover:bg-gold-300 rounded-l-lg">-</button>
+                                    <span class="px-2 font-mono text-cocoa-950">${item.qty}</span>
+                                    <button type="button" onclick="updateCartQty(${idx}, 1)" class="w-6 h-6 flex items-center justify-center text-cocoa-900 font-black hover:bg-gold-300 rounded-r-lg">+</button>
+                                </div>
+                                <span class="font-mono text-cocoa-950 min-w-[75px] text-right">Rp ${subtotal.toLocaleString('id-ID')}</span>
+                            </div>
+                        </div>`;
+                });
+                container.innerHTML = html;
+            }
+
+            const total = posCart.reduce((sum, item) => sum + (item.harga * item.qty), 0);
+            document.getElementById('pos-subtotal-txt').innerText = 'Rp ' + total.toLocaleString('id-ID');
+            document.getElementById('pos-diskon-txt').innerText = 'Rp 0';
+            document.getElementById('pos-total-txt').innerText = 'Rp ' + total.toLocaleString('id-ID');
+
+            hitungKembalianPos();
+        }
+
+        function setMetodeBayar(m) {
+            posMetode = m;
+            const btnCash = document.getElementById('btn-metode-cash');
+            const btnQris = document.getElementById('btn-metode-qris');
+            const boxCash = document.getElementById('box-pembayaran-cash');
+            const boxQris = document.getElementById('box-pembayaran-qris');
+
+            if (m === 'Tunai (Cash)') {
+                btnCash.className = 'py-2.5 px-3 rounded-xl bg-cocoa-900 text-gold-300 border-2 border-gold-500 shadow transition flex items-center justify-center gap-1.5';
+                btnQris.className = 'py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition flex items-center justify-center gap-1.5';
+                boxCash.classList.remove('hidden');
+                boxQris.classList.add('hidden');
+            } else {
+                btnQris.className = 'py-2.5 px-3 rounded-xl bg-cocoa-900 text-gold-300 border-2 border-gold-500 shadow transition flex items-center justify-center gap-1.5';
+                btnCash.className = 'py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition flex items-center justify-center gap-1.5';
+                boxQris.classList.remove('hidden');
+                boxCash.classList.add('hidden');
+            }
+        }
+
+        function setUangBayar(nom) {
+            const total = posCart.reduce((sum, item) => sum + (item.harga * item.qty), 0);
+            const inp = document.getElementById('pos-uang-bayar');
+            if (!inp) return;
+
+            if (nom === 'pas') {
+                inp.value = total;
+            } else {
+                inp.value = nom;
+            }
+            hitungKembalianPos();
+        }
+
+        function hitungKembalianPos() {
+            const total = posCart.reduce((sum, item) => sum + (item.harga * item.qty), 0);
+            const inp = document.getElementById('pos-uang-bayar');
+            const kembalianEl = document.getElementById('pos-kembalian-txt');
+            if (!inp || !kembalianEl) return;
+
+            const bayar = parseFloat(inp.value) || 0;
+            const kembali = bayar - total;
+
+            if (total === 0) {
+                kembalianEl.innerText = 'Rp 0';
+                kembalianEl.className = 'font-mono text-sm text-emerald-800';
+            } else if (kembali < 0) {
+                kembalianEl.innerText = 'Kurang Rp ' + Math.abs(kembali).toLocaleString('id-ID');
+                kembalianEl.className = 'font-mono text-sm text-red-600';
+            } else if (kembali === 0) {
+                kembalianEl.innerText = 'Uang Pas';
+                kembalianEl.className = 'font-mono text-sm text-emerald-800 font-black';
+            } else {
+                kembalianEl.innerText = 'Rp ' + kembali.toLocaleString('id-ID');
+                kembalianEl.className = 'font-mono text-sm text-emerald-800 font-black';
+            }
+        }
+
+        function prosesTransaksiPos(cabangId, namaCabang) {
+            if (posCart.length === 0) {
+                alert('⚠️ Keranjang pesanan masih kosong! Pilih produk terlebih dahulu.');
+                return;
+            }
+
+            const total = posCart.reduce((sum, item) => sum + (item.harga * item.qty), 0);
+            let bayar = total;
+            let kembali = 0;
+
+            if (posMetode === 'Tunai (Cash)') {
+                const inpBayar = document.getElementById('pos-uang-bayar');
+                bayar = parseFloat(inpBayar?.value) || 0;
+                if (bayar < total) {
+                    alert('⚠️ Nominal uang pembayaran tunai kurang dari total tagihan (Rp ' + total.toLocaleString('id-ID') + ').');
+                    return;
+                }
+                kembali = bayar - total;
+            }
+
+            // Generate Invoice No
+            posLogCount++;
+            const randCode = Math.floor(1000 + Math.random() * 9000);
+            const invoiceNo = 'INV/DM-' + cabangId + '/' + randCode;
+
+            // Update modal struk content
+            document.getElementById('struk-cabang').innerText = namaCabang;
+            document.getElementById('struk-inv').innerText = invoiceNo;
+            document.getElementById('struk-tgl').innerText = new Date().toLocaleString('id-ID');
+            document.getElementById('struk-metode').innerText = posMetode;
+
+            let listHtml = '';
+            let totalDonatTerjual = 0;
+            posCart.forEach(item => {
+                const sub = item.harga * item.qty;
+                totalDonatTerjual += (item.donatPcs || 0) * item.qty;
+                listHtml += `
+                    <div>
+                        <div class="flex justify-between font-bold">
+                            <span>${item.nama}</span>
+                            <span>Rp ${sub.toLocaleString('id-ID')}</span>
+                        </div>
+                        <div class="text-cocoa-700">${item.qty} x @ Rp ${item.harga.toLocaleString('id-ID')}</div>
+                    </div>`;
+            });
+            document.getElementById('struk-item-list').innerHTML = listHtml;
+            document.getElementById('struk-subtotal').innerText = 'Rp ' + total.toLocaleString('id-ID');
+            document.getElementById('struk-diskon').innerText = 'Rp 0';
+            document.getElementById('struk-total').innerText = 'Rp ' + total.toLocaleString('id-ID');
+            document.getElementById('struk-bayar').innerText = 'Rp ' + bayar.toLocaleString('id-ID');
+            document.getElementById('struk-kembalian').innerText = 'Rp ' + kembali.toLocaleString('id-ID');
+
+            // Add to session transaction log table
+            const tbody = document.getElementById('pos-log-tbody');
+            const emptyRow = document.getElementById('pos-log-empty');
+            if (emptyRow) emptyRow.remove();
+
+            const jamNow = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            const itemSummary = posCart.map(i => `${i.qty}x ${i.nama}`).join(', ');
+
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-gold-200/50 transition border-b border-gold-300';
+            tr.innerHTML = `
+                <td class="py-3 px-4 font-black font-mono text-cocoa-900">${invoiceNo}</td>
+                <td class="py-3 px-4 text-cocoa-800">${jamNow} WIB</td>
+                <td class="py-3 px-4 font-bold text-cocoa-950">${itemSummary}</td>
+                <td class="py-3 px-4">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-black ${posMetode === 'Tunai (Cash)' ? 'bg-amber-100 text-amber-900' : 'bg-blue-100 text-blue-900'}">${posMetode}</span>
+                </td>
+                <td class="py-3 px-4 text-right font-black text-emerald-800">Rp ${total.toLocaleString('id-ID')}</td>`;
+            tbody.prepend(tr);
+
+            document.getElementById('pos-log-count').innerText = posLogCount + ' Transaksi Selesai';
+
+            // AUTO-INTEGRASI KE LAPORAN KEUANGAN HARIAN & LAPORAN SISA BAHAN HARIAN
+            if (posMetode === 'Tunai (Cash)') {
+                const inpCash = document.getElementById('rekap_cash');
+                if (inpCash) {
+                    const currentCash = parseFloat(inpCash.value) || 0;
+                    inpCash.value = currentCash + total;
+                }
+            } else {
+                const inpCashless = document.getElementById('rekap_cashless');
+                if (inpCashless) {
+                    const currentCashless = parseFloat(inpCashless.value) || 0;
+                    inpCashless.value = currentCashless + total;
+                }
+            }
+            if (typeof hitungLiveKeuangan === 'function') hitungLiveKeuangan();
+
+            if (totalDonatTerjual > 0) {
+                const inpDonat = document.getElementById('input_donat');
+                if (inpDonat) {
+                    const currentDonat = parseInt(inpDonat.value) || 0;
+                    inpDonat.value = currentDonat + totalDonatTerjual;
+                }
+            }
+
+            // Clear Cart & Open Receipt Modal
+            posCart = [];
+            renderPosCart();
+            const inpBayar = document.getElementById('pos-uang-bayar');
+            if (inpBayar) inpBayar.value = '';
+
+            const modal = document.getElementById('modal-struk-pos');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function tutupModalStruk() {
+            const modal = document.getElementById('modal-struk-pos');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
             }
         }
     </script>
