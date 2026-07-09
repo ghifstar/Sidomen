@@ -571,170 +571,63 @@
                                 <!-- PILIH KATEGORI PILLS -->
                                 <div class="flex flex-wrap items-center gap-1.5 text-xs font-black">
                                     <button type="button" onclick="filterPosKategori('semua')" class="pos-kat-btn px-3 py-1 rounded-lg bg-cocoa-900 text-gold-300 border border-gold-500 shadow-sm" data-kat="semua">Semua</button>
-                                    <button type="button" onclick="filterPosKategori('klasik')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="klasik">Klasik</button>
-                                    <button type="button" onclick="filterPosKategori('premium')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="premium">Premium</button>
-                                    <button type="button" onclick="filterPosKategori('box')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="box">Paket Box</button>
+                                    <button type="button" onclick="filterPosKategori('1-dozen')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="1-dozen">1 Dozen (12 Pcs)</button>
+                                    <button type="button" onclick="filterPosKategori('half-dozen')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="half-dozen">1/2 Dozen (6 Pcs)</button>
+                                    <button type="button" onclick="filterPosKategori('mix')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="mix">Mix Series</button>
+                                    <button type="button" onclick="filterPosKategori('choco')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="choco">Choco Series</button>
                                     <button type="button" onclick="filterPosKategori('minuman')" class="pos-kat-btn px-3 py-1 rounded-lg bg-gold-200 text-cocoa-950 border border-gold-400 hover:bg-gold-300" data-kat="minuman">Minuman</button>
                                 </div>
                             </div>
 
-                            <!-- GRID KATALOG MENU -->
+                            <!-- GRID KATALOG MENU RESMI DONAT MENAK -->
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[520px] overflow-y-auto custom-scrollbar pr-1" id="pos-menu-grid">
-                                <!-- Donat Klasik 1 -->
+                                <!-- MENU 1: 1 DOZEN MIX SERIES -->
                                 <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="klasik" onclick="addToCart('Donat Gula Aren Klasik', 8000, 'klasik', 1)">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-bold border border-amber-300 group-hover:scale-110 transition">
-                                                🍩
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-900 text-[10px] font-black">Klasik</span>
-                                        </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Gula Aren Klasik</h4>
-                                    </div>
-                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
-                                        <span class="text-xs font-extrabold text-amber-800">Rp 8.000</span>
-                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
-                                    </div>
-                                </div>
-
-                                <!-- Donat Klasik 2 -->
-                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="klasik" onclick="addToCart('Donat Gula Halus Tradisional', 8000, 'klasik', 1)">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-bold border border-amber-300 group-hover:scale-110 transition">
-                                                🍩
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-900 text-[10px] font-black">Klasik</span>
-                                        </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Gula Halus Tradisional</h4>
-                                    </div>
-                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
-                                        <span class="text-xs font-extrabold text-amber-800">Rp 8.000</span>
-                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
-                                    </div>
-                                </div>
-
-                                <!-- Donat Premium 1 -->
-                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="premium" onclick="addToCart('Donat Cokelat Belgia Lumer', 10000, 'premium', 1)">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
-                                                🍫
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
-                                        </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Cokelat Belgia Lumer</h4>
-                                    </div>
-                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
-                                        <span class="text-xs font-extrabold text-amber-800">Rp 10.000</span>
-                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
-                                    </div>
-                                </div>
-
-                                <!-- Donat Premium 2 -->
-                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="premium" onclick="addToCart('Donat Keju Cheddar Susu', 10000, 'premium', 1)">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
-                                                🧀
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
-                                        </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Keju Cheddar Susu</h4>
-                                    </div>
-                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
-                                        <span class="text-xs font-extrabold text-amber-800">Rp 10.000</span>
-                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
-                                    </div>
-                                </div>
-
-                                <!-- Donat Premium 3 -->
-                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="premium" onclick="addToCart('Donat Matcha Almond Crunchy', 11000, 'premium', 1)">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-sm font-bold border border-emerald-300 group-hover:scale-110 transition">
-                                                🍵
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
-                                        </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Matcha Almond Crunchy</h4>
-                                    </div>
-                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
-                                        <span class="text-xs font-extrabold text-amber-800">Rp 11.000</span>
-                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
-                                    </div>
-                                </div>
-
-                                <!-- Donat Premium 4 -->
-                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="premium" onclick="addToCart('Donat Red Velvet Cream Cheese', 12000, 'premium', 1)">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="w-8 h-8 rounded-lg bg-red-100 text-red-800 flex items-center justify-center text-sm font-bold border border-red-300 group-hover:scale-110 transition">
-                                                🍰
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
-                                        </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Red Velvet Cream Cheese</h4>
-                                    </div>
-                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
-                                        <span class="text-xs font-extrabold text-amber-800">Rp 12.000</span>
-                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
-                                    </div>
-                                </div>
-
-                                <!-- Donat Premium 5 -->
-                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="premium" onclick="addToCart('Donat Tiramisu Lotus Biscoff', 12000, 'premium', 1)">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
-                                                🍪
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded bg-amber-300 text-cocoa-950 text-[10px] font-black">Premium</span>
-                                        </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Donat Tiramisu Lotus Biscoff</h4>
-                                    </div>
-                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
-                                        <span class="text-xs font-extrabold text-amber-800">Rp 12.000</span>
-                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
-                                    </div>
-                                </div>
-
-                                <!-- Paket Box 1 -->
-                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="box" onclick="addToCart('Paket Box Hemat 6 Pcs (Campur)', 55000, 'box', 6)">
+                                     data-kat="1-dozen mix" onclick="addToCart('1 Dozen Mix Series', 98000, '1-dozen mix', 12)">
                                     <div>
                                         <div class="flex items-center justify-between mb-2">
                                             <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center text-sm font-bold border border-purple-300 group-hover:scale-110 transition">
                                                 📦
                                             </span>
-                                            <span class="px-2 py-0.5 rounded bg-purple-200 text-purple-900 text-[10px] font-black">Box 6 Pcs</span>
+                                            <span class="px-2 py-0.5 rounded bg-purple-200 text-purple-950 text-[10px] font-black">1 Dozen (12 Pcs)</span>
                                         </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Paket Box Hemat 6 Pcs (Campur)</h4>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">1 Dozen Mix Series</h4>
                                     </div>
                                     <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
-                                        <span class="text-xs font-extrabold text-amber-800">Rp 55.000</span>
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 98.000</span>
                                         <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
                                     </div>
                                 </div>
 
-                                <!-- Paket Box 2 -->
+                                <!-- MENU 2: 1/2 DOZEN MIX SERIES -->
                                 <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="box" onclick="addToCart('Paket Party Box 12 Pcs (Spesial)', 105000, 'box', 12)">
+                                     data-kat="half-dozen mix" onclick="addToCart('1/2 Dozen Mix Series', 52000, 'half-dozen mix', 6)">
                                     <div>
                                         <div class="flex items-center justify-between mb-2">
-                                            <span class="w-8 h-8 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center text-sm font-bold border border-purple-300 group-hover:scale-110 transition">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-300 group-hover:scale-110 transition">
                                                 🎁
                                             </span>
-                                            <span class="px-2 py-0.5 rounded bg-purple-200 text-purple-900 text-[10px] font-black">Box 12 Pcs</span>
+                                            <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-950 text-[10px] font-black">1/2 Dozen (6 Pcs)</span>
                                         </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Paket Party Box 12 Pcs (Spesial)</h4>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">1/2 Dozen Mix Series</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 52.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- MENU 3: 1 DOZEN MILLENNIAL SERIES -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="1-dozen millennial" onclick="addToCart('1 Dozen Millennial Series', 105000, '1-dozen millennial', 12)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-red-100 text-red-800 flex items-center justify-center text-sm font-bold border border-red-300 group-hover:scale-110 transition">
+                                                ✨
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-purple-200 text-purple-950 text-[10px] font-black">1 Dozen (12 Pcs)</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">1 Dozen Millennial Series</h4>
                                     </div>
                                     <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
                                         <span class="text-xs font-extrabold text-amber-800">Rp 105.000</span>
@@ -742,7 +635,61 @@
                                     </div>
                                 </div>
 
-                                <!-- Minuman 1 -->
+                                <!-- MENU 4: 1 DOZEN CHOCO SERIES -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="1-dozen choco" onclick="addToCart('1 Dozen Choco Series', 102000, '1-dozen choco', 12)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
+                                                🍫
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-purple-200 text-purple-950 text-[10px] font-black">1 Dozen (12 Pcs)</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">1 Dozen Choco Series</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 102.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- MENU 5: 1/2 DOZEN VANILLA SERIES -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="half-dozen vanilla" onclick="addToCart('1/2 Dozen Vanilla Series', 54000, 'half-dozen vanilla', 6)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-sm font-bold border border-amber-300 group-hover:scale-110 transition">
+                                                🍦
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-950 text-[10px] font-black">1/2 Dozen (6 Pcs)</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">1/2 Dozen Vanilla Series</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 54.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- MENU 6: 1/2 DOZEN CHOCO SERIES -->
+                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
+                                     data-kat="half-dozen choco" onclick="addToCart('1/2 Dozen Choco Series', 54000, 'half-dozen choco', 6)">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-900 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
+                                                🍫
+                                            </span>
+                                            <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-950 text-[10px] font-black">1/2 Dozen (6 Pcs)</span>
+                                        </div>
+                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">1/2 Dozen Choco Series</h4>
+                                    </div>
+                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
+                                        <span class="text-xs font-extrabold text-amber-800">Rp 54.000</span>
+                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
+                                    </div>
+                                </div>
+
+                                <!-- MINUMAN 1: KOPI SUSU GULA AREN MENAK -->
                                 <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
                                      data-kat="minuman" onclick="addToCart('Kopi Susu Gula Aren Menak', 15000, 'minuman', 0)">
                                     <div>
@@ -760,7 +707,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Minuman 2 -->
+                                <!-- MINUMAN 2: ES TEH LYCHEE SEGAR -->
                                 <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
                                      data-kat="minuman" onclick="addToCart('Es Teh Lychee Segar', 12000, 'minuman', 0)">
                                     <div>
@@ -774,24 +721,6 @@
                                     </div>
                                     <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
                                         <span class="text-xs font-extrabold text-amber-800">Rp 12.000</span>
-                                        <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
-                                    </div>
-                                </div>
-
-                                <!-- Minuman 3 -->
-                                <div class="pos-item-card p-3.5 rounded-xl bg-white/90 hover:bg-gold-100 border-2 border-gold-400 transition cursor-pointer flex flex-col justify-between shadow-sm group"
-                                     data-kat="minuman" onclick="addToCart('Cokelat Dingin Menak Spesial', 16000, 'minuman', 0)">
-                                    <div>
-                                        <div class="flex items-center justify-between mb-2">
-                                            <span class="w-8 h-8 rounded-lg bg-amber-200 text-amber-950 flex items-center justify-center text-sm font-bold border border-amber-400 group-hover:scale-110 transition">
-                                                🧋
-                                            </span>
-                                            <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-black">Minuman</span>
-                                        </div>
-                                        <h4 class="text-xs font-black text-cocoa-950 leading-tight">Cokelat Dingin Menak Spesial</h4>
-                                    </div>
-                                    <div class="mt-3 flex items-center justify-between border-t border-gold-300 pt-2">
-                                        <span class="text-xs font-extrabold text-amber-800">Rp 16.000</span>
                                         <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 flex items-center justify-center text-xs font-black shadow-sm">+</span>
                                     </div>
                                 </div>
@@ -2331,7 +2260,8 @@
             });
 
             document.querySelectorAll('.pos-item-card').forEach(card => {
-                if (kat === 'semua' || card.getAttribute('data-kat') === kat) {
+                const itemKat = (card.getAttribute('data-kat') || '');
+                if (kat === 'semua' || itemKat.includes(kat)) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
