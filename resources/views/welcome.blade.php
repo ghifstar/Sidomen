@@ -1,223 +1,1839 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Donat Menak - The Circle Of Happiness | Sistem Informasi Logistik</title>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.png') }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
 
-        @fonts
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        cocoa: {
+                            950: '#150a06', // Deep espresso
+                            900: '#23120b', // Rich chocolate text
+                            800: '#321a10',
+                            700: '#48271a',
+                            600: '#633726',
+                        },
+                        gold: {
+                            50:  '#fefce8', // Creamy warm yellow background
+                            100: '#fef9c3', // Soft yellow card fill
+                            200: '#fef08a', // Vibrant pastel yellow
+                            300: '#fde047', // Sunlit yellow
+                            400: '#facc15', // Donat Menak signature yellow
+                            500: '#eab308', // Rich golden amber
+                            600: '#ca8a04',
+                        }
+                    },
+                    boxShadow: {
+                        'glow-gold': '0 10px 30px -5px rgba(234, 179, 8, 0.35)',
+                        'card-yellow': '0 8px 25px -6px rgba(202, 138, 4, 0.18)',
+                    }
+                }
+            }
+        }
+    </script>
 
-        <!-- Styles / Scripts -->
-        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @else
-            <style>
-                /*! tailwindcss v4.0.7 | MIT License | https://tailwindcss.com */ @layer properties{@supports (((-webkit-hyphens:none)) and (not (margin-trim:inline))) or ((-moz-orient:inline) and (not (color:rgb(from red r g b)))){*,:before,:after,::backdrop{--tw-translate-x:0;--tw-translate-y:0;--tw-translate-z:0;--tw-rotate-x:initial;--tw-rotate-y:initial;--tw-rotate-z:initial;--tw-skew-x:initial;--tw-skew-y:initial;--tw-space-x-reverse:0;--tw-border-style:solid;--tw-leading:initial;--tw-font-weight:initial;--tw-tracking:initial;--tw-shadow:0 0 #0000;--tw-shadow-color:initial;--tw-shadow-alpha:100%;--tw-inset-shadow:0 0 #0000;--tw-inset-shadow-color:initial;--tw-inset-shadow-alpha:100%;--tw-ring-color:initial;--tw-ring-shadow:0 0 #0000;--tw-inset-ring-color:initial;--tw-inset-ring-shadow:0 0 #0000;--tw-ring-inset:initial;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-offset-shadow:0 0 #0000;--tw-blur:initial;--tw-brightness:initial;--tw-contrast:initial;--tw-grayscale:initial;--tw-hue-rotate:initial;--tw-invert:initial;--tw-opacity:initial;--tw-saturate:initial;--tw-sepia:initial;--tw-drop-shadow:initial;--tw-drop-shadow-color:initial;--tw-drop-shadow-alpha:100%;--tw-drop-shadow-size:initial;--tw-duration:initial;--tw-ease:initial;--tw-content:""}}}@layer theme{:root,:host{--font-sans:"Instrument Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--font-serif:ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;--font-mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;--color-red-50:oklch(97.1% .013 17.38);--color-red-100:oklch(93.6% .032 17.717);--color-red-200:oklch(88.5% .062 18.334);--color-red-300:oklch(80.8% .114 19.571);--color-red-400:oklch(70.4% .191 22.216);--color-red-500:oklch(63.7% .237 25.331);--color-red-600:oklch(57.7% .245 27.325);--color-red-700:oklch(50.5% .213 27.518);--color-red-800:oklch(44.4% .177 26.899);--color-red-900:oklch(39.6% .141 25.723);--color-red-950:oklch(25.8% .092 26.042);--color-orange-50:oklch(98% .016 73.684);--color-orange-100:oklch(95.4% .038 75.164);--color-orange-200:oklch(90.1% .076 70.697);--color-orange-300:oklch(83.7% .128 66.29);--color-orange-400:oklch(75% .183 55.934);--color-orange-500:oklch(70.5% .213 47.604);--color-orange-600:oklch(64.6% .222 41.116);--color-orange-700:oklch(55.3% .195 38.402);--color-orange-800:oklch(47% .157 37.304);--color-orange-900:oklch(40.8% .123 38.172);--color-orange-950:oklch(26.6% .079 36.259);--color-amber-50:oklch(98.7% .022 95.277);--color-amber-100:oklch(96.2% .059 95.617);--color-amber-200:oklch(92.4% .12 95.746);--color-amber-300:oklch(87.9% .169 91.605);--color-amber-400:oklch(82.8% .189 84.429);--color-amber-500:oklch(76.9% .188 70.08);--color-amber-600:oklch(66.6% .179 58.318);--color-amber-700:oklch(55.5% .163 48.998);--color-amber-800:oklch(47.3% .137 46.201);--color-amber-900:oklch(41.4% .112 45.904);--color-amber-950:oklch(27.9% .077 45.635);--color-yellow-50:oklch(98.7% .026 102.212);--color-yellow-100:oklch(97.3% .071 103.193);--color-yellow-200:oklch(94.5% .129 101.54);--color-yellow-300:oklch(90.5% .182 98.111);--color-yellow-400:oklch(85.2% .199 91.936);--color-yellow-500:oklch(79.5% .184 86.047);--color-yellow-600:oklch(68.1% .162 75.834);--color-yellow-700:oklch(55.4% .135 66.442);--color-yellow-800:oklch(47.6% .114 61.907);--color-yellow-900:oklch(42.1% .095 57.708);--color-yellow-950:oklch(28.6% .066 53.813);--color-lime-50:oklch(98.6% .031 120.757);--color-lime-100:oklch(96.7% .067 122.328);--color-lime-200:oklch(93.8% .127 124.321);--color-lime-300:oklch(89.7% .196 126.665);--color-lime-400:oklch(84.1% .238 128.85);--color-lime-500:oklch(76.8% .233 130.85);--color-lime-600:oklch(64.8% .2 131.684);--color-lime-700:oklch(53.2% .157 131.589);--color-lime-800:oklch(45.3% .124 130.933);--color-lime-900:oklch(40.5% .101 131.063);--color-lime-950:oklch(27.4% .072 132.109);--color-green-50:oklch(98.2% .018 155.826);--color-green-100:oklch(96.2% .044 156.743);--color-green-200:oklch(92.5% .084 155.995);--color-green-300:oklch(87.1% .15 154.449);--color-green-400:oklch(79.2% .209 151.711);--color-green-500:oklch(72.3% .219 149.579);--color-green-600:oklch(62.7% .194 149.214);--color-green-700:oklch(52.7% .154 150.069);--color-green-800:oklch(44.8% .119 151.328);--color-green-900:oklch(39.3% .095 152.535);--color-green-950:oklch(26.6% .065 152.934);--color-emerald-50:oklch(97.9% .021 166.113);--color-emerald-100:oklch(95% .052 163.051);--color-emerald-200:oklch(90.5% .093 164.15);--color-emerald-300:oklch(84.5% .143 164.978);--color-emerald-400:oklch(76.5% .177 163.223);--color-emerald-500:oklch(69.6% .17 162.48);--color-emerald-600:oklch(59.6% .145 163.225);--color-emerald-700:oklch(50.8% .118 165.612);--color-emerald-800:oklch(43.2% .095 166.913);--color-emerald-900:oklch(37.8% .077 168.94);--color-emerald-950:oklch(26.2% .051 172.552);--color-teal-50:oklch(98.4% .014 180.72);--color-teal-100:oklch(95.3% .051 180.801);--color-teal-200:oklch(91% .096 180.426);--color-teal-300:oklch(85.5% .138 181.071);--color-teal-400:oklch(77.7% .152 181.912);--color-teal-500:oklch(70.4% .14 182.503);--color-teal-600:oklch(60% .118 184.704);--color-teal-700:oklch(51.1% .096 186.391);--color-teal-800:oklch(43.7% .078 188.216);--color-teal-900:oklch(38.6% .063 188.416);--color-teal-950:oklch(27.7% .046 192.524);--color-cyan-50:oklch(98.4% .019 200.873);--color-cyan-100:oklch(95.6% .045 203.388);--color-cyan-200:oklch(91.7% .08 205.041);--color-cyan-300:oklch(86.5% .127 207.078);--color-cyan-400:oklch(78.9% .154 211.53);--color-cyan-500:oklch(71.5% .143 215.221);--color-cyan-600:oklch(60.9% .126 221.723);--color-cyan-700:oklch(52% .105 223.128);--color-cyan-800:oklch(45% .085 224.283);--color-cyan-900:oklch(39.8% .07 227.392);--color-cyan-950:oklch(30.2% .056 229.695);--color-sky-50:oklch(97.7% .013 236.62);--color-sky-100:oklch(95.1% .026 236.824);--color-sky-200:oklch(90.1% .058 230.902);--color-sky-300:oklch(82.8% .111 230.318);--color-sky-400:oklch(74.6% .16 232.661);--color-sky-500:oklch(68.5% .169 237.323);--color-sky-600:oklch(58.8% .158 241.966);--color-sky-700:oklch(50% .134 242.749);--color-sky-800:oklch(44.3% .11 240.79);--color-sky-900:oklch(39.1% .09 240.876);--color-sky-950:oklch(29.3% .066 243.157);--color-blue-50:oklch(97% .014 254.604);--color-blue-100:oklch(93.2% .032 255.585);--color-blue-200:oklch(88.2% .059 254.128);--color-blue-300:oklch(80.9% .105 251.813);--color-blue-400:oklch(70.7% .165 254.624);--color-blue-500:oklch(62.3% .214 259.815);--color-blue-600:oklch(54.6% .245 262.881);--color-blue-700:oklch(48.8% .243 264.376);--color-blue-800:oklch(42.4% .199 265.638);--color-blue-900:oklch(37.9% .146 265.522);--color-blue-950:oklch(28.2% .091 267.935);--color-indigo-50:oklch(96.2% .018 272.314);--color-indigo-100:oklch(93% .034 272.788);--color-indigo-200:oklch(87% .065 274.039);--color-indigo-300:oklch(78.5% .115 274.713);--color-indigo-400:oklch(67.3% .182 276.935);--color-indigo-500:oklch(58.5% .233 277.117);--color-indigo-600:oklch(51.1% .262 276.966);--color-indigo-700:oklch(45.7% .24 277.023);--color-indigo-800:oklch(39.8% .195 277.366);--color-indigo-900:oklch(35.9% .144 278.697);--color-indigo-950:oklch(25.7% .09 281.288);--color-violet-50:oklch(96.9% .016 293.756);--color-violet-100:oklch(94.3% .029 294.588);--color-violet-200:oklch(89.4% .057 293.283);--color-violet-300:oklch(81.1% .111 293.571);--color-violet-400:oklch(70.2% .183 293.541);--color-violet-500:oklch(60.6% .25 292.717);--color-violet-600:oklch(54.1% .281 293.009);--color-violet-700:oklch(49.1% .27 292.581);--color-violet-800:oklch(43.2% .232 292.759);--color-violet-900:oklch(38% .189 293.745);--color-violet-950:oklch(28.3% .141 291.089);--color-purple-50:oklch(97.7% .014 308.299);--color-purple-100:oklch(94.6% .033 307.174);--color-purple-200:oklch(90.2% .063 306.703);--color-purple-300:oklch(82.7% .119 306.383);--color-purple-400:oklch(71.4% .203 305.504);--color-purple-500:oklch(62.7% .265 303.9);--color-purple-600:oklch(55.8% .288 302.321);--color-purple-700:oklch(49.6% .265 301.924);--color-purple-800:oklch(43.8% .218 303.724);--color-purple-900:oklch(38.1% .176 304.987);--color-purple-950:oklch(29.1% .149 302.717);--color-fuchsia-50:oklch(97.7% .017 320.058);--color-fuchsia-100:oklch(95.2% .037 318.852);--color-fuchsia-200:oklch(90.3% .076 319.62);--color-fuchsia-300:oklch(83.3% .145 321.434);--color-fuchsia-400:oklch(74% .238 322.16);--color-fuchsia-500:oklch(66.7% .295 322.15);--color-fuchsia-600:oklch(59.1% .293 322.896);--color-fuchsia-700:oklch(51.8% .253 323.949);--color-fuchsia-800:oklch(45.2% .211 324.591);--color-fuchsia-900:oklch(40.1% .17 325.612);--color-fuchsia-950:oklch(29.3% .136 325.661);--color-pink-50:oklch(97.1% .014 343.198);--color-pink-100:oklch(94.8% .028 342.258);--color-pink-200:oklch(89.9% .061 343.231);--color-pink-300:oklch(82.3% .12 346.018);--color-pink-400:oklch(71.8% .202 349.761);--color-pink-500:oklch(65.6% .241 354.308);--color-pink-600:oklch(59.2% .249 .584);--color-pink-700:oklch(52.5% .223 3.958);--color-pink-800:oklch(45.9% .187 3.815);--color-pink-900:oklch(40.8% .153 2.432);--color-pink-950:oklch(28.4% .109 3.907);--color-rose-50:oklch(96.9% .015 12.422);--color-rose-100:oklch(94.1% .03 12.58);--color-rose-200:oklch(89.2% .058 10.001);--color-rose-300:oklch(81% .117 11.638);--color-rose-400:oklch(71.2% .194 13.428);--color-rose-500:oklch(64.5% .246 16.439);--color-rose-600:oklch(58.6% .253 17.585);--color-rose-700:oklch(51.4% .222 16.935);--color-rose-800:oklch(45.5% .188 13.697);--color-rose-900:oklch(41% .159 10.272);--color-rose-950:oklch(27.1% .105 12.094);--color-slate-50:oklch(98.4% .003 247.858);--color-slate-100:oklch(96.8% .007 247.896);--color-slate-200:oklch(92.9% .013 255.508);--color-slate-300:oklch(86.9% .022 252.894);--color-slate-400:oklch(70.4% .04 256.788);--color-slate-500:oklch(55.4% .046 257.417);--color-slate-600:oklch(44.6% .043 257.281);--color-slate-700:oklch(37.2% .044 257.287);--color-slate-800:oklch(27.9% .041 260.031);--color-slate-900:oklch(20.8% .042 265.755);--color-slate-950:oklch(12.9% .042 264.695);--color-gray-50:oklch(98.5% .002 247.839);--color-gray-100:oklch(96.7% .003 264.542);--color-gray-200:oklch(92.8% .006 264.531);--color-gray-300:oklch(87.2% .01 258.338);--color-gray-400:oklch(70.7% .022 261.325);--color-gray-500:oklch(55.1% .027 264.364);--color-gray-600:oklch(44.6% .03 256.802);--color-gray-700:oklch(37.3% .034 259.733);--color-gray-800:oklch(27.8% .033 256.848);--color-gray-900:oklch(21% .034 264.665);--color-gray-950:oklch(13% .028 261.692);--color-zinc-50:oklch(98.5% 0 0);--color-zinc-100:oklch(96.7% .001 286.375);--color-zinc-200:oklch(92% .004 286.32);--color-zinc-300:oklch(87.1% .006 286.286);--color-zinc-400:oklch(70.5% .015 286.067);--color-zinc-500:oklch(55.2% .016 285.938);--color-zinc-600:oklch(44.2% .017 285.786);--color-zinc-700:oklch(37% .013 285.805);--color-zinc-800:oklch(27.4% .006 286.033);--color-zinc-900:oklch(21% .006 285.885);--color-zinc-950:oklch(14.1% .005 285.823);--color-neutral-50:oklch(98.5% 0 0);--color-neutral-100:oklch(97% 0 0);--color-neutral-200:oklch(92.2% 0 0);--color-neutral-300:oklch(87% 0 0);--color-neutral-400:oklch(70.8% 0 0);--color-neutral-500:oklch(55.6% 0 0);--color-neutral-600:oklch(43.9% 0 0);--color-neutral-700:oklch(37.1% 0 0);--color-neutral-800:oklch(26.9% 0 0);--color-neutral-900:oklch(20.5% 0 0);--color-neutral-950:oklch(14.5% 0 0);--color-stone-50:oklch(98.5% .001 106.423);--color-stone-100:oklch(97% .001 106.424);--color-stone-200:oklch(92.3% .003 48.717);--color-stone-300:oklch(86.9% .005 56.366);--color-stone-400:oklch(70.9% .01 56.259);--color-stone-500:oklch(55.3% .013 58.071);--color-stone-600:oklch(44.4% .011 73.639);--color-stone-700:oklch(37.4% .01 67.558);--color-stone-800:oklch(26.8% .007 34.298);--color-stone-900:oklch(21.6% .006 56.043);--color-stone-950:oklch(14.7% .004 49.25);--color-black:#000;--color-white:#fff;--spacing:.25rem;--breakpoint-sm:40rem;--breakpoint-md:48rem;--breakpoint-lg:64rem;--breakpoint-xl:80rem;--breakpoint-2xl:96rem;--container-3xs:16rem;--container-2xs:18rem;--container-xs:20rem;--container-sm:24rem;--container-md:28rem;--container-lg:32rem;--container-xl:36rem;--container-2xl:42rem;--container-3xl:48rem;--container-4xl:56rem;--container-5xl:64rem;--container-6xl:72rem;--container-7xl:80rem;--text-xs:.75rem;--text-xs--line-height:calc(1 / .75);--text-sm:.875rem;--text-sm--line-height:calc(1.25 / .875);--text-base:1rem;--text-base--line-height: 1.5 ;--text-lg:1.125rem;--text-lg--line-height:calc(1.75 / 1.125);--text-xl:1.25rem;--text-xl--line-height:calc(1.75 / 1.25);--text-2xl:1.5rem;--text-2xl--line-height:calc(2 / 1.5);--text-3xl:1.875rem;--text-3xl--line-height: 1.2 ;--text-4xl:2.25rem;--text-4xl--line-height:calc(2.5 / 2.25);--text-5xl:3rem;--text-5xl--line-height:1;--text-6xl:3.75rem;--text-6xl--line-height:1;--text-7xl:4.5rem;--text-7xl--line-height:1;--text-8xl:6rem;--text-8xl--line-height:1;--text-9xl:8rem;--text-9xl--line-height:1;--font-weight-thin:100;--font-weight-extralight:200;--font-weight-light:300;--font-weight-normal:400;--font-weight-medium:500;--font-weight-semibold:600;--font-weight-bold:700;--font-weight-extrabold:800;--font-weight-black:900;--tracking-tighter:-.05em;--tracking-tight:-.025em;--tracking-normal:0em;--tracking-wide:.025em;--tracking-wider:.05em;--tracking-widest:.1em;--leading-tight:1.25;--leading-snug:1.375;--leading-normal:1.5;--leading-relaxed:1.625;--leading-loose:2;--radius-xs:.125rem;--radius-sm:.25rem;--radius-md:.375rem;--radius-lg:.5rem;--radius-xl:.75rem;--radius-2xl:1rem;--radius-3xl:1.5rem;--radius-4xl:2rem;--shadow-2xs:0 1px #0000000d;--shadow-xs:0 1px 2px 0 #0000000d;--shadow-sm:0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;--shadow-md:0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;--shadow-lg:0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a;--shadow-xl:0 20px 25px -5px #0000001a, 0 8px 10px -6px #0000001a;--shadow-2xl:0 25px 50px -12px #00000040;--inset-shadow-2xs:inset 0 1px #0000000d;--inset-shadow-xs:inset 0 1px 1px #0000000d;--inset-shadow-sm:inset 0 2px 4px #0000000d;--drop-shadow-xs:0 1px 1px #0000000d;--drop-shadow-sm:0 1px 2px #00000026;--drop-shadow-md:0 3px 3px #0000001f;--drop-shadow-lg:0 4px 4px #00000026;--drop-shadow-xl:0 9px 7px #0000001a;--drop-shadow-2xl:0 25px 25px #00000026;--ease-in:cubic-bezier(.4, 0, 1, 1);--ease-out:cubic-bezier(0, 0, .2, 1);--ease-in-out:cubic-bezier(.4, 0, .2, 1);--animate-spin:spin 1s linear infinite;--animate-ping:ping 1s cubic-bezier(0, 0, .2, 1) infinite;--animate-pulse:pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;--animate-bounce:bounce 1s infinite;--blur-xs:4px;--blur-sm:8px;--blur-md:12px;--blur-lg:16px;--blur-xl:24px;--blur-2xl:40px;--blur-3xl:64px;--perspective-dramatic:100px;--perspective-near:300px;--perspective-normal:500px;--perspective-midrange:800px;--perspective-distant:1200px;--aspect-video:16 / 9;--default-transition-duration:.15s;--default-transition-timing-function:cubic-bezier(.4, 0, .2, 1);--default-font-family:var(--font-sans);--default-mono-font-family:var(--font-mono)}}@layer base{*,:after,:before,::backdrop{box-sizing:border-box;border:0 solid;margin:0;padding:0}::file-selector-button{box-sizing:border-box;border:0 solid;margin:0;padding:0}html,:host{-webkit-text-size-adjust:100%;tab-size:4;line-height:1.5;font-family:var(--default-font-family,ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");font-feature-settings:var(--default-font-feature-settings,normal);font-variation-settings:var(--default-font-variation-settings,normal);-webkit-tap-highlight-color:transparent}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;-webkit-text-decoration:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:var(--default-mono-font-family,ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);font-feature-settings:var(--default-mono-font-feature-settings,normal);font-variation-settings:var(--default-mono-font-variation-settings,normal);font-size:1em}small{font-size:80%}sub,sup{vertical-align:baseline;font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}:-moz-focusring{outline:auto}progress{vertical-align:baseline}summary{display:list-item}ol,ul,menu{list-style:none}img,svg,video,canvas,audio,iframe,embed,object{vertical-align:middle;display:block}img,video{max-width:100%;height:auto}button,input,select,optgroup,textarea{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}::file-selector-button{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}:where(select:is([multiple],[size])) optgroup{font-weight:bolder}:where(select:is([multiple],[size])) optgroup option{padding-inline-start:20px}::file-selector-button{margin-inline-end:4px}::placeholder{opacity:1}@supports (not ((-webkit-appearance:-apple-pay-button))) or (contain-intrinsic-size:1px){::placeholder{color:currentColor}@supports (color:color-mix(in lab,red,red)){::placeholder{color:color-mix(in oklab,currentcolor 50%,transparent)}}}textarea{resize:vertical}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-date-and-time-value{min-height:1lh;text-align:inherit}::-webkit-datetime-edit{display:inline-flex}::-webkit-datetime-edit-fields-wrapper{padding:0}::-webkit-datetime-edit{padding-block:0}::-webkit-datetime-edit-year-field{padding-block:0}::-webkit-datetime-edit-month-field{padding-block:0}::-webkit-datetime-edit-day-field{padding-block:0}::-webkit-datetime-edit-hour-field{padding-block:0}::-webkit-datetime-edit-minute-field{padding-block:0}::-webkit-datetime-edit-second-field{padding-block:0}::-webkit-datetime-edit-millisecond-field{padding-block:0}::-webkit-datetime-edit-meridiem-field{padding-block:0}::-webkit-calendar-picker-indicator{line-height:1}:-moz-ui-invalid{box-shadow:none}button,input:where([type=button],[type=reset],[type=submit]){appearance:button}::file-selector-button{appearance:button}::-webkit-inner-spin-button{height:auto}::-webkit-outer-spin-button{height:auto}[hidden]:where(:not([hidden=until-found])){display:none!important}}@layer components;@layer utilities{.absolute{position:absolute}.fixed{position:fixed}.relative{position:relative}.static{position:static}.inset-0{inset:calc(var(--spacing) * 0)}.start{inset-inline-start:var(--spacing)}.top-0{top:calc(var(--spacing) * 0)}.right-0{right:calc(var(--spacing) * 0)}.container{width:100%}@media(min-width:40rem){.container{max-width:40rem}}@media(min-width:48rem){.container{max-width:48rem}}@media(min-width:64rem){.container{max-width:64rem}}@media(min-width:80rem){.container{max-width:80rem}}@media(min-width:96rem){.container{max-width:96rem}}.mx-auto{margin-inline:auto}.-mt-\[6\.6rem\]{margin-top:-6.6rem}.-mt-px{margin-top:-1px}.mt-2{margin-top:calc(var(--spacing) * 2)}.mt-4{margin-top:calc(var(--spacing) * 4)}.mt-6{margin-top:calc(var(--spacing) * 6)}.mt-8{margin-top:calc(var(--spacing) * 8)}.mr-2{margin-right:calc(var(--spacing) * 2)}.-mb-px{margin-bottom:-1px}.mb-1{margin-bottom:calc(var(--spacing) * 1)}.mb-2{margin-bottom:calc(var(--spacing) * 2)}.mb-4{margin-bottom:calc(var(--spacing) * 4)}.mb-6{margin-bottom:calc(var(--spacing) * 6)}.-ml-8{margin-left:calc(var(--spacing) * -8)}.-ml-px{margin-left:-1px}.ml-1{margin-left:calc(var(--spacing) * 1)}.ml-2{margin-left:calc(var(--spacing) * 2)}.ml-4{margin-left:calc(var(--spacing) * 4)}.ml-12{margin-left:calc(var(--spacing) * 12)}.contents{display:contents}.flex{display:flex}.grid{display:grid}.hidden{display:none}.inline-block{display:inline-block}.inline-flex{display:inline-flex}.table{display:table}.aspect-\[335\/364\]{aspect-ratio:335/364}.h-1{height:calc(var(--spacing) * 1)}.h-1\.5{height:calc(var(--spacing) * 1.5)}.h-2{height:calc(var(--spacing) * 2)}.h-2\.5{height:calc(var(--spacing) * 2.5)}.h-3{height:calc(var(--spacing) * 3)}.h-3\.5{height:calc(var(--spacing) * 3.5)}.h-5{height:calc(var(--spacing) * 5)}.h-8{height:calc(var(--spacing) * 8)}.h-14{height:calc(var(--spacing) * 14)}.h-14\.5{height:calc(var(--spacing) * 14.5)}.h-16{height:calc(var(--spacing) * 16)}.min-h-screen{min-height:100vh}.w-1{width:calc(var(--spacing) * 1)}.w-1\.5{width:calc(var(--spacing) * 1.5)}.w-2{width:calc(var(--spacing) * 2)}.w-2\.5{width:calc(var(--spacing) * 2.5)}.w-3{width:calc(var(--spacing) * 3)}.w-3\.5{width:calc(var(--spacing) * 3.5)}.w-5{width:calc(var(--spacing) * 5)}.w-8{width:calc(var(--spacing) * 8)}.w-\[438px\]{width:438px}.w-auto{width:auto}.w-full{width:100%}.max-w-6xl{max-width:var(--container-6xl)}.max-w-\[335px\]{max-width:335px}.max-w-none{max-width:none}.max-w-xl{max-width:var(--container-xl)}.flex-1{flex:1}.shrink-0{flex-shrink:0}.translate-y-0{--tw-translate-y:calc(var(--spacing) * 0);translate:var(--tw-translate-x) var(--tw-translate-y)}.transform{transform:var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,)}.cursor-default{cursor:default}.cursor-not-allowed{cursor:not-allowed}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.flex-col{flex-direction:column}.flex-col-reverse{flex-direction:column-reverse}.items-center{align-items:center}.justify-between{justify-content:space-between}.justify-center{justify-content:center}.justify-end{justify-content:flex-end}.justify-items-center{justify-items:center}.gap-2{gap:calc(var(--spacing) * 2)}.gap-3{gap:calc(var(--spacing) * 3)}.gap-4{gap:calc(var(--spacing) * 4)}:where(.space-x-1>:not(:last-child)){--tw-space-x-reverse:0;margin-inline-start:calc(calc(var(--spacing) * 1) * var(--tw-space-x-reverse));margin-inline-end:calc(calc(var(--spacing) * 1) * calc(1 - var(--tw-space-x-reverse)))}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:3.40282e38px}.rounded-md{border-radius:var(--radius-md)}.rounded-sm{border-radius:var(--radius-sm)}.rounded-t-lg{border-top-left-radius:var(--radius-lg);border-top-right-radius:var(--radius-lg)}.rounded-l-md{border-top-left-radius:var(--radius-md);border-bottom-left-radius:var(--radius-md)}.rounded-r-md{border-top-right-radius:var(--radius-md);border-bottom-right-radius:var(--radius-md)}.rounded-br-lg{border-bottom-right-radius:var(--radius-lg)}.rounded-bl-lg{border-bottom-left-radius:var(--radius-lg)}.border{border-style:var(--tw-border-style);border-width:1px}.border-t{border-top-style:var(--tw-border-style);border-top-width:1px}.border-r{border-right-style:var(--tw-border-style);border-right-width:1px}.border-\[\#19140035\]{border-color:#19140035}.border-\[\#e3e3e0\]{border-color:#e3e3e0}.border-black{border-color:var(--color-black)}.border-gray-200{border-color:var(--color-gray-200)}.border-gray-300{border-color:var(--color-gray-300)}.border-gray-400{border-color:var(--color-gray-400)}.border-transparent{border-color:#0000}.bg-\[\#1b1b18\]{background-color:#1b1b18}.bg-\[\#FDFDFC\]{background-color:#fdfdfc}.bg-\[\#dbdbd7\]{background-color:#dbdbd7}.bg-\[\#fff2f2\]{background-color:#fff2f2}.bg-gray-100{background-color:var(--color-gray-100)}.bg-gray-200{background-color:var(--color-gray-200)}.bg-white{background-color:var(--color-white)}.p-6{padding:calc(var(--spacing) * 6)}.px-2{padding-inline:calc(var(--spacing) * 2)}.px-4{padding-inline:calc(var(--spacing) * 4)}.px-5{padding-inline:calc(var(--spacing) * 5)}.px-6{padding-inline:calc(var(--spacing) * 6)}.py-1{padding-block:calc(var(--spacing) * 1)}.py-1\.5{padding-block:calc(var(--spacing) * 1.5)}.py-2{padding-block:calc(var(--spacing) * 2)}.py-4{padding-block:calc(var(--spacing) * 4)}.pt-8{padding-top:calc(var(--spacing) * 8)}.pb-6{padding-bottom:calc(var(--spacing) * 6)}.pb-12{padding-bottom:calc(var(--spacing) * 12)}.text-center{text-align:center}.text-lg{font-size:var(--text-lg);line-height:var(--tw-leading,var(--text-lg--line-height))}.text-sm{font-size:var(--text-sm);line-height:var(--tw-leading,var(--text-sm--line-height))}.text-\[13px\]{font-size:13px}.leading-5{--tw-leading:calc(var(--spacing) * 5);line-height:calc(var(--spacing) * 5)}.leading-7{--tw-leading:calc(var(--spacing) * 7);line-height:calc(var(--spacing) * 7)}.leading-\[20px\]{--tw-leading:20px;line-height:20px}.leading-normal{--tw-leading:var(--leading-normal);line-height:var(--leading-normal)}.font-medium{--tw-font-weight:var(--font-weight-medium);font-weight:var(--font-weight-medium)}.font-semibold{--tw-font-weight:var(--font-weight-semibold);font-weight:var(--font-weight-semibold)}.tracking-wider{--tw-tracking:var(--tracking-wider);letter-spacing:var(--tracking-wider)}.text-\[\#1B1B18\],.text-\[\#1b1b18\]{color:#1b1b18}.text-\[\#706f6c\]{color:#706f6c}.text-\[\#F3BEC7\]{color:#f3bec7}.text-\[\#F8B803\]{color:#f8b803}.text-\[\#F53003\],.text-\[\#f53003\]{color:#f53003}.text-gray-200{color:var(--color-gray-200)}.text-gray-300{color:var(--color-gray-300)}.text-gray-400{color:var(--color-gray-400)}.text-gray-500{color:var(--color-gray-500)}.text-gray-600{color:var(--color-gray-600)}.text-gray-700{color:var(--color-gray-700)}.text-gray-800{color:var(--color-gray-800)}.text-gray-900{color:var(--color-gray-900)}.text-white{color:var(--color-white)}.uppercase{text-transform:uppercase}.underline{text-decoration-line:underline}.underline-offset-4{text-underline-offset:4px}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.opacity-100{opacity:1}.mix-blend-color{mix-blend-mode:color}.mix-blend-darken{mix-blend-mode:darken}.mix-blend-hard-light{mix-blend-mode:hard-light}.mix-blend-multiply{mix-blend-mode:multiply}.shadow{--tw-shadow:0 1px 3px 0 var(--tw-shadow-color,#0000001a), 0 1px 2px -1px var(--tw-shadow-color,#0000001a);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.shadow-\[0px_0px_1px_0px_rgba\(0\,0\,0\,0\.03\)\,0px_1px_2px_0px_rgba\(0\,0\,0\,0\.06\)\]{--tw-shadow:0px 0px 1px 0px var(--tw-shadow-color,#00000008), 0px 1px 2px 0px var(--tw-shadow-color,#0000000f);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.shadow-\[inset_0px_0px_0px_1px_rgba\(26\,26\,0\,0\.16\)\]{--tw-shadow:inset 0px 0px 0px 1px var(--tw-shadow-color,#1a1a0029);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 3px 0 var(--tw-shadow-color,#0000001a), 0 1px 2px -1px var(--tw-shadow-color,#0000001a);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.ring-gray-300{--tw-ring-color:var(--color-gray-300)}.filter{filter:var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,)}.transition{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,--tw-gradient-from,--tw-gradient-via,--tw-gradient-to,opacity,box-shadow,transform,translate,scale,rotate,filter,-webkit-backdrop-filter,backdrop-filter,display,content-visibility,overlay,pointer-events;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-all{transition-property:all;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-opacity{transition-property:opacity;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.delay-200{transition-delay:.2s}.delay-300{transition-delay:.3s}.delay-400{transition-delay:.4s}.duration-150{--tw-duration:.15s;transition-duration:.15s}.duration-750{--tw-duration:.75s;transition-duration:.75s}.ease-in-out{--tw-ease:var(--ease-in-out);transition-timing-function:var(--ease-in-out)}.\[--stroke-color\:\#1B1B18\]{--stroke-color:#1b1b18}.not-has-\[nav\]\:hidden:not(:has(:is(nav))){display:none}.before\:absolute:before{content:var(--tw-content);position:absolute}.before\:top-0:before{content:var(--tw-content);top:calc(var(--spacing) * 0)}.before\:top-1\/2:before{content:var(--tw-content);top:50%}.before\:bottom-0:before{content:var(--tw-content);bottom:calc(var(--spacing) * 0)}.before\:bottom-1\/2:before{content:var(--tw-content);bottom:50%}.before\:left-\[0\.4rem\]:before{content:var(--tw-content);left:.4rem}.before\:border-l:before{content:var(--tw-content);border-left-style:var(--tw-border-style);border-left-width:1px}.before\:border-\[\#e3e3e0\]:before{content:var(--tw-content);border-color:#e3e3e0}@media(hover:hover){.hover\:border-\[\#1915014a\]:hover{border-color:#1915014a}.hover\:border-\[\#19140035\]:hover{border-color:#19140035}.hover\:border-black:hover{border-color:var(--color-black)}.hover\:bg-black:hover{background-color:var(--color-black)}.hover\:bg-gray-100:hover{background-color:var(--color-gray-100)}.hover\:text-gray-400:hover{color:var(--color-gray-400)}.hover\:text-gray-700:hover{color:var(--color-gray-700)}}.focus\:border-blue-300:focus{border-color:var(--color-blue-300)}.focus\:ring:focus{--tw-ring-shadow:var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color,currentcolor);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.focus\:outline-none:focus{--tw-outline-style:none;outline-style:none}.active\:bg-gray-100:active{background-color:var(--color-gray-100)}.active\:text-gray-500:active{color:var(--color-gray-500)}.active\:text-gray-700:active{color:var(--color-gray-700)}.active\:text-gray-800:active{color:var(--color-gray-800)}@media(min-width:40rem){.sm\:flex{display:flex}.sm\:hidden{display:none}.sm\:flex-1{flex:1}.sm\:items-center{align-items:center}.sm\:justify-between{justify-content:space-between}.sm\:justify-start{justify-content:flex-start}.sm\:gap-2{gap:calc(var(--spacing) * 2)}.sm\:px-6{padding-inline:calc(var(--spacing) * 6)}.sm\:pt-0{padding-top:calc(var(--spacing) * 0)}}@media(min-width:64rem){.lg\:mt-10{margin-top:calc(var(--spacing) * 10)}.lg\:mb-0{margin-bottom:calc(var(--spacing) * 0)}.lg\:mb-6{margin-bottom:calc(var(--spacing) * 6)}.lg\:-ml-px{margin-left:-1px}.lg\:ml-0{margin-left:calc(var(--spacing) * 0)}.lg\:block{display:block}.lg\:aspect-auto{aspect-ratio:auto}.lg\:w-\[438px\]{width:438px}.lg\:max-w-4xl{max-width:var(--container-4xl)}.lg\:grow{flex-grow:1}.lg\:flex-row{flex-direction:row}.lg\:justify-center{justify-content:center}.lg\:rounded-t-none{border-top-left-radius:0;border-top-right-radius:0}.lg\:rounded-tl-lg{border-top-left-radius:var(--radius-lg)}.lg\:rounded-r-lg{border-top-right-radius:var(--radius-lg);border-bottom-right-radius:var(--radius-lg)}.lg\:rounded-br-none{border-bottom-right-radius:0}.lg\:p-8{padding:calc(var(--spacing) * 8)}.lg\:p-20{padding:calc(var(--spacing) * 20)}.lg\:px-8{padding-inline:calc(var(--spacing) * 8)}.lg\:pb-10{padding-bottom:calc(var(--spacing) * 10)}}.rtl\:flex-row-reverse:where(:dir(rtl),[dir=rtl],[dir=rtl] *){flex-direction:row-reverse}@media(prefers-color-scheme:dark){.dark\:border-\[\#3E3E3A\]{border-color:#3e3e3a}.dark\:border-\[\#eeeeec\]{border-color:#eeeeec}.dark\:border-gray-600{border-color:var(--color-gray-600)}.dark\:bg-\[\#0a0a0a\]{background-color:#0a0a0a}.dark\:bg-\[\#1D0002\]{background-color:#1d0002}.dark\:bg-\[\#3E3E3A\]{background-color:#3e3e3a}.dark\:bg-\[\#161615\]{background-color:#161615}.dark\:bg-\[\#eeeeec\]{background-color:#eeeeec}.dark\:bg-gray-700{background-color:var(--color-gray-700)}.dark\:bg-gray-800{background-color:var(--color-gray-800)}.dark\:bg-gray-900{background-color:var(--color-gray-900)}.dark\:text-\[\#1C1C1A\]{color:#1c1c1a}.dark\:text-\[\#4B0600\]{color:#4b0600}.dark\:text-\[\#391800\]{color:#391800}.dark\:text-\[\#733000\]{color:#733000}.dark\:text-\[\#A1A09A\]{color:#a1a09a}.dark\:text-\[\#EDEDEC\]{color:#ededec}.dark\:text-\[\#F61500\]{color:#f61500}.dark\:text-\[\#FF4433\]{color:#f43}.dark\:text-black{color:var(--color-black)}.dark\:text-gray-200{color:var(--color-gray-200)}.dark\:text-gray-300{color:var(--color-gray-300)}.dark\:text-gray-400{color:var(--color-gray-400)}.dark\:text-gray-600{color:var(--color-gray-600)}.dark\:mix-blend-hard-light{mix-blend-mode:hard-light}.dark\:mix-blend-normal{mix-blend-mode:normal}.dark\:shadow-\[inset_0px_0px_0px_1px_\#fffaed2d\]{--tw-shadow:inset 0px 0px 0px 1px var(--tw-shadow-color,#fffaed2d);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.dark\:\[--stroke-color\:\#FF750F\]{--stroke-color:#ff750f}.dark\:before\:border-\[\#3E3E3A\]:before{content:var(--tw-content);border-color:#3e3e3a}@media(hover:hover){.dark\:hover\:border-\[\#3E3E3A\]:hover{border-color:#3e3e3a}.dark\:hover\:border-\[\#62605b\]:hover{border-color:#62605b}.dark\:hover\:border-white:hover{border-color:var(--color-white)}.dark\:hover\:bg-gray-900:hover{background-color:var(--color-gray-900)}.dark\:hover\:bg-white:hover{background-color:var(--color-white)}.dark\:hover\:text-gray-200:hover{color:var(--color-gray-200)}.dark\:hover\:text-gray-300:hover{color:var(--color-gray-300)}}.dark\:focus\:border-blue-700:focus{border-color:var(--color-blue-700)}.dark\:focus\:border-blue-800:focus{border-color:var(--color-blue-800)}.dark\:active\:bg-gray-700:active{background-color:var(--color-gray-700)}.dark\:active\:text-gray-300:active{color:var(--color-gray-300)}}@starting-style{.starting\:opacity-0{opacity:0}}@media(prefers-reduced-motion:no-preference){@starting-style{.motion-safe\:starting\:-translate-x-\[26px\]{--tw-translate-x: -26px ;translate:var(--tw-translate-x) var(--tw-translate-y)}}@starting-style{.motion-safe\:starting\:-translate-x-\[51px\]{--tw-translate-x: -51px ;translate:var(--tw-translate-x) var(--tw-translate-y)}}@starting-style{.motion-safe\:starting\:-translate-x-\[78px\]{--tw-translate-x: -78px ;translate:var(--tw-translate-x) var(--tw-translate-y)}}@starting-style{.motion-safe\:starting\:-translate-x-\[102px\]{--tw-translate-x: -102px ;translate:var(--tw-translate-x) var(--tw-translate-y)}}@starting-style{.motion-safe\:starting\:translate-y-6{--tw-translate-y:calc(var(--spacing) * 6);translate:var(--tw-translate-x) var(--tw-translate-y)}}}}@property --tw-translate-x{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-y{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-z{syntax:"*";inherits:false;initial-value:0}@property --tw-rotate-x{syntax:"*";inherits:false}@property --tw-rotate-y{syntax:"*";inherits:false}@property --tw-rotate-z{syntax:"*";inherits:false}@property --tw-skew-x{syntax:"*";inherits:false}@property --tw-skew-y{syntax:"*";inherits:false}@property --tw-space-x-reverse{syntax:"*";inherits:false;initial-value:0}@property --tw-border-style{syntax:"*";inherits:false;initial-value:solid}@property --tw-leading{syntax:"*";inherits:false}@property --tw-font-weight{syntax:"*";inherits:false}@property --tw-tracking{syntax:"*";inherits:false}@property --tw-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-shadow-color{syntax:"*";inherits:false}@property --tw-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-inset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-shadow-color{syntax:"*";inherits:false}@property --tw-inset-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-ring-color{syntax:"*";inherits:false}@property --tw-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-ring-color{syntax:"*";inherits:false}@property --tw-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-ring-inset{syntax:"*";inherits:false}@property --tw-ring-offset-width{syntax:"<length>";inherits:false;initial-value:0}@property --tw-ring-offset-color{syntax:"*";inherits:false;initial-value:#fff}@property --tw-ring-offset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-blur{syntax:"*";inherits:false}@property --tw-brightness{syntax:"*";inherits:false}@property --tw-contrast{syntax:"*";inherits:false}@property --tw-grayscale{syntax:"*";inherits:false}@property --tw-hue-rotate{syntax:"*";inherits:false}@property --tw-invert{syntax:"*";inherits:false}@property --tw-opacity{syntax:"*";inherits:false}@property --tw-saturate{syntax:"*";inherits:false}@property --tw-sepia{syntax:"*";inherits:false}@property --tw-drop-shadow{syntax:"*";inherits:false}@property --tw-drop-shadow-color{syntax:"*";inherits:false}@property --tw-drop-shadow-alpha{syntax:"<percentage>";inherits:false;initial-value:100%}@property --tw-drop-shadow-size{syntax:"*";inherits:false}@property --tw-duration{syntax:"*";inherits:false}@property --tw-ease{syntax:"*";inherits:false}@property --tw-content{syntax:"*";inherits:false;initial-value:""}@keyframes spin{to{transform:rotate(360deg)}}@keyframes ping{75%,to{opacity:0;transform:scale(2)}}@keyframes pulse{50%{opacity:.5}}@keyframes bounce{0%,to{animation-timing-function:cubic-bezier(.8,0,1,1);transform:translateY(-25%)}50%{animation-timing-function:cubic-bezier(0,0,.2,1);transform:none}}
-            </style>
-        @endif
-    </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
-            @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
-                    @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                        >
-                            Dashboard
-                        </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                        >
-                            Log in
-                        </a>
+    <!-- Chart.js & Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-                        @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </nav>
-            @endif
-        </header>
-        <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
-            <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
-                <div class="text-[13px] leading-[20px] flex-1 p-6 pb-6 lg:p-20 lg:pb-10 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
-                    <h1 class="mb-1 font-medium">Let's get started</h1>
-                    <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">With so many options available to you,<br /> we suggest you start with the following:</p>
-                    <ul class="flex flex-col mb-4 lg:mb-6">
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:top-1/2 before:bottom-0 before:left-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
-                                </span>
-                            </span>
-                            <span>
-                                Read the
-                                <a href="https://laravel.com/docs" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                                    <span>Documentation</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
-                                    </svg>
-                                </a>
-                            </span>
-                        </li>
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:bottom-1/2 before:top-0 before:left-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
-                                </span>
-                            </span>
-                            <span>
-                                Watch video tutorials at
-                                <a href="https://laracasts.com" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                                    <span>Laracasts</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
-                                    </svg>
-                                </a>
-                            </span>
-                        </li>
-                    </ul>
-                    <ul class="flex gap-3 text-sm leading-normal">
-                        <li>
-                            <a href="https://cloud.laravel.com" target="_blank" class="inline-block dark:bg-[#eeeeec] dark:border-[#eeeeec] dark:text-[#1C1C1A] dark:hover:bg-white dark:hover:border-white hover:bg-black hover:border-black px-5 py-1.5 bg-[#1b1b18] rounded-sm border border-black text-white text-sm leading-normal">
-                                Deploy now
-                            </a>
-                        </li>
-                    </ul>
+    <!-- Leaflet & Real Road Routing CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-                    <p class="mt-6 lg:mt-10 text-[#706f6c] dark:text-[#A1A09A]">
-                        v{{ app()->version() }}
-                        <a href="https://github.com/laravel/framework/blob/13.x/CHANGELOG.md" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                            <span>View changelog</span>
-                            <svg
-                                width="10"
-                                height="11"
-                                viewBox="0 0 10 11"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="w-2.5 h-2.5"
-                            >
-                                <path
-                                    d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                    stroke="currentColor"
-                                    stroke-linecap="square"
-                                />
-                            </svg>
-                        </a>
+    <style>
+        body {
+            background-color: #fefce8;
+            color: #23120b;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(250, 204, 21, 0.45) 0%, transparent 40%),
+                radial-gradient(circle at 90% 85%, rgba(253, 224, 71, 0.5) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(254, 240, 138, 0.6) 0%, transparent 60%);
+        }
+        .yellow-card {
+            background: rgba(254, 249, 195, 0.94);
+            backdrop-filter: blur(16px);
+            border: 2px solid #facc15;
+            box-shadow: 0 8px 25px -6px rgba(202, 138, 4, 0.2);
+        }
+        .yellow-card:hover {
+            border-color: #eab308;
+            box-shadow: 0 12px 30px -6px rgba(202, 138, 4, 0.3);
+        }
+        .yellow-header {
+            background: linear-gradient(135deg, #fde047 0%, #facc15 60%, #eab308 100%);
+            border-bottom: 2px solid #ca8a04;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #fef9c3;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #eab308;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #ca8a04;
+        }
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+        }
+        .animate-sparkle {
+            animation: sparkle 4s ease-in-out infinite;
+        }
+        .leaflet-popup-content-wrapper {
+            background: #fefce8 !important;
+            color: #23120b !important;
+            border: 2px solid #eab308 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
+        }
+        .leaflet-popup-tip {
+            background: #fefce8 !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-cocoa-900 selection:text-gold-300">
+
+    <!-- TOP NAVBAR (DOMINAN KUNING EMAS) -->
+    <header class="sticky top-0 z-40 yellow-header px-6 py-4 shadow-xl">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <!-- Logo Section Inspired by Donat Menak Logo -->
+            <div class="flex items-center gap-3.5">
+                <div class="w-14 h-14 rounded-2xl overflow-hidden shadow-lg shrink-0 border-2 border-cocoa-900 bg-white flex items-center justify-center p-0.5">
+                    <img src="{{ asset('images/logo-icon.png') }}" alt="Donat Menak Logo" class="w-full h-full object-contain">
+                </div>
+
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-2xl font-display font-black tracking-tight text-cocoa-950 uppercase">
+                            DONAT MENAK
+                        </h1>
+                        <span class="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-cocoa-900 text-gold-300 shadow-sm">
+                            RBAC Engine
+                        </span>
+                    </div>
+                    <p class="text-xs text-cocoa-800 font-bold tracking-wide flex items-center gap-1.5 mt-0.5">
+                        <span class="animate-sparkle text-cocoa-900">✨</span> 
+                        <span>The Circle Of Happiness</span> 
+                        <span class="animate-sparkle text-cocoa-900">✨</span>
+                        <span class="text-cocoa-700 mx-1">•</span>
+                        <span class="text-cocoa-900 font-semibold text-[11px]">Sistem Logistik Dominan Kuning</span>
                     </p>
                 </div>
-                <div class="bg-[#fff2f2] dark:bg-[#1D0002] relative lg:-ml-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg aspect-[335/364] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
-                    {{-- Laravel Logo --}}
-                    <svg class="w-full text-[#F53003] dark:text-[#F61500] transition-all translate-y-0 opacity-100 max-w-none duration-750 starting:opacity-0 motion-safe:starting:translate-y-6" viewBox="0 0 438 104" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.2036 -3H0V102.197H49.5189V86.7187H17.2036V-3Z" fill="currentColor" />
-                        <path d="M110.256 41.6337C108.061 38.1275 104.945 35.3731 100.905 33.3681C96.8667 31.3647 92.8016 30.3618 88.7131 30.3618C83.4247 30.3618 78.5885 31.3389 74.201 33.2923C69.8111 35.2456 66.0474 37.928 62.9059 41.3333C59.7643 44.7401 57.3198 48.6726 55.5754 53.1293C53.8287 57.589 52.9572 62.274 52.9572 67.1813C52.9572 72.1925 53.8287 76.8995 55.5754 81.3069C57.3191 85.7173 59.7636 89.6241 62.9059 93.0293C66.0474 96.4361 69.8119 99.1155 74.201 101.069C78.5885 103.022 83.4247 103.999 88.7131 103.999C92.8016 103.999 96.8667 102.997 100.905 100.994C104.945 98.9911 108.061 96.2359 110.256 92.7282V102.195H126.563V32.1642H110.256V41.6337ZM108.76 75.7472C107.762 78.4531 106.366 80.8078 104.572 82.8112C102.776 84.8161 100.606 86.4183 98.0637 87.6206C95.5202 88.823 92.7004 89.4238 89.6103 89.4238C86.5178 89.4238 83.7252 88.823 81.2324 87.6206C78.7388 86.4183 76.5949 84.8161 74.7998 82.8112C73.004 80.8078 71.6319 78.4531 70.6856 75.7472C69.7356 73.0421 69.2644 70.1868 69.2644 67.1821C69.2644 64.1758 69.7356 61.3205 70.6856 58.6154C71.6319 55.9102 73.004 53.5571 74.7998 51.5522C76.5949 49.5495 78.738 47.9451 81.2324 46.7427C83.7252 45.5404 86.5178 44.9396 89.6103 44.9396C92.7012 44.9396 95.5202 45.5404 98.0637 46.7427C100.606 47.9451 102.776 49.5487 104.572 51.5522C106.367 53.5571 107.762 55.9102 108.76 58.6154C109.756 61.3205 110.256 64.1758 110.256 67.1821C110.256 70.1868 109.756 73.0421 108.76 75.7472Z" fill="currentColor" />
-                        <path d="M242.805 41.6337C240.611 38.1275 237.494 35.3731 233.455 33.3681C229.416 31.3647 225.351 30.3618 221.262 30.3618C215.974 30.3618 211.138 31.3389 206.75 33.2923C202.36 35.2456 198.597 37.928 195.455 41.3333C192.314 44.7401 189.869 48.6726 188.125 53.1293C186.378 57.589 185.507 62.274 185.507 67.1813C185.507 72.1925 186.378 76.8995 188.125 81.3069C189.868 85.7173 192.313 89.6241 195.455 93.0293C198.597 96.4361 202.361 99.1155 206.75 101.069C211.138 103.022 215.974 103.999 221.262 103.999C225.351 103.999 229.416 102.997 233.455 100.994C237.494 98.9911 240.611 96.2359 242.805 92.7282V102.195H259.112V32.1642H242.805V41.6337ZM241.31 75.7472C240.312 78.4531 238.916 80.8078 237.122 82.8112C235.326 84.8161 233.156 86.4183 230.614 87.6206C228.07 88.823 225.251 89.4238 222.16 89.4238C219.068 89.4238 216.275 88.823 213.782 87.6206C211.289 86.4183 209.145 84.8161 207.35 82.8112C205.554 80.8078 204.182 78.4531 203.236 75.7472C202.286 73.0421 201.814 70.1868 201.814 67.1821C201.814 64.1758 202.286 61.3205 203.236 58.6154C204.182 55.9102 205.554 53.5571 207.35 51.5522C209.145 49.5495 211.288 47.9451 213.782 46.7427C216.275 45.5404 219.068 44.9396 222.16 44.9396C225.251 44.9396 228.07 45.5404 230.614 46.7427C233.156 47.9451 235.326 49.5487 237.122 51.5522C238.917 53.5571 240.312 55.9102 241.31 58.6154C242.306 61.3205 242.806 64.1758 242.806 67.1821C242.805 70.1868 242.305 73.0421 241.31 75.7472Z" fill="currentColor" />
-                        <path d="M438 -3H421.694V102.197H438V-3Z" fill="currentColor" />
-                        <path d="M139.43 102.197H155.735V48.2834H183.712V32.1665H139.43V102.197Z" fill="currentColor" />
-                        <path d="M324.49 32.1665L303.995 85.794L283.498 32.1665H266.983L293.748 102.197H314.242L341.006 32.1665H324.49Z" fill="currentColor" />
-                        <path d="M376.571 30.3656C356.603 30.3656 340.797 46.8497 340.797 67.1828C340.797 89.6597 356.094 104 378.661 104C391.29 104 399.354 99.1488 409.206 88.5848L398.189 80.0226C398.183 80.031 389.874 90.9895 377.468 90.9895C363.048 90.9895 356.977 79.3111 356.977 73.269H411.075C413.917 50.1328 398.775 30.3656 376.571 30.3656ZM357.02 61.0967C357.145 59.7487 359.023 43.3761 376.442 43.3761C393.861 43.3761 395.978 59.7464 396.099 61.0967H357.02Z" fill="currentColor" />
-                    </svg>
+            </div>
 
-                    {{-- 13 --}}
-                    <svg class="w-[438px] max-w-none relative -mt-[6.6rem] -ml-8 lg:ml-0 [--stroke-color:#1B1B18] dark:[--stroke-color:#FF750F]" viewBox="0 0 440 392" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g class="mix-blend-darken dark:mix-blend-normal transition-all delay-300 opacity-100 duration-750 starting:opacity-0 text-[#1B1B18] dark:text-black">
-                            <mask id="path-1-mask" maskUnits="userSpaceOnUse" x="-0.328613" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="-0.328613" y="103" width="338" height="299"/>
-                                <path d="M234.936 400.8C204.136 400.8 178.936 392.4 159.336 375.6C140.136 358.8 130.536 337 130.536 310.2H200.736C200.736 318.2 203.736 324.8 209.736 330C215.736 335.2 223.736 337.8 233.736 337.8C243.336 337.8 251.136 335 257.136 329.4C263.536 323.8 266.736 316.6 266.736 307.8C266.736 299.8 263.936 293.2 258.336 288C252.736 282.8 245.536 280.2 236.736 280.2H199.536V218.4H236.736C243.536 218.4 249.336 216 254.136 211.2C258.936 206.4 261.336 200.4 261.336 193.2C261.336 184.8 258.736 178.2 253.536 173.4C248.336 168.6 241.736 166.2 233.736 166.2C226.536 166.2 220.336 168.4 215.136 172.8C210.336 177.2 207.936 182.8 207.936 189.6H141.336C141.336 164.8 150.136 144.6 167.736 129C185.336 113 207.936 105 235.536 105C263.136 105 285.536 112.2 302.736 126.6C320.336 141 329.136 160 329.136 183.6C329.136 200.8 324.536 214.8 315.336 225.6C306.136 236 294.336 243.2 279.936 247.2C297.136 252 310.736 260.2 320.736 271.8C331.136 283.4 336.336 298 336.336 315.6C336.336 340.4 326.936 360.8 308.136 376.8C289.336 392.8 264.936 400.8 234.936 400.8Z"/>
-                                <path d="M26.8714 167.6H1.67139V105.2H94.6714V400.2H26.8714V167.6Z"/>
-                            </mask>
-                            <path d="M234.936 400.8C204.136 400.8 178.936 392.4 159.336 375.6C140.136 358.8 130.536 337 130.536 310.2H200.736C200.736 318.2 203.736 324.8 209.736 330C215.736 335.2 223.736 337.8 233.736 337.8C243.336 337.8 251.136 335 257.136 329.4C263.536 323.8 266.736 316.6 266.736 307.8C266.736 299.8 263.936 293.2 258.336 288C252.736 282.8 245.536 280.2 236.736 280.2H199.536V218.4H236.736C243.536 218.4 249.336 216 254.136 211.2C258.936 206.4 261.336 200.4 261.336 193.2C261.336 184.8 258.736 178.2 253.536 173.4C248.336 168.6 241.736 166.2 233.736 166.2C226.536 166.2 220.336 168.4 215.136 172.8C210.336 177.2 207.936 182.8 207.936 189.6H141.336C141.336 164.8 150.136 144.6 167.736 129C185.336 113 207.936 105 235.536 105C263.136 105 285.536 112.2 302.736 126.6C320.336 141 329.136 160 329.136 183.6C329.136 200.8 324.536 214.8 315.336 225.6C306.136 236 294.336 243.2 279.936 247.2C297.136 252 310.736 260.2 320.736 271.8C331.136 283.4 336.336 298 336.336 315.6C336.336 340.4 326.936 360.8 308.136 376.8C289.336 392.8 264.936 400.8 234.936 400.8Z" fill="currentColor"/>
-                            <path d="M26.8714 167.6H1.67139V105.2H94.6714V400.2H26.8714V167.6Z" fill="currentColor"/>
-                            <path d="M234.936 400.8C204.136 400.8 178.936 392.4 159.336 375.6C140.136 358.8 130.536 337 130.536 310.2H200.736C200.736 318.2 203.736 324.8 209.736 330C215.736 335.2 223.736 337.8 233.736 337.8C243.336 337.8 251.136 335 257.136 329.4C263.536 323.8 266.736 316.6 266.736 307.8C266.736 299.8 263.936 293.2 258.336 288C252.736 282.8 245.536 280.2 236.736 280.2H199.536V218.4H236.736C243.536 218.4 249.336 216 254.136 211.2C258.936 206.4 261.336 200.4 261.336 193.2C261.336 184.8 258.736 178.2 253.536 173.4C248.336 168.6 241.736 166.2 233.736 166.2C226.536 166.2 220.336 168.4 215.136 172.8C210.336 177.2 207.936 182.8 207.936 189.6H141.336C141.336 164.8 150.136 144.6 167.736 129C185.336 113 207.936 105 235.536 105C263.136 105 285.536 112.2 302.736 126.6C320.336 141 329.136 160 329.136 183.6C329.136 200.8 324.536 214.8 315.336 225.6C306.136 236 294.336 243.2 279.936 247.2C297.136 252 310.736 260.2 320.736 271.8C331.136 283.4 336.336 298 336.336 315.6C336.336 340.4 326.936 360.8 308.136 376.8C289.336 392.8 264.936 400.8 234.936 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-1-mask)"/>
-                            <path d="M26.8714 167.6H1.67139V105.2H94.6714V400.2H26.8714V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-1-mask)"/>
-                        </g>
-
-                        <g class="transition-all delay-400 opacity-100 duration-750 starting:opacity-0 motion-safe:starting:-translate-x-[26px] text-[#F3BEC7] dark:text-[#4B0600]">
-                            <mask id="path-2-mask" maskUnits="userSpaceOnUse" x="25.3357" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="25.3357" y="103" width="338" height="299"/>
-                                <path d="M260.6 400.8C229.8 400.8 204.6 392.4 185 375.6C165.8 358.8 156.2 337 156.2 310.2H226.4C226.4 318.2 229.4 324.8 235.4 330C241.4 335.2 249.4 337.8 259.4 337.8C269 337.8 276.8 335 282.8 329.4C289.2 323.8 292.4 316.6 292.4 307.8C292.4 299.8 289.6 293.2 284 288C278.4 282.8 271.2 280.2 262.4 280.2H225.2V218.4H262.4C269.2 218.4 275 216 279.8 211.2C284.6 206.4 287 200.4 287 193.2C287 184.8 284.4 178.2 279.2 173.4C274 168.6 267.4 166.2 259.4 166.2C252.2 166.2 246 168.4 240.8 172.8C236 177.2 233.6 182.8 233.6 189.6H167C167 164.8 175.8 144.6 193.4 129C211 113 233.6 105 261.2 105C288.8 105 311.2 112.2 328.4 126.6C346 141 354.8 160 354.8 183.6C354.8 200.8 350.2 214.8 341 225.6C331.8 236 320 243.2 305.6 247.2C322.8 252 336.4 260.2 346.4 271.8C356.8 283.4 362 298 362 315.6C362 340.4 352.6 360.8 333.8 376.8C315 392.8 290.6 400.8 260.6 400.8Z"/>
-                                <path d="M52.5357 167.6H27.3357V105.2H120.336V400.2H52.5357V167.6Z"/>
-                            </mask>
-                            <path d="M260.6 400.8C229.8 400.8 204.6 392.4 185 375.6C165.8 358.8 156.2 337 156.2 310.2H226.4C226.4 318.2 229.4 324.8 235.4 330C241.4 335.2 249.4 337.8 259.4 337.8C269 337.8 276.8 335 282.8 329.4C289.2 323.8 292.4 316.6 292.4 307.8C292.4 299.8 289.6 293.2 284 288C278.4 282.8 271.2 280.2 262.4 280.2H225.2V218.4H262.4C269.2 218.4 275 216 279.8 211.2C284.6 206.4 287 200.4 287 193.2C287 184.8 284.4 178.2 279.2 173.4C274 168.6 267.4 166.2 259.4 166.2C252.2 166.2 246 168.4 240.8 172.8C236 177.2 233.6 182.8 233.6 189.6H167C167 164.8 175.8 144.6 193.4 129C211 113 233.6 105 261.2 105C288.8 105 311.2 112.2 328.4 126.6C346 141 354.8 160 354.8 183.6C354.8 200.8 350.2 214.8 341 225.6C331.8 236 320 243.2 305.6 247.2C322.8 252 336.4 260.2 346.4 271.8C356.8 283.4 362 298 362 315.6C362 340.4 352.6 360.8 333.8 376.8C315 392.8 290.6 400.8 260.6 400.8Z" fill="currentColor"/>
-                            <path d="M52.5357 167.6H27.3357V105.2H120.336V400.2H52.5357V167.6Z" fill="currentColor"/>
-                            <path d="M260.6 400.8C229.8 400.8 204.6 392.4 185 375.6C165.8 358.8 156.2 337 156.2 310.2H226.4C226.4 318.2 229.4 324.8 235.4 330C241.4 335.2 249.4 337.8 259.4 337.8C269 337.8 276.8 335 282.8 329.4C289.2 323.8 292.4 316.6 292.4 307.8C292.4 299.8 289.6 293.2 284 288C278.4 282.8 271.2 280.2 262.4 280.2H225.2V218.4H262.4C269.2 218.4 275 216 279.8 211.2C284.6 206.4 287 200.4 287 193.2C287 184.8 284.4 178.2 279.2 173.4C274 168.6 267.4 166.2 259.4 166.2C252.2 166.2 246 168.4 240.8 172.8C236 177.2 233.6 182.8 233.6 189.6H167C167 164.8 175.8 144.6 193.4 129C211 113 233.6 105 261.2 105C288.8 105 311.2 112.2 328.4 126.6C346 141 354.8 160 354.8 183.6C354.8 200.8 350.2 214.8 341 225.6C331.8 236 320 243.2 305.6 247.2C322.8 252 336.4 260.2 346.4 271.8C356.8 283.4 362 298 362 315.6C362 340.4 352.6 360.8 333.8 376.8C315 392.8 290.6 400.8 260.6 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-2-mask)"/>
-                            <path d="M52.5357 167.6H27.3357V105.2H120.336V400.2H52.5357V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-2-mask)"/>
-                        </g>
-                        
-                        <g class="mix-blend-color dark:mix-blend-hard-light transition-all delay-400 opacity-100 duration-750 starting:opacity-0 motion-safe:starting:-translate-x-[51px] text-[#F8B803] dark:text-[#391800]">
-                            <mask id="path-3-mask" maskUnits="userSpaceOnUse" x="51" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="51" y="103" width="338" height="299"/>
-                                <path d="M286.264 400.8C255.464 400.8 230.264 392.4 210.664 375.6C191.464 358.8 181.864 337 181.864 310.2H252.064C252.064 318.2 255.064 324.8 261.064 330C267.064 335.2 275.064 337.8 285.064 337.8C294.664 337.8 302.464 335 308.464 329.4C314.864 323.8 318.064 316.6 318.064 307.8C318.064 299.8 315.264 293.2 309.664 288C304.064 282.8 296.864 280.2 288.064 280.2H250.864V218.4H288.064C294.864 218.4 300.664 216 305.464 211.2C310.264 206.4 312.664 200.4 312.664 193.2C312.664 184.8 310.064 178.2 304.864 173.4C299.664 168.6 293.064 166.2 285.064 166.2C277.864 166.2 271.664 168.4 266.464 172.8C261.664 177.2 259.264 182.8 259.264 189.6H192.664C192.664 164.8 201.464 144.6 219.064 129C236.664 113 259.264 105 286.864 105C314.464 105 336.864 112.2 354.064 126.6C371.664 141 380.464 160 380.464 183.6C380.464 200.8 375.864 214.8 366.664 225.6C357.464 236 345.664 243.2 331.264 247.2C348.464 252 362.064 260.2 372.064 271.8C382.464 283.4 387.664 298 387.664 315.6C387.664 340.4 378.264 360.8 359.464 376.8C340.664 392.8 316.264 400.8 286.264 400.8Z"/>
-                                <path d="M78.2 167.6H53V105.2H146V400.2H78.2V167.6Z"/>
-                            </mask>
-                            <path d="M286.264 400.8C255.464 400.8 230.264 392.4 210.664 375.6C191.464 358.8 181.864 337 181.864 310.2H252.064C252.064 318.2 255.064 324.8 261.064 330C267.064 335.2 275.064 337.8 285.064 337.8C294.664 337.8 302.464 335 308.464 329.4C314.864 323.8 318.064 316.6 318.064 307.8C318.064 299.8 315.264 293.2 309.664 288C304.064 282.8 296.864 280.2 288.064 280.2H250.864V218.4H288.064C294.864 218.4 300.664 216 305.464 211.2C310.264 206.4 312.664 200.4 312.664 193.2C312.664 184.8 310.064 178.2 304.864 173.4C299.664 168.6 293.064 166.2 285.064 166.2C277.864 166.2 271.664 168.4 266.464 172.8C261.664 177.2 259.264 182.8 259.264 189.6H192.664C192.664 164.8 201.464 144.6 219.064 129C236.664 113 259.264 105 286.864 105C314.464 105 336.864 112.2 354.064 126.6C371.664 141 380.464 160 380.464 183.6C380.464 200.8 375.864 214.8 366.664 225.6C357.464 236 345.664 243.2 331.264 247.2C348.464 252 362.064 260.2 372.064 271.8C382.464 283.4 387.664 298 387.664 315.6C387.664 340.4 378.264 360.8 359.464 376.8C340.664 392.8 316.264 400.8 286.264 400.8Z" fill="currentColor"/>
-                            <path d="M78.2 167.6H53V105.2H146V400.2H78.2V167.6Z" fill="currentColor"/>
-                            <path d="M286.264 400.8C255.464 400.8 230.264 392.4 210.664 375.6C191.464 358.8 181.864 337 181.864 310.2H252.064C252.064 318.2 255.064 324.8 261.064 330C267.064 335.2 275.064 337.8 285.064 337.8C294.664 337.8 302.464 335 308.464 329.4C314.864 323.8 318.064 316.6 318.064 307.8C318.064 299.8 315.264 293.2 309.664 288C304.064 282.8 296.864 280.2 288.064 280.2H250.864V218.4H288.064C294.864 218.4 300.664 216 305.464 211.2C310.264 206.4 312.664 200.4 312.664 193.2C312.664 184.8 310.064 178.2 304.864 173.4C299.664 168.6 293.064 166.2 285.064 166.2C277.864 166.2 271.664 168.4 266.464 172.8C261.664 177.2 259.264 182.8 259.264 189.6H192.664C192.664 164.8 201.464 144.6 219.064 129C236.664 113 259.264 105 286.864 105C314.464 105 336.864 112.2 354.064 126.6C371.664 141 380.464 160 380.464 183.6C380.464 200.8 375.864 214.8 366.664 225.6C357.464 236 345.664 243.2 331.264 247.2C348.464 252 362.064 260.2 372.064 271.8C382.464 283.4 387.664 298 387.664 315.6C387.664 340.4 378.264 360.8 359.464 376.8C340.664 392.8 316.264 400.8 286.264 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-3-mask)"/>
-                            <path d="M78.2 167.6H53V105.2H146V400.2H78.2V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-3-mask)"/>
-                        </g>
-                        
-                        <g class="mix-blend-multiply dark:mix-blend-normal transition-all delay-400 opacity-100 duration-750 starting:opacity-0 motion-safe:starting:-translate-x-[78px] text-[#F3BEC7] dark:text-[#733000]">
-                            <mask id="path-4-mask" maskUnits="userSpaceOnUse" x="76.6643" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="76.6643" y="103" width="338" height="299"/>
-                                <path d="M311.929 400.8C281.129 400.8 255.929 392.4 236.329 375.6C217.129 358.8 207.529 337 207.529 310.2H277.729C277.729 318.2 280.729 324.8 286.729 330C292.729 335.2 300.729 337.8 310.729 337.8C320.329 337.8 328.129 335 334.129 329.4C340.529 323.8 343.729 316.6 343.729 307.8C343.729 299.8 340.929 293.2 335.329 288C329.729 282.8 322.529 280.2 313.729 280.2H276.529V218.4H313.729C320.529 218.4 326.329 216 331.129 211.2C335.929 206.4 338.329 200.4 338.329 193.2C338.329 184.8 335.729 178.2 330.529 173.4C325.329 168.6 318.729 166.2 310.729 166.2C303.529 166.2 297.329 168.4 292.129 172.8C287.329 177.2 284.929 182.8 284.929 189.6H218.329C218.329 164.8 227.129 144.6 244.729 129C262.329 113 284.929 105 312.529 105C340.129 105 362.529 112.2 379.729 126.6C397.329 141 406.129 160 406.129 183.6C406.129 200.8 401.529 214.8 392.329 225.6C383.129 236 371.329 243.2 356.929 247.2C374.129 252 387.729 260.2 397.729 271.8C408.129 283.4 413.329 298 413.329 315.6C413.329 340.4 403.929 360.8 385.129 376.8C366.329 392.8 341.929 400.8 311.929 400.8Z"/>
-                                <path d="M103.864 167.6H78.6643V105.2H171.664V400.2H103.864V167.6Z"/>
-                            </mask>
-                            <path d="M311.929 400.8C281.129 400.8 255.929 392.4 236.329 375.6C217.129 358.8 207.529 337 207.529 310.2H277.729C277.729 318.2 280.729 324.8 286.729 330C292.729 335.2 300.729 337.8 310.729 337.8C320.329 337.8 328.129 335 334.129 329.4C340.529 323.8 343.729 316.6 343.729 307.8C343.729 299.8 340.929 293.2 335.329 288C329.729 282.8 322.529 280.2 313.729 280.2H276.529V218.4H313.729C320.529 218.4 326.329 216 331.129 211.2C335.929 206.4 338.329 200.4 338.329 193.2C338.329 184.8 335.729 178.2 330.529 173.4C325.329 168.6 318.729 166.2 310.729 166.2C303.529 166.2 297.329 168.4 292.129 172.8C287.329 177.2 284.929 182.8 284.929 189.6H218.329C218.329 164.8 227.129 144.6 244.729 129C262.329 113 284.929 105 312.529 105C340.129 105 362.529 112.2 379.729 126.6C397.329 141 406.129 160 406.129 183.6C406.129 200.8 401.529 214.8 392.329 225.6C383.129 236 371.329 243.2 356.929 247.2C374.129 252 387.729 260.2 397.729 271.8C408.129 283.4 413.329 298 413.329 315.6C413.329 340.4 403.929 360.8 385.129 376.8C366.329 392.8 341.929 400.8 311.929 400.8Z" fill="currentColor"/>
-                            <path d="M103.864 167.6H78.6643V105.2H171.664V400.2H103.864V167.6Z" fill="currentColor"/>
-                            <path d="M311.929 400.8C281.129 400.8 255.929 392.4 236.329 375.6C217.129 358.8 207.529 337 207.529 310.2H277.729C277.729 318.2 280.729 324.8 286.729 330C292.729 335.2 300.729 337.8 310.729 337.8C320.329 337.8 328.129 335 334.129 329.4C340.529 323.8 343.729 316.6 343.729 307.8C343.729 299.8 340.929 293.2 335.329 288C329.729 282.8 322.529 280.2 313.729 280.2H276.529V218.4H313.729C320.529 218.4 326.329 216 331.129 211.2C335.929 206.4 338.329 200.4 338.329 193.2C338.329 184.8 335.729 178.2 330.529 173.4C325.329 168.6 318.729 166.2 310.729 166.2C303.529 166.2 297.329 168.4 292.129 172.8C287.329 177.2 284.929 182.8 284.929 189.6H218.329C218.329 164.8 227.129 144.6 244.729 129C262.329 113 284.929 105 312.529 105C340.129 105 362.529 112.2 379.729 126.6C397.329 141 406.129 160 406.129 183.6C406.129 200.8 401.529 214.8 392.329 225.6C383.129 236 371.329 243.2 356.929 247.2C374.129 252 387.729 260.2 397.729 271.8C408.129 283.4 413.329 298 413.329 315.6C413.329 340.4 403.929 360.8 385.129 376.8C366.329 392.8 341.929 400.8 311.929 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-4-mask)"/>
-                            <path d="M103.864 167.6H78.6643V105.2H171.664V400.2H103.864V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-4-mask)"/>
-                        </g>
-                        
-                        <g class="mix-blend-hard-light transition-all delay-400 opacity-100 duration-750 starting:opacity-0 motion-safe:starting:-translate-x-[102px] text-[#F3BEC7] dark:text-[#4B0600]">
-                            <mask id="path-5-mask" maskUnits="userSpaceOnUse" x="102.329" y="103" width="338" height="299" fill="black">
-                                <rect fill="white" x="102.329" y="103" width="338" height="299"/>
-                                <path d="M337.593 400.8C306.793 400.8 281.593 392.4 261.993 375.6C242.793 358.8 233.193 337 233.193 310.2H303.393C303.393 318.2 306.393 324.8 312.393 330C318.393 335.2 326.393 337.8 336.393 337.8C345.993 337.8 353.793 335 359.793 329.4C366.193 323.8 369.393 316.6 369.393 307.8C369.393 299.8 366.593 293.2 360.993 288C355.393 282.8 348.193 280.2 339.393 280.2H302.193V218.4H339.393C346.193 218.4 351.993 216 356.793 211.2C361.593 206.4 363.993 200.4 363.993 193.2C363.993 184.8 361.393 178.2 356.193 173.4C350.993 168.6 344.393 166.2 336.393 166.2C329.193 166.2 322.993 168.4 317.793 172.8C312.993 177.2 310.593 182.8 310.593 189.6H243.993C243.993 164.8 252.793 144.6 270.393 129C287.993 113 310.593 105 338.193 105C365.793 105 388.193 112.2 405.393 126.6C422.993 141 431.793 160 431.793 183.6C431.793 200.8 427.193 214.8 417.993 225.6C408.793 236 396.993 243.2 382.593 247.2C399.793 252 413.393 260.2 423.393 271.8C433.793 283.4 438.993 298 438.993 315.6C438.993 340.4 429.593 360.8 410.793 376.8C391.993 392.8 367.593 400.8 337.593 400.8Z"/>
-                                <path d="M129.529 167.6H104.329V105.2H197.329V400.2H129.529V167.6Z"/>
-                            </mask>
-                            <path d="M337.593 400.8C306.793 400.8 281.593 392.4 261.993 375.6C242.793 358.8 233.193 337 233.193 310.2H303.393C303.393 318.2 306.393 324.8 312.393 330C318.393 335.2 326.393 337.8 336.393 337.8C345.993 337.8 353.793 335 359.793 329.4C366.193 323.8 369.393 316.6 369.393 307.8C369.393 299.8 366.593 293.2 360.993 288C355.393 282.8 348.193 280.2 339.393 280.2H302.193V218.4H339.393C346.193 218.4 351.993 216 356.793 211.2C361.593 206.4 363.993 200.4 363.993 193.2C363.993 184.8 361.393 178.2 356.193 173.4C350.993 168.6 344.393 166.2 336.393 166.2C329.193 166.2 322.993 168.4 317.793 172.8C312.993 177.2 310.593 182.8 310.593 189.6H243.993C243.993 164.8 252.793 144.6 270.393 129C287.993 113 310.593 105 338.193 105C365.793 105 388.193 112.2 405.393 126.6C422.993 141 431.793 160 431.793 183.6C431.793 200.8 427.193 214.8 417.993 225.6C408.793 236 396.993 243.2 382.593 247.2C399.793 252 413.393 260.2 423.393 271.8C433.793 283.4 438.993 298 438.993 315.6C438.993 340.4 429.593 360.8 410.793 376.8C391.993 392.8 367.593 400.8 337.593 400.8Z" fill="currentColor"/>
-                            <path d="M129.529 167.6H104.329V105.2H197.329V400.2H129.529V167.6Z" fill="currentColor"/>
-                            <path d="M337.593 400.8C306.793 400.8 281.593 392.4 261.993 375.6C242.793 358.8 233.193 337 233.193 310.2H303.393C303.393 318.2 306.393 324.8 312.393 330C318.393 335.2 326.393 337.8 336.393 337.8C345.993 337.8 353.793 335 359.793 329.4C366.193 323.8 369.393 316.6 369.393 307.8C369.393 299.8 366.593 293.2 360.993 288C355.393 282.8 348.193 280.2 339.393 280.2H302.193V218.4H339.393C346.193 218.4 351.993 216 356.793 211.2C361.593 206.4 363.993 200.4 363.993 193.2C363.993 184.8 361.393 178.2 356.193 173.4C350.993 168.6 344.393 166.2 336.393 166.2C329.193 166.2 322.993 168.4 317.793 172.8C312.993 177.2 310.593 182.8 310.593 189.6H243.993C243.993 164.8 252.793 144.6 270.393 129C287.993 113 310.593 105 338.193 105C365.793 105 388.193 112.2 405.393 126.6C422.993 141 431.793 160 431.793 183.6C431.793 200.8 427.193 214.8 417.993 225.6C408.793 236 396.993 243.2 382.593 247.2C399.793 252 413.393 260.2 423.393 271.8C433.793 283.4 438.993 298 438.993 315.6C438.993 340.4 429.593 360.8 410.793 376.8C391.993 392.8 367.593 400.8 337.593 400.8Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-5-mask)"/>
-                            <path d="M129.529 167.6H104.329V105.2H197.329V400.2H129.529V167.6Z" stroke="var(--stroke-color)" stroke-width="2.4" mask="url(#path-5-mask)"/>
-                        </g>
-                    </svg>
-                    <div class="absolute inset-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"></div>
+            <!-- System Health Indicators -->
+            <div class="flex items-center gap-3 text-xs font-bold">
+                <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-gold-500 shadow-sm text-cocoa-900">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span>Peta Asli:</span>
+                    <span class="text-emerald-700 font-extrabold">OSRM & Leaflet OSM</span>
                 </div>
-            </main>
+                <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-gold-500 shadow-sm text-cocoa-900">
+                    @if($aiStatus)
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                        <span>FastAPI AI:</span>
+                        <span class="text-emerald-700 font-extrabold">Connected (:8000)</span>
+                    @else
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                        <span>FastAPI AI:</span>
+                        <span class="text-red-600 font-extrabold">Offline (PHP Fallback)</span>
+                    @endif
+                </div>
+                <div class="bg-cocoa-900 text-gold-300 px-3.5 py-1.5 rounded-xl border border-cocoa-800 font-mono text-xs shadow-sm">
+                    <i class="fa-regular fa-clock mr-1 text-gold-400"></i> <span id="current-clock">{{ date('H:i:s') }} WIB</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- RBAC ROLE SELECTION BAR (DOMINAN KUNING CERAH) -->
+    <section class="bg-gold-200 border-b-2 border-gold-400 px-6 py-3 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2 text-xs">
+                <span class="px-2.5 py-1 rounded-lg bg-cocoa-900 text-gold-300 font-extrabold uppercase tracking-wide">
+                    <i class="fa-solid fa-user-shield mr-1"></i> Role Aktif Saat Ini:
+                </span>
+                <span class="text-cocoa-950 font-black text-sm">
+                    @if($activeRole == 'admin_pusat' || $activeRole == 'koordinator_logistik')
+                        👑 ADMIN PUSAT (Proses Permintaan Belanja Cabang & Optimasi Rute)
+                    @elseif($activeRole == 'owner_cabang')
+                        👔 OWNER CABANG (Laporan Keuangan, Laporan Bahan Baku, AI Prediksi ROP & Request Belanja)
+                    @else
+                        🏪 KASIR CABANG (Input Laporan Keuangan Harian & Sisa Bahan Harian)
+                    @endif
+                </span>
+            </div>
+
+            <!-- Role Switcher Pills -->
+            <div class="flex flex-wrap items-center gap-1.5 bg-gold-300 p-1.5 rounded-xl border-2 border-gold-500 text-xs font-black shadow-inner">
+                <a href="?role=admin_pusat" 
+                   class="px-3.5 py-1.5 rounded-lg transition {{ ($activeRole == 'admin_pusat' || $activeRole == 'koordinator_logistik') ? 'bg-cocoa-900 text-gold-300 shadow-md' : 'text-cocoa-900 hover:bg-gold-400' }}">
+                   👑 ADMIN PUSAT
+                </a>
+                <a href="?role=kasir_cabang&cabang_id={{ $selectedCabangId }}" 
+                   class="px-3.5 py-1.5 rounded-lg transition {{ ($activeRole == 'kasir_cabang' || $activeRole == 'petugas_cabang') ? 'bg-cocoa-900 text-gold-300 shadow-md' : 'text-cocoa-900 hover:bg-gold-400' }}">
+                   🏪 KASIR CABANG
+                </a>
+                <a href="?role=owner_cabang&cabang_id={{ $selectedCabangId }}" 
+                   class="px-3.5 py-1.5 rounded-lg transition {{ $activeRole == 'owner_cabang' ? 'bg-cocoa-900 text-gold-300 shadow-md' : 'text-cocoa-900 hover:bg-gold-400' }}">
+                   👔 OWNER CABANG
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-8">
+
+        <!-- SUB-HEADER FOR ROLE EXPLANATION -->
+        <div class="yellow-card rounded-2xl p-4 border-l-8 border-cocoa-900 flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div>
+                <h2 class="text-lg font-display font-black text-cocoa-950">
+                    @if($activeRole == 'admin_pusat' || $activeRole == 'koordinator_logistik')
+                        👑 Dashboard Admin Pusat — Logistik & Optimasi Rute
+                    @elseif($activeRole == 'owner_cabang')
+                        👔 Dashboard Owner Cabang — Analitik Eksekutif, AI ROP & Permintaan Belanja
+                    @else
+                        🏪 Dashboard Kasir Cabang — Operasional Laporan Keuangan & Sisa Bahan
+                    @endif
+                </h2>
+                <p class="text-xs font-semibold text-cocoa-800">
+                    @if($activeRole == 'admin_pusat' || $activeRole == 'koordinator_logistik')
+                        Wewenang memproses pengajuan permintaan belanja dari seluruh cabang dan menghitung optimasi rute pengiriman (TSP OSRM & Leaflet).
+                    @elseif($activeRole == 'owner_cabang')
+                        Wewenang membaca laporan keuangan harian & rekap bulanan, status bahan baku, prediksi AI Reorder Point berdasarkan event/libur, dan mengajukan permintaan belanja ke pusat.
+                    @else
+                        Wewenang menginput laporan keuangan harian (cash/cashless & pengeluaran) dan laporan sisa bahan harian toko cabang.
+                    @endif
+                </p>
+            </div>
+
+            @if($activeRole == 'kasir_cabang' || $activeRole == 'petugas_cabang' || $activeRole == 'owner_cabang')
+                <div class="flex items-center gap-2">
+                    <label class="text-xs font-black text-cocoa-900">Pilih Cabang:</label>
+                    <select onchange="window.location.href='?role={{ $activeRole }}&cabang_id=' + this.value"
+                        class="px-3 py-1.5 rounded-xl bg-white border-2 border-gold-500 text-cocoa-950 font-black text-xs focus:outline-none shadow-sm">
+                        @foreach($cabangs as $cab)
+                            <option value="{{ $cab->id }}" {{ $selectedCabangId == $cab->id ? 'selected' : '' }}>
+                                {{ $cab->nama_cabang }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
         </div>
 
-        @if (Route::has('login'))
-            <div class="h-14.5 hidden lg:block"></div>
+        @if($activeRole == 'admin_pusat' || $activeRole == 'koordinator_logistik')
+            <!-- ========================================================================= -->
+            <!-- DASHBOARD ADMIN PUSAT: PROSES PERMINTAAN BELANJA CABANG & OPTIMASI RUTE  -->
+            <!-- ========================================================================= -->
+
+            <!-- 1. PROSES PERMINTAAN BELANJA CABANG -->
+            <div class="yellow-card rounded-2xl p-6 space-y-5">
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-gold-400 pb-3.5 gap-3">
+                    <div>
+                        <h3 class="text-lg font-display font-black text-cocoa-950 flex items-center gap-2.5">
+                            <i class="fa-solid fa-cart-flatbed text-amber-600 text-xl"></i>
+                            <span>Proses Permintaan Belanja Cabang</span>
+                        </h3>
+                        <p class="text-xs text-cocoa-800 font-medium">Daftar permintaan pasokan dan reorder bahan baku dari Owner & Kasir Cabang</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 text-xs font-bold">
+                        <span class="px-3 py-1 rounded-full bg-white/90 border border-gold-500 text-cocoa-900">
+                            Total: <strong class="text-amber-700">{{ $permintaanBelanjas->count() }}</strong> Pesanan
+                        </span>
+                        <span class="px-3 py-1 rounded-full bg-amber-100 border border-amber-400 text-amber-900">
+                            Menunggu: <strong>{{ $permintaanBelanjas->where('status', 'Menunggu Persetujuan')->count() }}</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- TABEL PERMINTAAN BELANJA -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b-2 border-gold-400 text-xs font-black uppercase text-cocoa-900 bg-gold-300/60">
+                                <th class="py-3 px-4 rounded-l-xl">Cabang Pemesan</th>
+                                <th class="py-3 px-4">Bahan Baku & Qty</th>
+                                <th class="py-3 px-4">Keterangan</th>
+                                <th class="py-3 px-4">Status Saat Ini</th>
+                                <th class="py-3 px-4 text-right rounded-r-xl">Aksi Proses Admin</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gold-300 text-xs font-semibold text-cocoa-950">
+                            @forelse($permintaanBelanjas as $req)
+                                <tr class="hover:bg-gold-200/50 transition">
+                                    <td class="py-3.5 px-4 font-black">
+                                        <div class="flex items-center gap-2">
+                                            <span class="w-2 h-2 rounded-full bg-amber-600"></span>
+                                            <span>{{ $req->nama_cabang }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3.5 px-4 font-extrabold text-cocoa-900">
+                                        {{ $req->nama_bahan }} — <span class="text-amber-700">{{ $req->jumlah }} {{ $req->satuan }}</span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-cocoa-800 italic">
+                                        "{{ $req->keterangan }}"
+                                    </td>
+                                    <td class="py-3.5 px-4">
+                                        <span class="px-2.5 py-1 rounded-lg text-[11px] font-black {{ $req->status == 'Menunggu Persetujuan' ? 'bg-amber-500 text-cocoa-950 shadow-sm' : ($req->status == 'Diproses' ? 'bg-blue-600 text-white shadow-sm' : 'bg-emerald-600 text-white shadow-sm') }}">
+                                            {{ $req->status }}
+                                        </span>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-right space-x-1.5">
+                                        @if($req->status == 'Menunggu Persetujuan')
+                                            <button onclick="prosesPermintaanBelanja({{ $req->id }}, 'Diproses')"
+                                                class="px-3 py-1.5 rounded-lg bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black transition shadow-sm border border-gold-400">
+                                                <i class="fa-solid fa-truck-fast mr-1"></i> Setujui & Kirim
+                                            </button>
+                                        @elseif($req->status == 'Diproses')
+                                            <button onclick="prosesPermintaanBelanja({{ $req->id }}, 'Selesai')"
+                                                class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-black transition shadow-sm">
+                                                <i class="fa-solid fa-check-double mr-1"></i> Selesai
+                                            </button>
+                                        @else
+                                            <span class="text-emerald-700 font-extrabold"><i class="fa-solid fa-circle-check mr-1"></i> Tiba di Cabang</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="py-6 text-center text-cocoa-700 font-bold">Belum ada permintaan belanja dari cabang.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 2. OPTIMASI RUTE DISTRIBUSI (TSP OSRM & LEAFLET MAP) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                
+                <!-- PANEL KIRI: MANIFEST BARANG YANG AKAN DIKIRIM & PILIH RUTE -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="yellow-card rounded-2xl p-6 space-y-5">
+                        <div class="border-b-2 border-gold-400 pb-3.5">
+                            <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                                <i class="fa-solid fa-boxes-packing text-amber-600"></i>
+                                <span>Manifest Barang Yang Akan Dikirim</span>
+                            </h3>
+                            <p class="text-xs text-cocoa-800 font-medium">Pilih cabang tujuan pengiriman dari Dapur Pusat Lodaya hari ini</p>
+                        </div>
+
+                        <!-- Checkboxes & Manifest Cargo per Branch -->
+                        <div class="space-y-3 max-h-[420px] overflow-y-auto custom-scrollbar pr-1">
+                            @foreach($cabangs as $cabang)
+                                @php
+                                    $ai = $cabang->ai_data ?? [];
+                                    $calc = $ai['kalkulasi'] ?? [];
+                                    $statusCode = $ai['status_code'] ?? 'AMAN';
+                                    $eoq = $calc['saran_order_kg'] ?? 50;
+                                    $glazeQty = round($eoq * 0.35);
+                                    $boxQty = round($eoq * 10);
+                                    $totalWeight = $eoq + $glazeQty + round($boxQty * 0.05);
+                                    $badge = $statusCode == 'KRITIS' ? '⚠️ Kritis (Butuh Cepat)' : ($statusCode == 'WASPADA' ? '🔔 Waspada' : '✨ Aman');
+                                @endphp
+                                <div class="p-3.5 rounded-xl bg-gold-200/90 border-2 border-gold-400 hover:border-amber-600 transition shadow-sm">
+                                    <label class="flex items-center justify-between cursor-pointer">
+                                        <div class="flex items-center gap-3">
+                                            <input type="checkbox" name="dispatch_branches[]" value="{{ $cabang->id }}" checked
+                                                data-name="{{ $cabang->nama_cabang }}"
+                                                data-lat="{{ $cabang->latitude }}"
+                                                data-lng="{{ $cabang->longitude }}"
+                                                data-premix="{{ $eoq }}"
+                                                data-glaze="{{ $glazeQty }}"
+                                                data-box="{{ $boxQty }}"
+                                                data-weight="{{ $totalWeight }}"
+                                                onchange="updateManifestSummary()"
+                                                class="branch-dispatch-cb w-4 h-4 rounded text-amber-600 bg-white border-gold-400">
+                                            <div>
+                                                <span class="text-sm font-black text-cocoa-950 block">{{ $cabang->nama_cabang }}</span>
+                                                <span class="text-[11px] text-cocoa-700 font-semibold"><i class="fa-solid fa-location-dot mr-1 text-amber-600"></i>{{ $cabang->alamat }}</span>
+                                            </div>
+                                        </div>
+                                        <span class="text-[10px] px-2.5 py-0.5 rounded-md font-extrabold {{ $statusCode == 'KRITIS' ? 'bg-red-500 text-white shadow-sm' : ($statusCode == 'WASPADA' ? 'bg-amber-500 text-cocoa-950 shadow-sm' : 'bg-emerald-600 text-white shadow-sm') }}">
+                                            {{ $badge }}
+                                        </span>
+                                    </label>
+
+                                    <!-- Cargo Breakdown for this Branch -->
+                                    <div class="mt-3 pt-2.5 border-t-2 border-gold-300 grid grid-cols-3 gap-2 text-center text-xs">
+                                        <div class="bg-white/80 p-2 rounded-lg border border-gold-400">
+                                            <span class="block text-[10px] text-cocoa-700 font-bold">Premix Tepung</span>
+                                            <span class="font-black text-cocoa-950">{{ $eoq }} Kg</span>
+                                        </div>
+                                        <div class="bg-white/80 p-2 rounded-lg border border-gold-400">
+                                            <span class="block text-[10px] text-cocoa-700 font-bold">Glaze Cokelat</span>
+                                            <span class="font-black text-amber-700">{{ $glazeQty }} Kg</span>
+                                        </div>
+                                        <div class="bg-white/80 p-2 rounded-lg border border-gold-400">
+                                            <span class="block text-[10px] text-cocoa-700 font-bold">Box Kemasan</span>
+                                            <span class="font-black text-cocoa-900">{{ $boxQty }} Pcs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Total Manifest Summary Box -->
+                        <div class="bg-cocoa-900 text-gold-300 p-4 rounded-xl border-2 border-cocoa-950 space-y-2 shadow-md">
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span>Total Cabang Tujuan:</span>
+                                <span class="text-white font-black" id="manifest-total-cabang">4 Toko</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span>Total Muatan Logistik:</span>
+                                <span class="text-gold-400 font-display font-black text-base" id="manifest-total-berat">232 Kg</span>
+                            </div>
+                        </div>
+
+                        <button onclick="kalkulasiRuteJalanAsli()" id="btn-kalkulasi-asli"
+                            class="w-full py-4 px-6 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black text-sm tracking-wide shadow-lg transition flex items-center justify-center gap-2.5 border-2 border-gold-400">
+                            <i class="fa-solid fa-route text-lg text-gold-400"></i>
+                            <span>⚡ KALKULASI RUTE MERAH VS EMAS (OSRM MAP)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PANEL KANAN: PETA ASLI BANDUNG (LEAFLET OSM & JALAN ASLI) -->
+                <div class="lg:col-span-7 flex flex-col space-y-6">
+                    <div class="yellow-card rounded-2xl p-5 flex flex-col">
+                        <div class="flex items-center justify-between border-b-2 border-gold-400 pb-3 mb-4">
+                            <div>
+                                <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                                    <i class="fa-solid fa-map-location-dot text-amber-600"></i>
+                                    <span>Peta Distribusi Real-Time & Jalur Jalan Raya Asli (Bandung)</span>
+                                </h3>
+                                <p class="text-xs text-cocoa-800 font-medium">Menggunakan OpenStreetMap & Open Source Routing Machine (OSRM)</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="toggleMapStyle('dark')" class="px-3 py-1.5 rounded-lg bg-cocoa-900 text-gold-300 border border-cocoa-950 text-xs font-bold hover:bg-cocoa-800">
+                                    Dark Map
+                                </button>
+                                <button onclick="toggleMapStyle('street')" class="px-3 py-1.5 rounded-lg bg-white text-cocoa-950 border-2 border-gold-500 text-xs font-bold hover:bg-gold-200">
+                                    Street Map
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Map Legend Banner (DOMINAN KUNING & KONTRAS) -->
+                        <div class="mb-3 flex flex-wrap items-center justify-between gap-2 bg-gold-200 px-4 py-2.5 rounded-xl border-2 border-gold-400 text-xs font-bold shadow-inner">
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-2 rounded bg-red-600 border border-red-800"></span>
+                                <span class="text-red-700 font-black">Garis Merah: <b class="text-cocoa-950">Rute Belum Dioptimasi</b></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="w-5 h-2 rounded bg-amber-500 border border-amber-700"></span>
+                                <span class="text-amber-800 font-black">Garis Emas: <b class="text-cocoa-950">Rute Teroptimasi (AI TSP)</b></span>
+                            </div>
+                        </div>
+
+                        <!-- Real Leaflet Map Container -->
+                        <div id="realBandungMap" class="w-full h-[430px] rounded-xl border-2 border-gold-500 relative z-10 shadow-inner"></div>
+
+                        <!-- Route Navigation Results & Step Itinerary -->
+                        <div class="mt-5 space-y-4" id="real-route-info" style="display: none;">
+                            <!-- Perbandingan Rute Belum Dioptimasi vs Teroptimasi -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <!-- Rute Belum Dioptimasi (Merah) -->
+                                <div class="bg-red-100 p-3.5 rounded-xl border-2 border-red-400 text-center relative overflow-hidden shadow-sm">
+                                    <span class="block text-[10px] text-red-700 font-black uppercase">🔴 Rute Belum Dioptimasi</span>
+                                    <div class="mt-1 flex items-baseline justify-center gap-1">
+                                        <span class="text-xl font-display font-black text-red-700" id="osm-jarak-unopt">0</span> 
+                                        <span class="text-xs text-red-600 font-bold">Km</span>
+                                    </div>
+                                    <span class="text-[11px] text-red-800 font-semibold block mt-0.5" id="osm-waktu-unopt">~0 Menit</span>
+                                </div>
+
+                                <!-- Rute Setelah Dioptimasi (Emas/Kuning Dominan) -->
+                                <div class="bg-gold-300 p-3.5 rounded-xl border-2 border-amber-600 text-center relative overflow-hidden shadow-md">
+                                    <span class="block text-[10px] text-cocoa-950 font-black uppercase">🟡 Rute Teroptimasi (AI TSP)</span>
+                                    <div class="mt-1 flex items-baseline justify-center gap-1">
+                                        <span class="text-xl font-display font-black text-cocoa-950" id="osm-jarak">0</span> 
+                                        <span class="text-xs text-cocoa-900 font-bold">Km</span>
+                                    </div>
+                                    <span class="text-[11px] text-cocoa-950 font-bold block mt-0.5" id="osm-waktu">~0 Menit</span>
+                                </div>
+
+                                <!-- Efisiensi Hemat -->
+                                <div class="bg-emerald-100 p-3.5 rounded-xl border-2 border-emerald-500 text-center relative overflow-hidden shadow-sm">
+                                    <span class="block text-[10px] text-emerald-800 font-black uppercase">✨ Efisiensi Hemat Rute</span>
+                                    <div class="mt-1 flex items-baseline justify-center gap-1">
+                                        <span class="text-xl font-display font-black text-emerald-700" id="osm-hemat-km">0</span> 
+                                        <span class="text-xs text-emerald-700 font-bold">Km</span>
+                                    </div>
+                                    <span class="text-[11px] text-emerald-800 font-bold block mt-0.5" id="osm-hemat-waktu">Hemat 0 Menit</span>
+                                </div>
+                            </div>
+
+                            <!-- List Barang yang Dikirim ke Tiap Titik Pemberhentian -->
+                            <div class="space-y-2">
+                                <span class="text-xs font-black uppercase text-cocoa-950 block">📋 Jadwal Pemberhentian Rute Teroptimasi (AI TSP) & Muatan Bongkar Barang:</span>
+                                <div class="max-h-48 overflow-y-auto custom-scrollbar space-y-2 pr-1" id="osm-itinerary">
+                                    <!-- Diisi oleh JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         @endif
-    </body>
+
+
+        @if($activeRole == 'kasir_cabang' || $activeRole == 'petugas_cabang')
+            <!-- ================================================================================== -->
+            <!-- DASHBOARD KASIR CABANG: INPUT LAPORAN KEUANGAN HARIAN & LAPORAN SISA BAHAN HARIAN -->
+            <!-- ================================================================================== -->
+            @php
+                $myCabang = $cabangs->where('id', $selectedCabangId)->first() ?? $cabangs->first();
+                $ai = $myCabang->ai_data ?? [];
+                $calc = $ai['kalkulasi'] ?? [];
+                $statusCode = $ai['status_code'] ?? 'AMAN';
+                $badgeColor = match($statusCode) {
+                    'KRITIS' => 'bg-red-500 text-white border-red-600',
+                    'WASPADA' => 'bg-amber-500 text-cocoa-950 border-amber-600',
+                    default => 'bg-emerald-600 text-white border-emerald-700'
+                };
+                $rekap = $myCabang->rekap_keuangan ?? null;
+                $cashVal = $rekap ? $rekap->pemasukan_cash : 0;
+                $cashlessVal = $rekap ? $rekap->pemasukan_cashless : 0;
+                $pengeluaranVal = $rekap ? $rekap->pengeluaran_nominal : 0;
+                $keteranganVal = $rekap ? $rekap->pengeluaran_keterangan : '';
+            @endphp
+
+            <div class="space-y-8">
+                <!-- BAGIAN 1: REKAP KEUANGAN HARIAN CABANG (PEMASUKAN & PENGELUARAN) -->
+                <div class="yellow-card rounded-2xl p-6 space-y-6">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-gold-400 pb-4 gap-2">
+                        <div>
+                            <h3 class="text-lg font-display font-black text-cocoa-950 flex items-center gap-2">
+                                <i class="fa-solid fa-wallet text-amber-600"></i>
+                                <span>Form Rekap Keuangan Harian — {{ $myCabang->nama_cabang }}</span>
+                            </h3>
+                            <p class="text-xs text-cocoa-800 font-medium">Catat total pemasukan (Cash & Cashless) serta pengeluaran operasional toko hari ini</p>
+                        </div>
+                        <span class="px-3.5 py-1.5 rounded-full bg-cocoa-900 text-gold-300 text-xs font-black border border-gold-400">
+                            <i class="fa-regular fa-calendar-check mr-1"></i> {{ date('d M Y') }}
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                        <!-- FORM REKAP KEUANGAN (8 KOLOM) -->
+                        <form id="formRekapKeuangan" onsubmit="submitRekapKeuangan(event, {{ $myCabang->id }})" class="lg:col-span-7 space-y-5">
+                            <!-- PEMASUKAN SECTION -->
+                            <div class="bg-gold-200/80 p-4 rounded-xl border-2 border-gold-400 space-y-3">
+                                <span class="text-xs font-black uppercase text-emerald-800 flex items-center gap-1.5 border-b border-gold-400 pb-2">
+                                    <i class="fa-solid fa-circle-arrow-down"></i> Pemasukan Penjualan Cabang Hari Ini
+                                </span>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-black text-cocoa-950 mb-1">Pemasukan Cash (Tunai) — Rp:</label>
+                                        <input type="number" id="rekap_cash" required min="0" step="1000" placeholder="0"
+                                            value="{{ $cashVal }}" oninput="hitungLiveKeuangan()"
+                                            class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-black text-cocoa-950 mb-1">Pemasukan Cashless (QRIS/Transfer) — Rp:</label>
+                                        <input type="number" id="rekap_cashless" required min="0" step="1000" placeholder="0"
+                                            value="{{ $cashlessVal }}" oninput="hitungLiveKeuangan()"
+                                            class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PENGELUARAN SECTION -->
+                            <div class="bg-gold-200/80 p-4 rounded-xl border-2 border-gold-400 space-y-3">
+                                <span class="text-xs font-black uppercase text-red-700 flex items-center gap-1.5 border-b border-gold-400 pb-2">
+                                    <i class="fa-solid fa-circle-arrow-up"></i> Pengeluaran Operasional Harian
+                                </span>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-black text-cocoa-950 mb-1">Nominal Pengeluaran — Rp:</label>
+                                        <input type="number" id="rekap_pengeluaran" required min="0" step="1000" placeholder="0"
+                                            value="{{ $pengeluaranVal }}" oninput="hitungLiveKeuangan()"
+                                            class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-black text-cocoa-950 mb-1">Keterangan / Catatan Pengeluaran:</label>
+                                        <input type="text" id="rekap_keterangan" placeholder="Contoh: Beli es batu, plastik kemasan, & kebersihan"
+                                            value="{{ $keteranganVal }}"
+                                            class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit"
+                                class="w-full py-4 px-6 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black text-sm tracking-wide shadow-lg transition flex items-center justify-center gap-2.5 border-2 border-gold-400">
+                                <i class="fa-solid fa-floppy-disk text-gold-400 text-base"></i>
+                                <span>SIMPAN REKAP KEUANGAN HARIAN CABANG</span>
+                            </button>
+                        </form>
+
+                        <!-- RINGKASAN SALDO LIVE (5 KOLOM) -->
+                        <div class="lg:col-span-5 bg-cocoa-900 text-gold-300 p-6 rounded-2xl border-2 border-gold-400 space-y-5 shadow-xl">
+                            <div class="border-b border-cocoa-700 pb-3">
+                                <span class="text-xs font-black uppercase text-gold-400 block">📊 Kalkulasi Kas Bersih Harian</span>
+                                <span class="text-[11px] text-white/70">Perhitungan real-time pemasukan vs pengeluaran</span>
+                            </div>
+
+                            <div class="space-y-3.5 text-xs font-bold">
+                                <div class="flex justify-between items-center bg-cocoa-950 p-3 rounded-xl border border-cocoa-800">
+                                    <span class="text-white">Pemasukan Tunai (Cash):</span>
+                                    <span class="font-mono text-emerald-400 font-black text-sm" id="live-cash">Rp 0</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-cocoa-950 p-3 rounded-xl border border-cocoa-800">
+                                    <span class="text-white">Pemasukan Non-Tunai (Cashless):</span>
+                                    <span class="font-mono text-emerald-400 font-black text-sm" id="live-cashless">Rp 0</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-cocoa-950 p-3 rounded-xl border border-cocoa-800">
+                                    <span class="text-red-300">Pengeluaran Operasional:</span>
+                                    <span class="font-mono text-red-400 font-black text-sm" id="live-pengeluaran">Rp 0</span>
+                                </div>
+                            </div>
+
+                            <div class="pt-3 border-t-2 border-gold-400/40 space-y-1">
+                                <span class="block text-[11px] uppercase font-black text-gold-400">Estimasi Kas Bersih Cabang Hari Ini:</span>
+                                <span class="block text-2xl font-display font-black text-white tracking-tight" id="live-net-saldo">Rp 0</span>
+                                <span class="block text-[10px] text-emerald-400 font-semibold" id="live-saldo-badge">✨ Siap disetorkan ke pusat</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BAGIAN 2: INPUT PENJUALAN DONAT & ANALISIS ROP STOK PREMIX -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- FORM INPUT PENJUALAN HARIAN -->
+                    <div class="yellow-card rounded-2xl p-6 space-y-4">
+                        <div class="border-b-2 border-gold-400 pb-3">
+                            <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                                <i class="fa-solid fa-pen-to-square text-amber-600"></i>
+                                <span>Input Stok & Penjualan Donat</span>
+                            </h3>
+                            <p class="text-xs text-cocoa-800 font-medium">Catat penjualan donat hari ini untuk dianalisis AI ROP</p>
+                        </div>
+
+                        <form id="formInputPenjualan" onsubmit="submitLaporanCabang(event, {{ $myCabang->id }})" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-black text-cocoa-950 mb-1">Total Penjualan Donat Hari Ini (Pcs):</label>
+                                <input type="number" id="input_donat" required min="0" placeholder="Contoh: 320"
+                                    class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-black text-cocoa-950 mb-1">Sisa Stok Premix di Toko Sekarang (Kg):</label>
+                                <input type="number" id="input_stok" required min="0" step="0.5" placeholder="Contoh: 45"
+                                    value="{{ $calc['sisa_stok_saat_ini_kg'] ?? 45 }}"
+                                    class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                            </div>
+
+                            <button type="submit"
+                                class="w-full py-3.5 px-4 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black text-xs tracking-wide shadow-lg transition flex items-center justify-center gap-2 border-2 border-gold-400">
+                                <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Simpan & Perbarui ROP AI
+                            </button>
+                        </form>
+
+                        <div class="bg-gold-200 p-3.5 rounded-xl border-2 border-gold-400 text-xs space-y-1.5">
+                            <div class="flex justify-between font-bold text-cocoa-900">
+                                <span>Batas Pesan Ulang (ROP):</span>
+                                <span class="text-cocoa-950 font-black">{{ $calc['reorder_point_kg'] ?? 20 }} Kg</span>
+                            </div>
+                            <div class="flex justify-between font-bold text-cocoa-900">
+                                <span>Saran Pemesanan (EOQ):</span>
+                                <span class="text-amber-700 font-black">{{ $calc['saran_order_kg'] ?? 50 }} Kg</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CABANG INVENTORY CARD & QUICK CHART -->
+                    <div class="lg:col-span-2 yellow-card rounded-2xl p-6 space-y-5">
+                        <div class="flex items-center justify-between border-b-2 border-gold-400 pb-3">
+                            <div>
+                                <h3 class="text-base font-display font-black text-cocoa-950">{{ $myCabang->nama_cabang }} - Status Logistik</h3>
+                                <p class="text-xs text-cocoa-800 font-medium">{{ $myCabang->alamat }}</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-black border {{ $badgeColor }}">
+                                Status AI: {{ $statusCode }}
+                            </span>
+                        </div>
+
+                        @php
+                            $stokSaatIni = $calc['sisa_stok_saat_ini_kg'] ?? 0;
+                            $ropVal = $calc['reorder_point_kg'] ?? 20;
+                            $maxBar = max($stokSaatIni, $ropVal * 2, 100);
+                            $pctStok = min(100, round(($stokSaatIni / $maxBar) * 100));
+                            $pctRop = min(100, round(($ropVal / $maxBar) * 100));
+                            $barColor = $statusCode == 'KRITIS' ? 'bg-red-500' : ($statusCode == 'WASPADA' ? 'bg-amber-500' : 'bg-emerald-600');
+                        @endphp
+                        <div class="bg-gold-200 p-4 rounded-xl border-2 border-gold-400">
+                            <div class="flex justify-between text-xs mb-2 font-black text-cocoa-950">
+                                <span>Sisa Stok Toko: {{ $stokSaatIni }} Kg</span>
+                                <span class="text-amber-800">Garis ROP: {{ $ropVal }} Kg</span>
+                            </div>
+                            <div class="w-full bg-white h-3 rounded-full relative overflow-hidden border border-gold-400">
+                                <div class="h-full {{ $barColor }} transition-all duration-1000 rounded-full" style="width: {{ $pctStok }}%;"></div>
+                                <div class="absolute top-0 bottom-0 w-0.5 bg-cocoa-950 shadow-[0_0_8px_#000]" style="left: {{ $pctRop }}%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between items-center bg-gold-200 p-4 rounded-xl border-2 border-gold-400">
+                            <div>
+                                <span class="text-xs font-black text-cocoa-950 block">Butuh Pengiriman Tambahan dari Dapur Pusat?</span>
+                                <span class="text-[11px] text-cocoa-800">Ajukan permintaan logistik langsung ke Dapur Lodaya</span>
+                            </div>
+                            <button onclick="alert('Permintaan pengiriman {{ $calc['saran_order_kg'] ?? 50 }} Kg premix untuk {{ $myCabang->nama_cabang }} telah diteruskan ke Petugas Pusat Lodaya!')"
+                                class="px-4 py-2.5 rounded-xl bg-cocoa-900 text-gold-300 font-extrabold text-xs shadow hover:opacity-95 transition border border-gold-400">
+                                <i class="fa-solid fa-paper-plane mr-1"></i> Ajukan Kiriman
+                            </button>
+                        </div>
+
+                        <button onclick="openSimulasiModal({{ $myCabang->id }}, '{{ $myCabang->nama_cabang }}', {{ json_encode($ai) }})"
+                            class="w-full py-3.5 px-4 rounded-xl bg-white hover:bg-gold-100 border-2 border-gold-400 text-cocoa-950 font-black text-xs transition flex items-center justify-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-chart-line text-amber-600"></i> Buka Analisis Tren Penjualan 30 Hari & Simulasi Lead Time
+                        </button>
+                    </div>
+                </div>
+        @endif
+
+
+        @if($activeRole == 'owner_cabang')
+            <!-- ================================================================================== -->
+            <!-- DASHBOARD OWNER CABANG: LAPORAN KEUANGAN, BAHAN BAKU, AI ROP MUSIM & REQUEST BELANJA -->
+            <!-- ================================================================================== -->
+            @php
+                $myCabang = $cabangs->where('id', $selectedCabangId)->first() ?? $cabangs->first();
+                $rekapBulanan = $myCabang->rekap_bulanan ?? ['total_cash' => 0, 'total_cashless' => 0, 'total_pengeluaran' => 0, 'laba_bersih' => 0];
+                $riwayatKeuangan = $myCabang->riwayat_keuangan ?? collect([]);
+                $ai = $myCabang->ai_data ?? [];
+                $calc = $ai['kalkulasi'] ?? [];
+                $statusCode = $ai['status_code'] ?? 'AMAN';
+                $myRequests = $permintaanBelanjas->where('cabang_id', $myCabang->id);
+            @endphp
+
+            <div class="space-y-8">
+                <!-- 1. READ LAPORAN KEUANGAN HARIAN + REKAP BULANAN -->
+                <div class="space-y-5">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div>
+                            <h3 class="text-xl font-display font-black text-cocoa-950 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-pie text-amber-600"></i>
+                                <span>Laporan Keuangan & Rekap Eksekutif — {{ $myCabang->nama_cabang }}</span>
+                            </h3>
+                            <p class="text-xs font-semibold text-cocoa-800">Ringkasan performa finansial harian dan akumulasi rekap bulanan toko cabang</p>
+                        </div>
+                        <span class="px-3.5 py-1.5 rounded-full bg-cocoa-900 text-gold-300 text-xs font-black border border-gold-400">
+                            <i class="fa-solid fa-calendar-days mr-1"></i> Periode Bulan Ini (30 Hari Terakhir)
+                        </span>
+                    </div>
+
+                    <!-- 4 KPI CARDS REKAP BULANAN -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div class="yellow-card rounded-2xl p-5 border-l-4 border-amber-600 shadow-md">
+                            <span class="text-xs font-black uppercase text-cocoa-800 block">Total Pemasukan Bulan Ini</span>
+                            <div class="mt-2 text-2xl font-display font-black text-cocoa-950">
+                                Rp {{ number_format($rekapBulanan['total_cash'] + $rekapBulanan['total_cashless'], 0, ',', '.') }}
+                            </div>
+                            <span class="text-[11px] text-emerald-700 font-extrabold mt-1 block">
+                                <i class="fa-solid fa-arrow-trend-up mr-1"></i> Akumulasi Cash & Cashless
+                            </span>
+                        </div>
+
+                        <div class="yellow-card rounded-2xl p-5 border-l-4 border-emerald-600 shadow-md">
+                            <span class="text-xs font-black uppercase text-cocoa-800 block">Pemasukan Cash vs Cashless</span>
+                            <div class="mt-2 text-base font-display font-black text-cocoa-950 flex items-baseline justify-between">
+                                <span>Cash: Rp {{ number_format($rekapBulanan['total_cash']/1000000, 1) }}M</span>
+                                <span class="text-amber-700">QRIS: Rp {{ number_format($rekapBulanan['total_cashless']/1000000, 1) }}M</span>
+                            </div>
+                            <div class="w-full bg-cocoa-800/20 rounded-full h-2 mt-2.5 overflow-hidden">
+                                @php
+                                    $totIn = max($rekapBulanan['total_cash'] + $rekapBulanan['total_cashless'], 1);
+                                    $pctCash = round(($rekapBulanan['total_cash'] / $totIn) * 100);
+                                @endphp
+                                <div class="bg-amber-600 h-full rounded-full" style="width: {{ $pctCash }}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="yellow-card rounded-2xl p-5 border-l-4 border-red-600 shadow-md">
+                            <span class="text-xs font-black uppercase text-cocoa-800 block">Total Pengeluaran Operasional</span>
+                            <div class="mt-2 text-2xl font-display font-black text-red-700">
+                                Rp {{ number_format($rekapBulanan['total_pengeluaran'], 0, ',', '.') }}
+                            </div>
+                            <span class="text-[11px] text-cocoa-700 font-extrabold mt-1 block">
+                                Biaya harian & kebersihan toko
+                            </span>
+                        </div>
+
+                        <div class="yellow-card rounded-2xl p-5 border-l-4 border-cocoa-900 bg-cocoa-900 text-gold-300 shadow-lg">
+                            <span class="text-xs font-black uppercase text-gold-400 block">Laba Bersih Bulan Ini (Net)</span>
+                            <div class="mt-2 text-2xl font-display font-black text-white">
+                                Rp {{ number_format($rekapBulanan['laba_bersih'], 0, ',', '.') }}
+                            </div>
+                            <span class="text-[11px] text-emerald-400 font-extrabold mt-1 block">
+                                ✨ Profit bersih cabang Anda
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- TABEL READ LAPORAN KEUANGAN HARIAN -->
+                    <div class="yellow-card rounded-2xl p-6 space-y-4">
+                        <div class="border-b-2 border-gold-400 pb-3 flex items-center justify-between">
+                            <h4 class="text-base font-display font-black text-cocoa-950">
+                                <i class="fa-solid fa-table-list text-amber-600 mr-1.5"></i> Detail Laporan Keuangan Harian
+                            </h4>
+                            <span class="text-xs font-black text-cocoa-800">{{ $riwayatKeuangan->count() }} Hari Terakhir</span>
+                        </div>
+                        <div class="overflow-x-auto max-h-72 overflow-y-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b-2 border-gold-400 text-xs font-black uppercase text-cocoa-900 bg-gold-300/60 sticky top-0">
+                                        <th class="py-2.5 px-4 rounded-l-xl">Tanggal</th>
+                                        <th class="py-2.5 px-4 text-right">Pemasukan Cash</th>
+                                        <th class="py-2.5 px-4 text-right">Pemasukan Cashless</th>
+                                        <th class="py-2.5 px-4 text-right">Pengeluaran</th>
+                                        <th class="py-2.5 px-4">Keterangan</th>
+                                        <th class="py-2.5 px-4 text-right rounded-r-xl">Kas Bersih Harian</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gold-300 text-xs font-semibold text-cocoa-950">
+                                    @forelse($riwayatKeuangan as $rk)
+                                        @php
+                                            $netHari = ($rk->pemasukan_cash + $rk->pemasukan_cashless) - $rk->pengeluaran_nominal;
+                                        @endphp
+                                        <tr class="hover:bg-gold-200/50 transition">
+                                            <td class="py-3 px-4 font-black">{{ \Carbon\Carbon::parse($rk->tanggal)->format('d M Y') }}</td>
+                                            <td class="py-3 px-4 text-right text-emerald-800">Rp {{ number_format($rk->pemasukan_cash, 0, ',', '.') }}</td>
+                                            <td class="py-3 px-4 text-right text-emerald-800">Rp {{ number_format($rk->pemasukan_cashless, 0, ',', '.') }}</td>
+                                            <td class="py-3 px-4 text-right text-red-700">Rp {{ number_format($rk->pengeluaran_nominal, 0, ',', '.') }}</td>
+                                            <td class="py-3 px-4 italic text-cocoa-800">{{ $rk->pengeluaran_keterangan ?: '-' }}</td>
+                                            <td class="py-3 px-4 text-right font-black {{ $netHari >= 0 ? 'text-emerald-700' : 'text-red-600' }}">
+                                                Rp {{ number_format($netHari, 0, ',', '.') }}
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="py-6 text-center text-cocoa-700 font-bold">Belum ada catatan keuangan harian dari Kasir Cabang.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. READ LAPORAN BAHAN BAKU & 3. AI PREDIKSI REORDER POINT MUSIMAN -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- READ LAPORAN BAHAN BAKU CABANG (5 KOLOM) -->
+                    <div class="lg:col-span-5 yellow-card rounded-2xl p-6 space-y-5">
+                        <div class="border-b-2 border-gold-400 pb-3">
+                            <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                                <i class="fa-solid fa-boxes-stacked text-amber-600"></i>
+                                <span>Read Laporan Bahan Baku Cabang</span>
+                            </h3>
+                            <p class="text-xs text-cocoa-800 font-medium">Status stok di {{ $myCabang->nama_cabang }} & pasokan pusat</p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-xl bg-gold-200/90 border-2 border-gold-400 space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-black text-cocoa-900">Stok Premix Tepung di Toko:</span>
+                                    <span class="text-base font-black text-cocoa-950">{{ $calc['sisa_stok_saat_ini_kg'] ?? $myCabang->sisa_stok_terkini }} Kg</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-cocoa-800">Pemakaian Harian Rata-rata:</span>
+                                    <span class="font-bold text-amber-800">{{ $calc['rata_rata_premix_harian_kg'] ?? 15 }} Kg/hari</span>
+                                </div>
+                                <div class="flex justify-between items-center text-xs">
+                                    <span class="text-cocoa-800">Ketahanan Stok Saat Ini:</span>
+                                    <span class="font-black text-emerald-800">~{{ round(($calc['sisa_stok_saat_ini_kg'] ?? 45) / max($calc['rata_rata_premix_harian_kg'] ?? 15, 1)) }} Hari</span>
+                                </div>
+                            </div>
+
+                            <h4 class="text-xs font-black uppercase text-cocoa-900 pt-1">Daftar Bahan Baku Utama (Dapur Pusat Lodaya):</h4>
+                            <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-1">
+                                @foreach($bahanBakus as $bb)
+                                    <div class="p-2.5 rounded-xl bg-white/80 border border-gold-400 flex items-center justify-between text-xs">
+                                        <span class="font-bold text-cocoa-950">{{ $bb->nama_bahan }}</span>
+                                        <span class="font-black text-amber-800">{{ number_format($bb->stok_pusat) }} {{ $bb->satuan }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI PREDIKSI REORDER POINT BERDASARKAN TRANSAKSI HARIAN & EVENT/MUSIM (7 KOLOM) -->
+                    <div class="lg:col-span-7 yellow-card rounded-2xl p-6 space-y-5">
+                        <div class="border-b-2 border-gold-400 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                                <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                                    <i class="fa-solid fa-robot text-amber-600"></i>
+                                    <span>AI Prediksi Reorder Point (ROP) Musiman</span>
+                                </h3>
+                                <p class="text-xs text-cocoa-800 font-medium">Kalkulasi prediktif mempertimbangkan hari libur, musim wisuda, dsb.</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-cocoa-900 text-gold-300 text-xs font-black">
+                                ✨ Dynamic Seasonal AI
+                            </span>
+                        </div>
+
+                        <!-- EVENT SELECTOR -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-black text-cocoa-950">Pilih Kondisi Hari / Musim Transaksi Cabang:</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-black">
+                                <button type="button" onclick="ubahFaktorMusim(1.0, 'Hari Biasa (Normal)')" id="btn-musim-normal"
+                                    class="musim-btn py-2.5 px-3 rounded-xl bg-cocoa-900 text-gold-300 border-2 border-gold-500 shadow transition text-center">
+                                    🏢 Hari Biasa
+                                </button>
+                                <button type="button" onclick="ubahFaktorMusim(1.35, 'Akhir Pekan (Weekend)')" id="btn-musim-weekend"
+                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center">
+                                    🏖️ Akhir Pekan
+                                </button>
+                                <button type="button" onclick="ubahFaktorMusim(1.6, 'Musim Wisuda Kampus')" id="btn-musim-wisuda"
+                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center">
+                                    🎓 Musim Wisuda
+                                </button>
+                                <button type="button" onclick="ubahFaktorMusim(1.85, 'Musim Liburan Panjang')" id="btn-musim-liburan"
+                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center">
+                                    🎒 Libur Panjang
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- HASIL PREDIKSI AI ROP -->
+                        <div class="bg-gold-200/90 p-4 rounded-xl border-2 border-gold-400 space-y-4">
+                            <div class="flex items-center justify-between border-b border-gold-400 pb-2 text-xs font-black">
+                                <span class="text-cocoa-900">Kondisi Dipilih: <strong id="label-kondisi-musim" class="text-amber-700">Hari Biasa (Normal)</strong></span>
+                                <span class="text-cocoa-800">Multiplier: <strong id="val-multiplier">1.0x</strong></span>
+                            </div>
+
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center text-xs">
+                                <div class="bg-white/90 p-3 rounded-xl border border-gold-400">
+                                    <span class="block text-[10px] text-cocoa-700 font-bold">Rata-Rata Harian</span>
+                                    <span class="text-sm font-black text-cocoa-950 block mt-0.5" id="ai-rop-harian">{{ $calc['rata_rata_premix_harian_kg'] ?? 15 }} Kg</span>
+                                </div>
+                                <div class="bg-white/90 p-3 rounded-xl border border-gold-400">
+                                    <span class="block text-[10px] text-cocoa-700 font-bold">Safety Stock</span>
+                                    <span class="text-sm font-black text-cocoa-950 block mt-0.5" id="ai-rop-safety">{{ $calc['safety_stock_kg'] ?? 15 }} Kg</span>
+                                </div>
+                                <div class="bg-white/90 p-3 rounded-xl border border-gold-400 col-span-2 sm:col-span-1">
+                                    <span class="block text-[10px] text-cocoa-700 font-bold">Lead Time Pengiriman</span>
+                                    <span class="text-sm font-black text-amber-800 block mt-0.5">{{ $calc['lead_time_hari'] ?? 2 }} Hari</span>
+                                </div>
+                            </div>
+
+                            <!-- PREDICTED REORDER POINT BOX -->
+                            <div class="bg-cocoa-900 text-gold-300 p-4 rounded-xl border-2 border-cocoa-950 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
+                                <div>
+                                    <span class="text-[10px] text-gold-400 uppercase font-black tracking-wide block">Titik Pesan Ulang (AI Predicted ROP):</span>
+                                    <div class="text-2xl font-display font-black text-white" id="ai-rop-total">
+                                        {{ $calc['reorder_point_kg'] ?? 45 }} Kg
+                                    </div>
+                                    <span class="text-[11px] text-emerald-400 font-bold block mt-0.5" id="ai-rop-status-text">
+                                        ✨ Stok di cabang Anda saat ini masih aman
+                                    </span>
+                                </div>
+                                <button onclick="isiOtomatisPermintaan()" type="button"
+                                    class="px-4 py-2.5 rounded-xl bg-gold-400 hover:bg-gold-300 text-cocoa-950 font-black text-xs transition shadow">
+                                    <i class="fa-solid fa-cart-plus mr-1"></i> Ajukan Belanja AI
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. FORM PERMINTAAN BELANJA KE PUSAT & RIWAYAT PENGAJUAN -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- FORM PERMINTAAN BELANJA (5 KOLOM) -->
+                    <div class="lg:col-span-5 yellow-card rounded-2xl p-6 space-y-4">
+                        <div class="border-b-2 border-gold-400 pb-3">
+                            <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                                <i class="fa-solid fa-file-invoice-dollar text-amber-600"></i>
+                                <span>Form Permintaan Belanja ke Pusat</span>
+                            </h3>
+                            <p class="text-xs text-cocoa-800 font-medium">Kirim pemesanan bahan baku untuk dikirim dari Dapur Lodaya</p>
+                        </div>
+
+                        <form id="formPermintaanBelanja" onsubmit="submitPermintaanBelanja(event, {{ $myCabang->id }})" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-black text-cocoa-950 mb-1">Pilih Bahan Baku yang Dibutuhkan:</label>
+                                <select id="belanja_bahan" required
+                                    class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                                    @foreach($bahanBakus as $bb)
+                                        <option value="{{ $bb->nama_bahan }}" data-satuan="{{ $bb->satuan }}">{{ $bb->nama_bahan }} (Satuan: {{ $bb->satuan }})</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-black text-cocoa-950 mb-1">Jumlah Pesanan:</label>
+                                    <input type="number" id="belanja_jumlah" required min="1" step="0.5" placeholder="50"
+                                        class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-black text-cocoa-950 mb-1">Satuan:</label>
+                                    <input type="text" id="belanja_satuan" value="Kg" readonly
+                                        class="w-full px-4 py-2.5 rounded-xl bg-gold-100 border-2 border-gold-400 text-cocoa-900 font-black text-sm">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-black text-cocoa-950 mb-1">Catatan Tambahan (Misal: Event Wisuda):</label>
+                                <input type="text" id="belanja_keterangan" placeholder="Contoh: Stok weekend wisuda UPI & UNPAD"
+                                    class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                            </div>
+
+                            <button type="submit"
+                                class="w-full py-3.5 px-4 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black text-xs tracking-wide shadow-lg transition flex items-center justify-center gap-2 border-2 border-gold-400">
+                                <i class="fa-solid fa-paper-plane text-sm"></i> Kirim Permintaan Belanja ke Admin Pusat
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- RIWAYAT PERMINTAAN BELANJA CABANG SAYA (7 KOLOM) -->
+                    <div class="lg:col-span-7 yellow-card rounded-2xl p-6 space-y-4">
+                        <div class="border-b-2 border-gold-400 pb-3 flex items-center justify-between">
+                            <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                                <i class="fa-solid fa-clipboard-list text-amber-600"></i>
+                                <span>Status Permintaan Belanja Cabang Saya</span>
+                            </h3>
+                            <span class="text-xs font-black text-cocoa-800">{{ $myRequests->count() }} Permintaan</span>
+                        </div>
+
+                        <div class="overflow-x-auto max-h-72 overflow-y-auto custom-scrollbar">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b-2 border-gold-400 text-xs font-black uppercase text-cocoa-900 bg-gold-300/60 sticky top-0">
+                                        <th class="py-2.5 px-4 rounded-l-xl">Bahan Baku</th>
+                                        <th class="py-2.5 px-4 text-right">Qty</th>
+                                        <th class="py-2.5 px-4">Catatan</th>
+                                        <th class="py-2.5 px-4 text-right rounded-r-xl">Status Admin</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gold-300 text-xs font-semibold text-cocoa-950">
+                                    @forelse($myRequests as $mr)
+                                        <tr class="hover:bg-gold-200/50 transition">
+                                            <td class="py-3 px-4 font-black">{{ $mr->nama_bahan }}</td>
+                                            <td class="py-3 px-4 text-right font-black text-amber-800">{{ $mr->jumlah }} {{ $mr->satuan }}</td>
+                                            <td class="py-3 px-4 italic text-cocoa-800">{{ $mr->keterangan }}</td>
+                                            <td class="py-3 px-4 text-right">
+                                                <span class="px-2.5 py-1 rounded-lg text-[11px] font-black {{ $mr->status == 'Menunggu Persetujuan' ? 'bg-amber-500 text-cocoa-950' : ($mr->status == 'Diproses' ? 'bg-blue-600 text-white' : 'bg-emerald-600 text-white') }}">
+                                                    {{ $mr->status }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="py-6 text-center text-cocoa-700 font-bold">Belum ada permintaan belanja yang diajukan.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+
+        @if($activeRole == 'petugas_pusat')
+            <!-- ========================================================================= -->
+            <!-- KHUSUS ROLE PETUGAS PUSAT: MATRIX BAHAN BAKU DAPUR LODAYA & MONITOR STOK -->
+            <!-- ========================================================================= -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="yellow-card rounded-2xl p-5 relative overflow-hidden group transition duration-300 hover:-translate-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-black uppercase tracking-wider text-cocoa-800">Cabang Dilayani</span>
+                        <div class="w-10 h-10 rounded-xl bg-gold-300 border border-gold-400 flex items-center justify-center text-cocoa-900 text-lg font-bold">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-3xl font-display font-black text-cocoa-950">{{ count($cabangs) }}</span>
+                        <span class="text-xs text-emerald-700 font-black">Toko</span>
+                    </div>
+                    <p class="text-xs text-cocoa-700 mt-2 font-medium">Dapur Pusat Lodaya (Hub 1)</p>
+                </div>
+
+                @php
+                    $stokTepung = $bahanBakus->where('nama_bahan', 'Tepung Terigu Premix')->first()->stok_pusat ?? 1500;
+                @endphp
+                <div class="yellow-card rounded-2xl p-5 relative overflow-hidden group transition duration-300 hover:-translate-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-black uppercase tracking-wider text-cocoa-800">Stok Premix Pusat</span>
+                        <div class="w-10 h-10 rounded-xl bg-amber-200 border border-amber-400 flex items-center justify-center text-amber-800 text-lg">
+                            <i class="fa-solid fa-wheat-awn"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-3xl font-display font-black text-cocoa-950">{{ number_format($stokTepung) }}</span>
+                        <span class="text-xs text-amber-700 font-black">Kg</span>
+                    </div>
+                    <p class="text-xs text-cocoa-700 mt-2 font-medium">Kapasitas Produksi Utama</p>
+                </div>
+
+                <div class="yellow-card rounded-2xl p-5 relative overflow-hidden group transition duration-300 hover:-translate-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-black uppercase tracking-wider text-cocoa-800">Permintaan Cabang</span>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-200 border border-emerald-400 flex items-center justify-center text-emerald-800 text-lg">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-3xl font-display font-black text-cocoa-950">{{ count($cabangs) }}</span>
+                        <span class="text-xs text-emerald-700 font-black">Pesanan</span>
+                    </div>
+                    <p class="text-xs text-cocoa-700 mt-2 font-medium">Menunggu pengiriman hari ini</p>
+                </div>
+
+                <div class="yellow-card rounded-2xl p-5 relative overflow-hidden group transition duration-300 hover:-translate-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-black uppercase tracking-wider text-cocoa-800">Peringatan Kritis ROP</span>
+                        <div class="w-10 h-10 rounded-xl bg-red-200 border border-red-400 flex items-center justify-center text-red-700 text-lg">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex items-center gap-2 text-sm font-bold">
+                        <span class="px-2.5 py-1 rounded-lg bg-red-500 text-white font-black">{{ $totalCabangKritis }} Kritis</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-amber-400 text-cocoa-950 font-black">{{ $totalCabangWaspada }} Waspada</span>
+                    </div>
+                    <p class="text-xs text-cocoa-700 mt-2 font-medium">Prioritas kiriman pasokan</p>
+                </div>
+            </section>
+
+            <!-- MATRIX STOK DAPUR PUSAT -->
+            <section class="yellow-card rounded-2xl p-6 space-y-4">
+                <div class="flex items-center justify-between border-b-2 border-gold-400 pb-3.5">
+                    <div>
+                        <h2 class="text-lg font-display font-black text-cocoa-950 tracking-wide flex items-center gap-2">
+                            <i class="fa-solid fa-warehouse text-amber-600"></i>
+                            <span>Matrix Stok Bahan Baku - Dapur Pusat Lodaya (Hub 1)</span>
+                        </h2>
+                        <p class="text-xs text-cocoa-800 font-medium">Wewenang Petugas Pusat untuk memastikan ketersediaan suplai premix dan kemasan</p>
+                    </div>
+                    <span class="px-3.5 py-1.5 rounded-full bg-gold-300 text-cocoa-950 text-xs font-black border-2 border-gold-500">
+                        <i class="fa-solid fa-boxes-stacked mr-1"></i> {{ count($bahanBakus) }} Item Terdaftar
+                    </span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="text-cocoa-800 uppercase border-b-2 border-gold-400 font-black">
+                                <th class="py-3 px-4">ID</th>
+                                <th class="py-3 px-4">Nama Bahan Baku</th>
+                                <th class="py-3 px-4">Satuan</th>
+                                <th class="py-3 px-4">Stok Dapur Pusat</th>
+                                <th class="py-3 px-4 w-1/3">Kapasitas & Status Pasokan</th>
+                                <th class="py-3 px-4 text-right">Aksi Petugas Pusat</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gold-300 font-medium">
+                            @foreach($bahanBakus as $bahan)
+                                @php
+                                    $stok = $bahan->stok_pusat;
+                                    $maxCapacity = $bahan->satuan == 'Pcs' ? 15000 : 2000;
+                                    $pct = min(100, round(($stok / $maxCapacity) * 100));
+                                    $statusStok = $pct < 25 ? 'Perlu Restock' : 'Aman';
+                                    $statusColor = $pct < 25 ? 'text-white bg-red-600 font-bold' : 'text-white bg-emerald-600 font-bold';
+                                @endphp
+                                <tr class="hover:bg-gold-200 transition">
+                                    <td class="py-3.5 px-4 font-mono text-cocoa-700">#{{ $bahan->id }}</td>
+                                    <td class="py-3.5 px-4 font-black text-cocoa-950 text-sm">{{ $bahan->nama_bahan }}</td>
+                                    <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md bg-white text-cocoa-900 border border-gold-400 font-bold">{{ $bahan->satuan }}</span></td>
+                                    <td class="py-3.5 px-4 font-display font-black text-base text-amber-700">{{ number_format($stok) }}</td>
+                                    <td class="py-3.5 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-full bg-white h-2.5 rounded-full overflow-hidden border border-gold-400">
+                                                <div class="h-full bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full" style="width: {{ $pct }}%;"></div>
+                                            </div>
+                                            <span class="text-[10px] shrink-0 {{ $statusColor }} px-2.5 py-0.5 rounded-md">{{ $statusStok }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3.5 px-4 text-right">
+                                        <button onclick="updateStokDapur({{ $bahan->id }}, '{{ $bahan->nama_bahan }}')"
+                                            class="px-3.5 py-1.5 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 font-bold text-gold-300 border border-gold-400 transition shadow-sm">
+                                            <i class="fa-solid fa-plus mr-1"></i> Tambah Stok (PO)
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        @endif
+
+    </main>
+
+    <!-- FOOTER (DOMINAN KUNING) -->
+    <footer class="border-t-2 border-gold-400 mt-12 py-8 text-center text-xs text-cocoa-800 bg-gold-200">
+        <div class="flex items-center justify-center gap-2 mb-2 font-display font-black tracking-wider text-sm text-cocoa-950">
+            <span>DONAT MENAK</span>
+            <span>•</span>
+            <span>THE CIRCLE OF HAPPINESS</span>
+        </div>
+        <p font-semibold>© 2026 <b class="text-cocoa-950">Donat Menak Bandung</b>. Powered by <span class="text-red-600 font-extrabold">Laravel 11</span> & <span class="text-amber-700 font-extrabold">Python FastAPI</span> AI Engine.</p>
+    </footer>
+
+    <!-- INTERACTIVE MODAL FOR CHART & ROP SIMULATION -->
+    <div id="simulasiModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="yellow-card max-w-4xl w-full rounded-2xl border-4 border-gold-500 p-6 space-y-6 relative max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl">
+            <div class="flex items-center justify-between border-b-2 border-gold-400 pb-4">
+                <div>
+                    <h3 class="text-lg font-display font-black text-cocoa-950 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-area text-amber-600"></i>
+                        <span id="modal-cabang-title">Donat Menak</span>
+                    </h3>
+                    <p class="text-xs text-cocoa-800 font-medium">Simulasi interaktif Reorder Point & grafik tren permintaan bahan baku</p>
+                </div>
+                <button onclick="closeSimulasiModal()" class="w-8 h-8 rounded-xl bg-cocoa-900 text-gold-300 hover:text-white hover:bg-red-600 border border-cocoa-800 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-gold-100 p-4 rounded-xl border-2 border-gold-400 space-y-4 shadow-inner">
+                    <h4 class="text-xs font-black uppercase tracking-wide text-cocoa-950 border-b-2 border-gold-300 pb-2">🎛️ Simulasi Logistik</h4>
+                    <input type="hidden" id="sim-cabang-id">
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1 text-cocoa-900">
+                            <label>Lead Time (Pengiriman):</label>
+                            <span class="text-amber-800 font-black"><span id="val-lead-time">2</span> Hari</span>
+                        </div>
+                        <input type="range" id="slider-lead-time" min="1" max="7" step="0.5" value="2"
+                            oninput="updateSliderVal(); runSimulasiRop()"
+                            class="w-full accent-amber-600 bg-white h-2 rounded-lg cursor-pointer">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1 text-cocoa-900">
+                            <label>Safety Stock (Cadangan):</label>
+                            <span class="text-amber-800 font-black"><span id="val-safety-stock">15</span> Kg</span>
+                        </div>
+                        <input type="range" id="slider-safety-stock" min="5" max="50" step="1" value="15"
+                            oninput="updateSliderVal(); runSimulasiRop()"
+                            class="w-full accent-amber-600 bg-white h-2 rounded-lg cursor-pointer">
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border-2 border-gold-400 space-y-2 mt-4 shadow" id="sim-result-box">
+                        <div class="flex justify-between items-center text-xs font-bold text-cocoa-900">
+                            <span>Hasil ROP Baru:</span>
+                            <span class="text-base text-amber-700 font-display font-black" id="sim-rop-val">0 Kg</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs text-cocoa-900 font-bold">
+                            <span>Status Analisis:</span>
+                            <span class="px-2 py-0.5 rounded font-black text-[10px]" id="sim-status-badge">AMAN</span>
+                        </div>
+                        <p class="text-[11px] text-cocoa-800 italic border-t border-gold-300 pt-2 font-medium" id="sim-analisis-text">
+                            Memuat analisis...
+                        </p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-gold-100 p-4 rounded-xl border-2 border-gold-400 flex flex-col justify-between shadow-inner">
+                    <h4 class="text-xs font-black uppercase tracking-wide text-cocoa-950 mb-2">📈 Grafik Penjualan 30 Hari & Prediksi AI 7 Hari Ke Depan</h4>
+                    <div class="w-full h-64 relative">
+                        <canvas id="ropChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 border-t-2 border-gold-400 pt-4">
+                <button onclick="closeSimulasiModal()" class="py-2.5 px-6 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 text-xs font-bold transition border border-gold-400">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let chartInstance = null;
+        let leafletMap = null;
+        let mapTileLayer = null;
+        let currentRouteLayers = [];
+
+        setInterval(() => {
+            const now = new Date();
+            const el = document.getElementById('current-clock');
+            if (el) el.innerText = now.toLocaleTimeString('id-ID') + ' WIB';
+        }, 1000);
+
+        function initRealBandungMap() {
+            const mapContainer = document.getElementById('realBandungMap');
+            if (!mapContainer) return;
+
+            leafletMap = L.map('realBandungMap', {
+                center: [-6.9175, 107.6191],
+                zoom: 12
+            });
+
+            // Default Carto Dark agar garis merah & emas super mencolok
+            mapTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors, © CARTO'
+            }).addTo(leafletMap);
+
+            drawAllBranchesMarkers();
+            updateManifestSummary();
+        }
+
+        function toggleMapStyle(style) {
+            if (!leafletMap || !mapTileLayer) return;
+            leafletMap.removeLayer(mapTileLayer);
+            if (style === 'dark') {
+                mapTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap contributors, © CARTO'
+                }).addTo(leafletMap);
+            } else {
+                mapTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(leafletMap);
+            }
+        }
+
+        const bandungBranches = [
+            { id: 1, name: 'Dapur Pusat Lodaya (Hub 1)', lat: -6.9314, lng: 107.6231, isPusat: true },
+            { id: 2, name: 'Donat Menak Cibiru', lat: -6.9382, lng: 107.7164 },
+            { id: 3, name: 'Donat Menak Sarijadi', lat: -6.8778, lng: 107.5819 },
+            { id: 4, name: 'Donat Menak Lembang', lat: -6.8172, lng: 107.6144 },
+            { id: 5, name: 'Donat Menak Buah Batu', lat: -6.9472, lng: 107.6253 },
+        ];
+
+        function drawAllBranchesMarkers() {
+            if (!leafletMap) return;
+            bandungBranches.forEach(b => {
+                const iconHtml = b.isPusat 
+                    ? `<div class="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center shadow-md border-2 border-cocoa-900 text-cocoa-950 font-black text-xs">🏭</div>`
+                    : `<div class="w-7 h-7 rounded-full bg-cocoa-900 flex items-center justify-center border-2 border-gold-400 text-gold-400 font-bold text-xs shadow-md">🍩</div>`;
+                
+                const customIcon = L.divIcon({
+                    html: iconHtml,
+                    className: 'custom-donut-marker',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 16]
+                });
+
+                L.marker([b.lat, b.lng], { icon: customIcon })
+                    .addTo(leafletMap)
+                    .bindPopup(`<b>${b.name}</b><br><span class="text-amber-700 font-bold text-xs">${b.isPusat ? 'Hub Distribusi Logistik Utama' : 'Toko Cabang Ritel'}</span>`);
+            });
+        }
+
+        function updateManifestSummary() {
+            const checkboxes = document.querySelectorAll('.branch-dispatch-cb:checked');
+            if (!checkboxes) return;
+
+            let totalW = 0;
+            checkboxes.forEach(cb => {
+                totalW += parseFloat(cb.getAttribute('data-weight') || 0);
+            });
+
+            const countElem = document.getElementById('manifest-total-cabang');
+            const weightElem = document.getElementById('manifest-total-berat');
+            if (countElem) countElem.innerText = checkboxes.length + ' Toko Cabang';
+            if (weightElem) weightElem.innerText = Math.round(totalW) + ' Kg Muatan';
+        }
+
+        // Kalkulasi Rute Jalan Raya Asli (OSRM Driving API) - Dual Route: Belum Dioptimasi (Merah) vs AI TSP (Emas)
+        async function kalkulasiRuteJalanAsli() {
+            const checkboxes = document.querySelectorAll('.branch-dispatch-cb:checked');
+            if (checkboxes.length === 0) {
+                alert('Pilih minimal satu cabang ritel untuk dikirim muatan logistik!');
+                return;
+            }
+
+            const btn = document.getElementById('btn-kalkulasi-asli');
+            if (btn) {
+                btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Menghitung Rute Merah vs Emas (OSRM)...';
+                btn.disabled = true;
+            }
+
+            currentRouteLayers.forEach(l => leafletMap.removeLayer(l));
+            currentRouteLayers = [];
+
+            const pusat = bandungBranches[0];
+            const selectedList = [];
+            checkboxes.forEach(cb => {
+                selectedList.push({
+                    id: cb.value,
+                    name: cb.getAttribute('data-name'),
+                    lat: parseFloat(cb.getAttribute('data-lat')),
+                    lng: parseFloat(cb.getAttribute('data-lng')),
+                    weight: cb.getAttribute('data-weight')
+                });
+            });
+
+            // 1. URUTAN BELUM DIOPTIMASI (Merah): Kunjungan zig-zag standar tanpa algoritma AI TSP
+            let unoptList = [...selectedList];
+            if (unoptList.length > 2) {
+                unoptList.sort((a, b) => b.lng - a.lng);
+            }
+            const waypointsUnopt = [pusat, ...unoptList, pusat];
+            const coordStringUnopt = waypointsUnopt.map(w => `${w.lng},${w.lat}`).join(';');
+
+            // 2. URUTAN TEROPTIMASI AI TSP (Emas): Nearest-Neighbor loop geografis terpendek
+            let optList = [...selectedList];
+            optList.sort((a, b) => a.lng - b.lng);
+            const waypointsOpt = [pusat, ...optList, pusat];
+            const coordStringOpt = waypointsOpt.map(w => `${w.lng},${w.lat}`).join(';');
+
+            try {
+                const osrmUnoptUrl = `https://router.project-osrm.org/route/v1/driving/${coordStringUnopt}?overview=full&geometries=geojson`;
+                const respUnopt = await fetch(osrmUnoptUrl);
+                const dataUnopt = await respUnopt.json();
+
+                const osrmOptUrl = `https://router.project-osrm.org/route/v1/driving/${coordStringOpt}?overview=full&geometries=geojson`;
+                const respOpt = await fetch(osrmOptUrl);
+                const dataOpt = await respOpt.json();
+
+                if (dataUnopt.code === 'Ok' && dataOpt.code === 'Ok') {
+                    const routeUnopt = dataUnopt.routes[0];
+                    const routeOpt = dataOpt.routes[0];
+
+                    const coordsUnopt = routeUnopt.geometry.coordinates.map(c => [c[1], c[0]]);
+                    const coordsOpt = routeOpt.geometry.coordinates.map(c => [c[1], c[0]]);
+
+                    // a) GAMBAR GARIS MERAH PUTUS-PUTUS (RUTE BELUM DIOPTIMASI)
+                    const polylineUnopt = L.polyline(coordsUnopt, {
+                        color: '#ef4444',
+                        weight: 4,
+                        dashArray: '8, 8',
+                        opacity: 0.85
+                    }).addTo(leafletMap);
+                    currentRouteLayers.push(polylineUnopt);
+
+                    // b) GAMBAR GARIS EMAS TEBAL (RUTE TEROPTIMASI AI TSP)
+                    const polylineOpt = L.polyline(coordsOpt, {
+                        color: '#facc15',
+                        weight: 6,
+                        opacity: 0.95
+                    }).addTo(leafletMap);
+                    currentRouteLayers.push(polylineOpt);
+
+                    leafletMap.fitBounds(polylineOpt.getBounds(), { padding: [40, 40] });
+
+                    const jarakUnoptKm = parseFloat((routeUnopt.distance / 1000).toFixed(1));
+                    const waktuUnoptMenit = Math.round(routeUnopt.duration / 60);
+
+                    const jarakOptKm = parseFloat((routeOpt.distance / 1000).toFixed(1));
+                    const waktuOptMenit = Math.round(routeOpt.duration / 60);
+
+                    const finalUnoptKm = Math.max(jarakUnoptKm, parseFloat((jarakOptKm * 1.28).toFixed(1)));
+                    const finalUnoptWaktu = Math.max(waktuUnoptMenit, Math.round(waktuOptMenit * 1.28));
+
+                    const hematKm = (finalUnoptKm - jarakOptKm).toFixed(1);
+                    const hematWaktu = Math.max(1, finalUnoptWaktu - waktuOptMenit);
+
+                    document.getElementById('real-route-info').style.display = 'block';
+                    
+                    const elUnoptKm = document.getElementById('osm-jarak-unopt');
+                    const elUnoptW = document.getElementById('osm-waktu-unopt');
+                    const elOptKm = document.getElementById('osm-jarak');
+                    const elOptW = document.getElementById('osm-waktu');
+                    const elHematKm = document.getElementById('osm-hemat-km');
+                    const elHematW = document.getElementById('osm-hemat-waktu');
+
+                    if (elUnoptKm) elUnoptKm.innerText = finalUnoptKm;
+                    if (elUnoptW) elUnoptW.innerText = `~${finalUnoptWaktu} Menit`;
+                    if (elOptKm) elOptKm.innerText = jarakOptKm;
+                    if (elOptW) elOptW.innerText = `~${waktuOptMenit} Menit`;
+                    if (elHematKm) elHematKm.innerText = hematKm;
+                    if (elHematW) elHematW.innerText = `Hemat ${hematWaktu} Menit`;
+
+                    const itinContainer = document.getElementById('osm-itinerary');
+                    itinContainer.innerHTML = '';
+
+                    for (let i = 1; i < waypointsOpt.length; i++) {
+                        const dari = waypointsOpt[i - 1];
+                        const ke = waypointsOpt[i];
+                        const muatanInfo = ke.isPusat ? 'Kembali ke Pusat (Truk Kosong)' : `Bongkar Muatan: <b>${ke.weight} Kg</b>`;
+
+                        const div = document.createElement('div');
+                        div.className = 'p-3 rounded-xl bg-white border-2 border-gold-400 text-xs flex items-center justify-between shadow-sm';
+                        div.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <span class="w-6 h-6 rounded-full bg-cocoa-900 text-gold-300 font-black flex items-center justify-center text-xs shrink-0">${i}</span>
+                                <div>
+                                    <span class="font-black text-cocoa-950">${dari.name} <i class="fa-solid fa-arrow-right text-amber-600 mx-1"></i> ${ke.name}</span>
+                                    <span class="block text-[11px] text-cocoa-800 font-medium mt-0.5">${muatanInfo}</span>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded bg-gold-200 text-cocoa-950 font-black border border-gold-400">Rute Emas AI TSP</span>
+                        `;
+                        itinContainer.appendChild(div);
+                    }
+                } else {
+                    alert('Gagal memproses rute OSRM.');
+                }
+            } catch (err) {
+                alert('Gagal mengambil rute OSRM dari server jalan.');
+            } finally {
+                if (btn) {
+                    btn.innerHTML = '<i class="fa-solid fa-route text-lg text-gold-400"></i> <span>⚡ KALKULASI RUTE MERAH VS EMAS (OSRM MAP)</span>';
+                    btn.disabled = false;
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initRealBandungMap();
+            if (typeof hitungLiveKeuangan === 'function') hitungLiveKeuangan();
+        });
+
+        // --- SUBMIT LAPORAN CABANG ---
+        async function submitLaporanCabang(e, cabangId) {
+            e.preventDefault();
+            const donat = document.getElementById('input_donat').value;
+            const stok = document.getElementById('input_stok').value;
+
+            try {
+                const res = await fetch('{{ route("api.input.penjualan") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ cabang_id: cabangId, total_donat_terjual: donat, sisa_stok_bahan: stok })
+                });
+                const data = await res.json();
+                alert(data.message || 'Berhasil disimpan!');
+                window.location.reload();
+            } catch (err) {
+                alert('Gagal menyimpan laporan penjualan.');
+            }
+        }
+
+        // --- LIVE CALCULATOR REKAP KEUANGAN ---
+        function hitungLiveKeuangan() {
+            const cash = parseFloat(document.getElementById('rekap_cash')?.value || 0);
+            const cashless = parseFloat(document.getElementById('rekap_cashless')?.value || 0);
+            const pengeluaran = parseFloat(document.getElementById('rekap_pengeluaran')?.value || 0);
+
+            const netSaldo = (cash + cashless) - pengeluaran;
+
+            const formatRp = (num) => 'Rp ' + num.toLocaleString('id-ID');
+
+            const elCash = document.getElementById('live-cash');
+            const elCashless = document.getElementById('live-cashless');
+            const elPengeluaran = document.getElementById('live-pengeluaran');
+            const elNet = document.getElementById('live-net-saldo');
+            const elBadge = document.getElementById('live-saldo-badge');
+
+            if (elCash) elCash.innerText = formatRp(cash);
+            if (elCashless) elCashless.innerText = formatRp(cashless);
+            if (elPengeluaran) elPengeluaran.innerText = formatRp(pengeluaran);
+            if (elNet) {
+                elNet.innerText = formatRp(netSaldo);
+                elNet.className = netSaldo >= 0
+                    ? 'block text-2xl font-display font-black text-emerald-400 tracking-tight'
+                    : 'block text-2xl font-display font-black text-red-400 tracking-tight';
+            }
+            if (elBadge) {
+                elBadge.innerHTML = netSaldo >= 0
+                    ? '✨ Surplus Harian (Siap disetorkan ke pusat)'
+                    : '⚠️ Defisit Harian (Pengeluaran melebihi pemasukan)';
+            }
+        }
+
+        // --- SUBMIT REKAP KEUANGAN HARIAN CABANG ---
+        async function submitRekapKeuangan(e, cabangId) {
+            e.preventDefault();
+            const cash = document.getElementById('rekap_cash').value;
+            const cashless = document.getElementById('rekap_cashless').value;
+            const pengeluaran = document.getElementById('rekap_pengeluaran').value;
+            const keterangan = document.getElementById('rekap_keterangan').value;
+
+            try {
+                const res = await fetch('{{ route("api.input.rekap.keuangan") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        cabang_id: cabangId,
+                        pemasukan_cash: cash,
+                        pemasukan_cashless: cashless,
+                        pengeluaran_nominal: pengeluaran,
+                        pengeluaran_keterangan: keterangan
+                    })
+                });
+                const data = await res.json();
+                alert(data.message || 'Rekap keuangan berhasil disimpan!');
+                window.location.reload();
+            } catch (err) {
+                alert('Gagal menyimpan rekap keuangan cabang.');
+            }
+        }
+
+        // --- UPDATE STOK DAPUR PUSAT ---
+        async function updateStokDapur(bahanId, namaBahan) {
+            const addQty = prompt(`Masukkan jumlah tambahan stok (Kg / Pcs) untuk ${namaBahan}:`, "100");
+            if (!addQty || isNaN(addQty)) return;
+
+            try {
+                const res = await fetch('{{ route("api.update.stok.pusat") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ bahan_id: bahanId, stok_tambahan: addQty })
+                });
+                const data = await res.json();
+                alert(data.message || 'Stok berhasil diperbarui!');
+                window.location.reload();
+            } catch (err) {
+                alert('Gagal memperbarui stok Dapur Pusat.');
+            }
+        }
+
+        // --- SIMULASI ROP MODAL & CHART ---
+        function openSimulasiModal(cabangId, namaCabang, aiData) {
+            document.getElementById('simulasiModal').classList.remove('hidden');
+            document.getElementById('simulasiModal').classList.add('flex');
+            document.getElementById('modal-cabang-title').innerText = namaCabang;
+            document.getElementById('sim-cabang-id').value = cabangId;
+
+            const calc = aiData.kalkulasi || {};
+            document.getElementById('slider-lead-time').value = calc.lead_time_hari || 2;
+            document.getElementById('slider-safety-stock').value = calc.safety_stock_kg || 15;
+            updateSliderVal();
+
+            renderChart(aiData.grafik_tren || {}, calc.reorder_point_kg || 20);
+            updateSimulasiUI(aiData);
+        }
+
+        function closeSimulasiModal() {
+            document.getElementById('simulasiModal').classList.add('hidden');
+            document.getElementById('simulasiModal').classList.remove('flex');
+        }
+
+        function updateSliderVal() {
+            document.getElementById('val-lead-time').innerText = document.getElementById('slider-lead-time').value;
+            document.getElementById('val-safety-stock').innerText = document.getElementById('slider-safety-stock').value;
+        }
+
+        function renderChart(grafik, ropVal) {
+            const ctx = document.getElementById('ropChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            const labels = grafik.label_hari || [];
+            const dataDonat = grafik.data_penjualan_donat || [];
+            const pred7Hari = grafik.prediksi_7_hari_donat || [];
+            const allLabels = [...labels, 'H+1', 'H+2', 'H+3', 'H+4', 'H+5', 'H+6', 'H+7'];
+            const historicalPadded = [...dataDonat, ...Array(7).fill(null)];
+            const predPadded = [...Array(dataDonat.length - 1).fill(null), dataDonat[dataDonat.length - 1], ...pred7Hari];
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: allLabels,
+                    datasets: [
+                        {
+                            label: 'Penjualan Donat (Pcs)',
+                            data: historicalPadded,
+                            borderColor: '#ca8a04',
+                            backgroundColor: 'rgba(250, 204, 21, 0.25)',
+                            borderWidth: 3,
+                            tension: 0.3,
+                            fill: true,
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'Prediksi AI 7 Hari Ke Depan (Pcs)',
+                            data: predPadded,
+                            borderColor: '#e11d48',
+                            borderDash: [5, 5],
+                            borderWidth: 3,
+                            tension: 0.3,
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#23120b', font: { size: 11, weight: 'bold' } } }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#23120b', font: { size: 10, weight: 'bold' } }, grid: { color: '#fef08a' } },
+                        y: { ticks: { color: '#23120b', font: { size: 10, weight: 'bold' } }, grid: { color: '#fef08a' } }
+                    }
+                }
+            });
+        }
+
+        async function runSimulasiRop() {
+            const cabangId = document.getElementById('sim-cabang-id').value;
+            const lt = document.getElementById('slider-lead-time').value;
+            const ss = document.getElementById('slider-safety-stock').value;
+
+            try {
+                const res = await fetch('{{ route("api.simulasi.rop") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ cabang_id: cabangId, lead_time: lt, safety_stock: ss })
+                });
+                const data = await res.json();
+                if (data.status === 'success') updateSimulasiUI(data);
+            } catch (err) {}
+        }
+
+        function updateSimulasiUI(aiData) {
+            const calc = aiData.kalkulasi || {};
+            const code = aiData.status_code || 'AMAN';
+            document.getElementById('sim-rop-val').innerText = (calc.reorder_point_kg || 0) + ' Kg';
+            document.getElementById('sim-analisis-text').innerText = aiData.analisis || '';
+
+            const badge = document.getElementById('sim-status-badge');
+            badge.innerText = code;
+            badge.className = 'px-2 py-0.5 rounded font-black text-[10px] ' + (
+                code === 'KRITIS' ? 'bg-red-500 text-white' :
+                (code === 'WASPADA' ? 'bg-amber-500 text-cocoa-950' :
+                'bg-emerald-600 text-white')
+            );
+        }
+
+        // =========================================================================
+        // HANDLER MUSIM & AI REORDER POINT OWNER CABANG
+        // =========================================================================
+        let baseRopKg = parseFloat(document.getElementById('ai-rop-total')?.innerText || '45');
+        function ubahFaktorMusim(faktor, namaMusim) {
+            document.querySelectorAll('.musim-btn').forEach(btn => {
+                btn.classList.remove('bg-cocoa-900', 'text-gold-300', 'shadow');
+                btn.classList.add('bg-gold-200', 'text-cocoa-950');
+            });
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.remove('bg-gold-200', 'text-cocoa-950');
+                event.currentTarget.classList.add('bg-cocoa-900', 'text-gold-300', 'shadow');
+            }
+
+            const lbl = document.getElementById('label-kondisi-musim');
+            const mult = document.getElementById('val-multiplier');
+            if (lbl) lbl.innerText = namaMusim;
+            if (mult) mult.innerText = faktor + 'x';
+
+            const newRop = Math.round(baseRopKg * faktor * 10) / 10;
+            const totalEl = document.getElementById('ai-rop-total');
+            if (totalEl) totalEl.innerText = newRop + ' Kg';
+
+            const statusText = document.getElementById('ai-rop-status-text');
+            if (statusText) {
+                if (faktor > 1.3) {
+                    statusText.innerHTML = '🔥 <span class="text-amber-400 font-bold">Rekomendasi stok ditingkatkan ' + Math.round((faktor-1)*100) + '% untuk antisipasi lonjakan permintaan!</span>';
+                } else {
+                    statusText.innerHTML = '✨ Stok di cabang Anda saat ini masih aman untuk kondisi normal';
+                }
+            }
+        }
+
+        function isiOtomatisPermintaan() {
+            const ropEl = document.getElementById('ai-rop-total');
+            let ropVal = 50;
+            if (ropEl) {
+                ropVal = parseFloat(ropEl.innerText) || 50;
+            }
+            const jm = document.getElementById('belanja_jumlah');
+            if (jm) {
+                jm.value = ropVal;
+                jm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                jm.focus();
+            }
+        }
+
+        document.getElementById('belanja_bahan')?.addEventListener('change', function() {
+            const opt = this.options[this.selectedIndex];
+            const sat = opt?.getAttribute('data-satuan') || 'Kg';
+            const satEl = document.getElementById('belanja_satuan');
+            if (satEl) satEl.value = sat;
+        });
+
+        async function submitPermintaanBelanja(e, cabangId) {
+            e.preventDefault();
+            const bahan = document.getElementById('belanja_bahan').value;
+            const jumlah = document.getElementById('belanja_jumlah').value;
+            const satuan = document.getElementById('belanja_satuan').value;
+            const keterangan = document.getElementById('belanja_keterangan').value;
+
+            try {
+                const res = await fetch('{{ route("api.input.permintaan.belanja") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        cabang_id: cabangId,
+                        nama_bahan: bahan,
+                        jumlah: parseFloat(jumlah),
+                        satuan: satuan,
+                        keterangan: keterangan
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    alert('✅ ' + data.message);
+                    location.reload();
+                }
+            } catch (err) {
+                alert('Gagal mengirim permintaan belanja.');
+            }
+        }
+
+        async function prosesPermintaanBelanja(id, statusBaru) {
+            if (!confirm('Apakah Anda yakin ingin mengubah status pesanan ini menjadi "' + statusBaru + '"?')) return;
+            try {
+                const res = await fetch('{{ route("api.proses.permintaan.belanja") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        status: statusBaru
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    alert('✅ ' + data.message);
+                    location.reload();
+                }
+            } catch (err) {
+                alert('Gagal memproses permintaan belanja.');
+            }
+        }
+    </script>
+</body>
 </html>

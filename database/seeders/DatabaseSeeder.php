@@ -81,5 +81,118 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        // 4. Masukkan Data Akun Pengguna untuk 3 Role (Admin Pusat, Kasir Cabang, Owner Cabang)
+        $users = [
+            [
+                'name' => 'Bapak Hendra (Admin Pusat Logistik)',
+                'email' => 'admin.pusat@donatmenak.com',
+                'password' => bcrypt('password'),
+                'role' => 'admin_pusat',
+                'cabang_id' => 1,
+            ],
+            [
+                'name' => 'Bapak Owner (Owner Cabang Donat Menak)',
+                'email' => 'owner.cabang@donatmenak.com',
+                'password' => bcrypt('password'),
+                'role' => 'owner_cabang',
+                'cabang_id' => 2,
+            ],
+            [
+                'name' => 'Ahmad (Kasir Cabang Cibiru)',
+                'email' => 'kasir.cibiru@donatmenak.com',
+                'password' => bcrypt('password'),
+                'role' => 'kasir_cabang',
+                'cabang_id' => 2,
+            ],
+            [
+                'name' => 'Siti (Kasir Cabang Sarijadi)',
+                'email' => 'kasir.sarijadi@donatmenak.com',
+                'password' => bcrypt('password'),
+                'role' => 'kasir_cabang',
+                'cabang_id' => 3,
+            ],
+            [
+                'name' => 'Dudi (Kasir Cabang Lembang)',
+                'email' => 'kasir.lembang@donatmenak.com',
+                'password' => bcrypt('password'),
+                'role' => 'kasir_cabang',
+                'cabang_id' => 4,
+            ],
+            [
+                'name' => 'Maya (Kasir Cabang Buah Batu)',
+                'email' => 'kasir.buahbatu@donatmenak.com',
+                'password' => bcrypt('password'),
+                'role' => 'kasir_cabang',
+                'cabang_id' => 5,
+            ],
+        ];
+
+        foreach ($users as $user) {
+            DB::table('users')->insert(array_merge($user, [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]));
+        }
+
+        // 5. Masukkan Data Dummy Permintaan Belanja Cabang
+        $permintaanBelanjas = [
+            [
+                'cabang_id' => 2,
+                'nama_bahan' => 'Tepung Terigu Premix',
+                'jumlah' => 120,
+                'satuan' => 'Kg',
+                'keterangan' => 'Stok menjelang weekend wisuda kampus',
+                'status' => 'Menunggu Persetujuan'
+            ],
+            [
+                'cabang_id' => 4,
+                'nama_bahan' => 'Glaze Chocolate Premium',
+                'jumlah' => 45,
+                'satuan' => 'Kg',
+                'keterangan' => 'Persiapan libur panjang wisatawan Lembang',
+                'status' => 'Menunggu Persetujuan'
+            ],
+            [
+                'cabang_id' => 3,
+                'nama_bahan' => 'Box Kemasan Isi 6',
+                'jumlah' => 500,
+                'satuan' => 'Pcs',
+                'keterangan' => 'Tambahan box kemasan reguler',
+                'status' => 'Diproses'
+            ],
+            [
+                'cabang_id' => 5,
+                'nama_bahan' => 'Mentega Khusus',
+                'jumlah' => 30,
+                'satuan' => 'Kg',
+                'keterangan' => 'Pesanan rutin mingguan',
+                'status' => 'Selesai'
+            ],
+        ];
+
+        foreach ($permintaanBelanjas as $req) {
+            DB::table('permintaan_belanjas')->insert(array_merge($req, [
+                'created_at' => now()->subHours(rand(1, 10)),
+                'updated_at' => now(),
+            ]));
+        }
+
+        // 6. Masukkan Data Dummy Rekap Keuangan Cabang
+        for ($cId = 2; $cId <= 5; $cId++) {
+            for ($d = 14; $d >= 0; $d--) {
+                $tgl = Carbon::now()->subDays($d)->format('Y-m-d');
+                DB::table('rekap_keuangan_cabangs')->insert([
+                    'cabang_id' => $cId,
+                    'tanggal' => $tgl,
+                    'pemasukan_cash' => rand(1500000, 2800000),
+                    'pemasukan_cashless' => rand(2200000, 4500000),
+                    'pengeluaran_nominal' => rand(300000, 750000),
+                    'pengeluaran_keterangan' => 'Biaya operasional & kebersihan harian cabang',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
     }
 }
