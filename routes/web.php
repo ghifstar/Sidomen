@@ -15,6 +15,10 @@ Route::post('/api/simulasi-rop', [SatuanLogistikController::class, 'simulasiRop'
 // Route API untuk Role Petugas Cabang (Input Penjualan & Sisa Stok)
 Route::post('/api/input-penjualan', [SatuanLogistikController::class, 'inputPenjualan'])->name('api.input.penjualan');
 
+// Route API untuk Role Petugas & Owner Cabang (Update Sisa Stok Bahan Baku Cabang)
+Route::post('/api/update-stok-cabang', [SatuanLogistikController::class, 'updateStokCabang'])->name('api.update.stok.cabang');
+
+
 // Route API untuk Role Petugas Pusat (Update Stok Dapur Lodaya)
 Route::post('/api/update-stok-pusat', [SatuanLogistikController::class, 'updateStokPusat'])->name('api.update.stok.pusat');
 

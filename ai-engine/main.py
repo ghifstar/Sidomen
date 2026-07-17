@@ -237,3 +237,7 @@ def optimasi_rute(req: RuteRequest):
         "hemat_jarak_estimasi_km": round(total_jarak * 0.28, 2), # Estimasi penghematan dibanding rute acak
         "pesan": f"Optimasi TSP berhasil: 1 Dapur Pusat -> {len(tujuan_list)} Cabang -> Kembali ke Pusat ({round(total_jarak, 1)} Km)."
     }
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)

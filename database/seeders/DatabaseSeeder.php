@@ -30,18 +30,64 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 2. Masukkan Data Dummy Bahan Baku Utama di Pusat
+        // 2. Masukkan Data Bahan Baku dan Barang Lainnya yang Dapat Dipesan dari Pusat
         $bahanBakus = [
-            ['nama_bahan' => 'Tepung Terigu Premix', 'stok_pusat' => 1500, 'satuan' => 'Kg'],
-            ['nama_bahan' => 'Glaze Chocolate Premium', 'stok_pusat' => 500, 'satuan' => 'Kg'],
-            ['nama_bahan' => 'Glaze Tiramisu', 'stok_pusat' => 300, 'satuan' => 'Kg'],
-            ['nama_bahan' => 'Mentega Khusus', 'stok_pusat' => 400, 'satuan' => 'Kg'],
-            ['nama_bahan' => 'Box Kemasan Isi 6', 'stok_pusat' => 10000, 'satuan' => 'Pcs'],
+            // Bahan Pokok & Lemak
+            ['nama_bahan' => 'Tepung Terigu Premix', 'kategori' => 'Bahan Pokok & Lemak', 'stok_pusat' => 2500, 'satuan' => 'Kg'],
+            ['nama_bahan' => 'minyak padat', 'kategori' => 'Bahan Pokok & Lemak', 'stok_pusat' => 1200, 'satuan' => 'Kg'],
+            ['nama_bahan' => 'B.O.S', 'kategori' => 'Bahan Pokok & Lemak', 'stok_pusat' => 600, 'satuan' => 'Kg'],
+            ['nama_bahan' => 'mother\'s choice', 'kategori' => 'Bahan Pokok & Lemak', 'stok_pusat' => 500, 'satuan' => 'Kg'],
+
+            // Kemasan (Dus)
+            ['nama_bahan' => 'dus 1/2 dozen', 'kategori' => 'Kemasan', 'stok_pusat' => 5000, 'satuan' => 'Dus'],
+            ['nama_bahan' => 'dus 1 dozen', 'kategori' => 'Kemasan', 'stok_pusat' => 5000, 'satuan' => 'Dus'],
+            ['nama_bahan' => 'dus 2 pcs', 'kategori' => 'Kemasan', 'stok_pusat' => 8000, 'satuan' => 'Dus'],
+
+            // Glaze
+            ['nama_bahan' => 'glaze dark choco', 'kategori' => 'Glaze', 'stok_pusat' => 450, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze white', 'kategori' => 'Glaze', 'stok_pusat' => 350, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze tiramisu', 'kategori' => 'Glaze', 'stok_pusat' => 300, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze cappuccino', 'kategori' => 'Glaze', 'stok_pusat' => 250, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze chocomaltine', 'kategori' => 'Glaze', 'stok_pusat' => 400, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze creamcheese', 'kategori' => 'Glaze', 'stok_pusat' => 250, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze greentea', 'kategori' => 'Glaze', 'stok_pusat' => 300, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze grape', 'kategori' => 'Glaze', 'stok_pusat' => 200, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze taro', 'kategori' => 'Glaze', 'stok_pusat' => 250, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze banana', 'kategori' => 'Glaze', 'stok_pusat' => 200, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze mango', 'kategori' => 'Glaze', 'stok_pusat' => 200, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze avocado', 'kategori' => 'Glaze', 'stok_pusat' => 200, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze strawberry', 'kategori' => 'Glaze', 'stok_pusat' => 300, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze blueberry', 'kategori' => 'Glaze', 'stok_pusat' => 250, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze raspberry', 'kategori' => 'Glaze', 'stok_pusat' => 200, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze hazelnut', 'kategori' => 'Glaze', 'stok_pusat' => 250, 'satuan' => 'Pail'],
+            ['nama_bahan' => 'glaze lemon', 'kategori' => 'Glaze', 'stok_pusat' => 200, 'satuan' => 'Pail'],
+
+            // Topping
+            ['nama_bahan' => 'crumble oreo', 'kategori' => 'Topping', 'stok_pusat' => 350, 'satuan' => 'Pack'],
+            ['nama_bahan' => 'crumble redvelvet', 'kategori' => 'Topping', 'stok_pusat' => 300, 'satuan' => 'Pack'],
+            ['nama_bahan' => 'crumble greentea', 'kategori' => 'Topping', 'stok_pusat' => 250, 'satuan' => 'Pack'],
+            ['nama_bahan' => 'crumble caramel', 'kategori' => 'Topping', 'stok_pusat' => 200, 'satuan' => 'Pack'],
+            ['nama_bahan' => 'crispy ball dark choco', 'kategori' => 'Topping', 'stok_pusat' => 350, 'satuan' => 'Pack'],
+            ['nama_bahan' => 'crispy ball white', 'kategori' => 'Topping', 'stok_pusat' => 300, 'satuan' => 'Pack'],
+            ['nama_bahan' => 'kacang almond', 'kategori' => 'Topping', 'stok_pusat' => 180, 'satuan' => 'Kg'],
+            ['nama_bahan' => 'kacang tumbuk', 'kategori' => 'Topping', 'stok_pusat' => 250, 'satuan' => 'Kg'],
+            ['nama_bahan' => 'meses coklat', 'kategori' => 'Topping', 'stok_pusat' => 400, 'satuan' => 'Kg'],
+            ['nama_bahan' => 'keju', 'kategori' => 'Topping', 'stok_pusat' => 350, 'satuan' => 'Block'],
+            ['nama_bahan' => 'choco stone', 'kategori' => 'Topping', 'stok_pusat' => 200, 'satuan' => 'Pack'],
+            ['nama_bahan' => 'soft cream', 'kategori' => 'Topping', 'stok_pusat' => 400, 'satuan' => 'Kg'],
+
+            // Seragam
+            ['nama_bahan' => 'baju seragam: S', 'kategori' => 'Seragam', 'stok_pusat' => 60, 'satuan' => 'Pcs'],
+            ['nama_bahan' => 'baju seragam: M', 'kategori' => 'Seragam', 'stok_pusat' => 100, 'satuan' => 'Pcs'],
+            ['nama_bahan' => 'baju seragam: L', 'kategori' => 'Seragam', 'stok_pusat' => 120, 'satuan' => 'Pcs'],
+            ['nama_bahan' => 'baju seragam: XL', 'kategori' => 'Seragam', 'stok_pusat' => 80, 'satuan' => 'Pcs'],
+            ['nama_bahan' => 'baju seragam: XXL', 'kategori' => 'Seragam', 'stok_pusat' => 40, 'satuan' => 'Pcs'],
         ];
 
         foreach ($bahanBakus as $bahan) {
             DB::table('bahan_bakus')->insert([
                 'nama_bahan' => $bahan['nama_bahan'],
+                'kategori' => $bahan['kategori'],
                 'stok_pusat' => $bahan['stok_pusat'],
                 'satuan' => $bahan['satuan'],
                 'created_at' => now(),
@@ -189,6 +235,26 @@ class DatabaseSeeder extends Seeder
                     'pemasukan_cashless' => rand(2200000, 4500000),
                     'pengeluaran_nominal' => rand(300000, 750000),
                     'pengeluaran_keterangan' => 'Biaya operasional & kebersihan harian cabang',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        // 7. Masukkan Data Stok Sisa Seluruh Bahan Baku di Setiap Toko Cabang
+        for ($cId = 2; $cId <= 5; $cId++) {
+            foreach ($bahanBakus as $bahan) {
+                // Buat variasi stok cabang yang masuk akal
+                $ratio = 0.05 + ($cId * 0.01);
+                $stokAwal = round(max($bahan['stok_pusat'] * $ratio, 5), 1);
+                if ($bahan['nama_bahan'] === 'Tepung Terigu Premix') {
+                    $stokAwal = rand(35, 65);
+                }
+                DB::table('stok_cabangs')->insert([
+                    'cabang_id' => $cId,
+                    'nama_bahan' => $bahan['nama_bahan'],
+                    'stok' => $stokAwal,
+                    'satuan' => $bahan['satuan'],
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

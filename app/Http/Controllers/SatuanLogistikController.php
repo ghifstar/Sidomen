@@ -99,6 +99,10 @@ class SatuanLogistikController extends Controller
                 $cabang->ai_data = $this->fallbackRopCalculation($riwayat, $leadTime, $safetyStock, $sisaStokSaatIni);
             }
 
+            $cabang->stok_cabangs = DB::table('stok_cabangs')
+                ->where('cabang_id', $cabang->id)
+                ->get();
+
             $cabang->rekap_keuangan = DB::table('rekap_keuangan_cabangs')
                 ->where('cabang_id', $cabang->id)
                 ->where('tanggal', now()->format('Y-m-d'))
@@ -340,10 +344,12 @@ class SatuanLogistikController extends Controller
         ]);
 
         $tanggal = now()->format('Y-m-d');
+        $cabangId = $validated['cabang_id'];
+        $stokPremix = $validated['sisa_stok_bahan'];
 
-        // Simpan / Update laporan hari ini di database
+        // Simpan / Update laporan hari ini di database penjualans
         $exists = DB::table('penjualans')
-            ->where('cabang_id', $validated['cabang_id'])
+            ->where('cabang_id', $cabangId)
             ->where('tanggal', $tanggal)
             ->first();
 
@@ -352,15 +358,39 @@ class SatuanLogistikController extends Controller
                 ->where('id', $exists->id)
                 ->update([
                     'total_donat_terjual' => $validated['total_donat_terjual'],
-                    'sisa_stok_bahan' => $validated['sisa_stok_bahan'],
+                    'sisa_stok_bahan' => $stokPremix,
                     'updated_at' => now()
                 ]);
         } else {
             DB::table('penjualans')->insert([
-                'cabang_id' => $validated['cabang_id'],
+                'cabang_id' => $cabangId,
                 'tanggal' => $tanggal,
                 'total_donat_terjual' => $validated['total_donat_terjual'],
-                'sisa_stok_bahan' => $validated['sisa_stok_bahan'],
+                'sisa_stok_bahan' => $stokPremix,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+
+        // Sinkronkan juga dengan tabel stok_cabangs untuk Tepung Terigu Premix
+        $existsStok = DB::table('stok_cabangs')
+            ->where('cabang_id', $cabangId)
+            ->where('nama_bahan', 'Tepung Terigu Premix')
+            ->first();
+
+        if ($existsStok) {
+            DB::table('stok_cabangs')
+                ->where('id', $existsStok->id)
+                ->update([
+                    'stok' => $stokPremix,
+                    'updated_at' => now()
+                ]);
+        } else {
+            DB::table('stok_cabangs')->insert([
+                'cabang_id' => $cabangId,
+                'nama_bahan' => 'Tepung Terigu Premix',
+                'stok' => $stokPremix,
+                'satuan' => 'Kg',
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
@@ -368,9 +398,91 @@ class SatuanLogistikController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Laporan penjualan harian dan sisa stok bahan berhasil disimpan.'
+            'message' => 'Laporan penjualan harian dan sisa stok premix berhasil disimpan.'
         ]);
     }
+
+    /**
+     * Role: Petugas Cabang & Owner Cabang - Update Sisa Stok Bahan Baku / Barang Cabang
+     */
+    public function updateStokCabang(\Illuminate\Http\Request $request)
+    {
+        $validated = $request->validate([
+            'cabang_id' => 'required|integer',
+            'nama_bahan' => 'required|string',
+            'stok' => 'required|numeric|min:0',
+            'satuan' => 'nullable|string'
+        ]);
+
+        $cabangId = $validated['cabang_id'];
+        $namaBahan = $validated['nama_bahan'];
+        $stok = $validated['stok'];
+
+        // Cari satuan jika tidak dikirim
+        $satuan = $validated['satuan'] ?? 'Unit';
+        if (empty($validated['satuan'])) {
+            $bb = DB::table('bahan_bakus')->where('nama_bahan', $namaBahan)->first();
+            if ($bb) $satuan = $bb->satuan;
+        }
+
+        // Update atau insert ke stok_cabangs
+        $exists = DB::table('stok_cabangs')
+            ->where('cabang_id', $cabangId)
+            ->where('nama_bahan', $namaBahan)
+            ->first();
+
+        if ($exists) {
+            DB::table('stok_cabangs')
+                ->where('id', $exists->id)
+                ->update([
+                    'stok' => $stok,
+                    'satuan' => $satuan,
+                    'updated_at' => now()
+                ]);
+        } else {
+            DB::table('stok_cabangs')->insert([
+                'cabang_id' => $cabangId,
+                'nama_bahan' => $namaBahan,
+                'stok' => $stok,
+                'satuan' => $satuan,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+
+        // Jika yang diupdate adalah Tepung Terigu Premix, kita sinkronkan juga dengan penjualans hari ini agar ROP AI terupdate
+        if (stripos($namaBahan, 'premix') !== false || stripos($namaBahan, 'tepung') !== false) {
+            $tanggal = now()->format('Y-m-d');
+            $penjualanToday = DB::table('penjualans')
+                ->where('cabang_id', $cabangId)
+                ->where('tanggal', $tanggal)
+                ->first();
+
+            if ($penjualanToday) {
+                DB::table('penjualans')
+                    ->where('id', $penjualanToday->id)
+                    ->update([
+                        'sisa_stok_bahan' => $stok,
+                        'updated_at' => now()
+                    ]);
+            } else {
+                DB::table('penjualans')->insert([
+                    'cabang_id' => $cabangId,
+                    'tanggal' => $tanggal,
+                    'total_donat_terjual' => 0,
+                    'sisa_stok_bahan' => $stok,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => "Sisa stok untuk [{$namaBahan}] di cabang berhasil diperbarui menjadi {$stok} {$satuan}."
+        ]);
+    }
+
 
     /**
      * Role: Petugas Pusat - Update / Tambah Stok Dapur Lodaya
@@ -448,26 +560,55 @@ class SatuanLogistikController extends Controller
     {
         $validated = $request->validate([
             'cabang_id' => 'required|integer',
-            'nama_bahan' => 'required|string',
-            'jumlah' => 'required|numeric|min:0.1',
-            'satuan' => 'required|string',
+            'items' => 'nullable|array',
+            'items.*.nama_bahan' => 'required_with:items|string',
+            'items.*.jumlah' => 'required_with:items|numeric|min:0.1',
+            'items.*.satuan' => 'required_with:items|string',
+            'items.*.keterangan' => 'nullable|string',
+            'nama_bahan' => 'required_without:items|string',
+            'jumlah' => 'required_without:items|numeric|min:0.1',
+            'satuan' => 'required_without:items|string',
             'keterangan' => 'nullable|string'
         ]);
 
-        DB::table('permintaan_belanjas')->insert([
-            'cabang_id' => $validated['cabang_id'],
-            'nama_bahan' => $validated['nama_bahan'],
-            'jumlah' => $validated['jumlah'],
-            'satuan' => $validated['satuan'],
-            'keterangan' => $validated['keterangan'] ?? '-',
-            'status' => 'Menunggu Persetujuan',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
+        $cabangId = $validated['cabang_id'];
+        $insertedCount = 0;
+
+        if (!empty($validated['items']) && is_array($validated['items'])) {
+            $dataInsert = [];
+            foreach ($validated['items'] as $item) {
+                $dataInsert[] = [
+                    'cabang_id' => $cabangId,
+                    'nama_bahan' => $item['nama_bahan'],
+                    'jumlah' => $item['jumlah'],
+                    'satuan' => $item['satuan'],
+                    'keterangan' => !empty($item['keterangan']) ? $item['keterangan'] : '-',
+                    'status' => 'Menunggu Persetujuan',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+                $insertedCount++;
+            }
+            DB::table('permintaan_belanjas')->insert($dataInsert);
+        } else {
+            DB::table('permintaan_belanjas')->insert([
+                'cabang_id' => $cabangId,
+                'nama_bahan' => $validated['nama_bahan'],
+                'jumlah' => $validated['jumlah'],
+                'satuan' => $validated['satuan'],
+                'keterangan' => !empty($validated['keterangan']) ? $validated['keterangan'] : '-',
+                'status' => 'Menunggu Persetujuan',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $insertedCount = 1;
+        }
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Form permintaan belanja berhasil dikirim ke Admin Pusat.'
+            'message' => $insertedCount > 1 
+                ? "Berhasil mengirim {$insertedCount} item permintaan belanja sekaligus ke Admin Pusat!" 
+                : "Form permintaan belanja berhasil dikirim ke Admin Pusat."
         ]);
     }
 

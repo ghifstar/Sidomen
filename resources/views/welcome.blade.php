@@ -250,8 +250,130 @@
 
         @if($activeRole == 'admin_pusat' || $activeRole == 'koordinator_logistik')
             <!-- ========================================================================= -->
-            <!-- DASHBOARD ADMIN PUSAT: PROSES PERMINTAAN BELANJA CABANG & OPTIMASI RUTE  -->
+            <!-- DASHBOARD ADMIN PUSAT: STOK BAHAN BAKU, PERMINTAAN BELANJA & OPTIMASI RUTE -->
             <!-- ========================================================================= -->
+
+            @if($activeRole == 'admin_pusat')
+                <!-- 0. TABEL STOK BAHAN BAKU YANG TERSEDIA DI PUSAT DAN SETIAP CABANG -->
+                <div class="yellow-card rounded-2xl p-6 space-y-5 mb-8">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-gold-400 pb-3.5 gap-3">
+                        <div>
+                            <h3 class="text-xl font-display font-black text-cocoa-950 flex items-center gap-2.5">
+                                <i class="fa-solid fa-boxes-stacked text-amber-600 text-xl"></i>
+                                <span>Tabel Stok Bahan Baku yang Tersedia di Pusat & Setiap Cabang</span>
+                            </h3>
+                            <p class="text-xs text-cocoa-800 font-medium">Monitoring menyeluruh sisa stok seluruh 41+ item di Dapur Pusat Lodaya (Hub 1) dan di setiap toko cabang</p>
+                        </div>
+                        <span class="px-3.5 py-1.5 rounded-full bg-amber-500 text-cocoa-950 text-xs font-black border border-amber-600 shadow-xs">
+                            <i class="fa-solid fa-check-to-slot mr-1"></i> {{ count($bahanBakus) }} Item Terdaftar
+                        </span>
+                    </div>
+
+                    <!-- RINGKASAN EKSEKUTIF STOK PREMIX -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        @php
+                            $premixCenter = $bahanBakus->where('nama_bahan', 'Tepung Terigu Premix')->first();
+                            $stokPremixPusat = $premixCenter ? $premixCenter->stok_pusat : 2500;
+                            $totalPremixCabang = 0;
+                            foreach($cabangs as $c) {
+                                $stItem = $c->stok_cabangs->where('nama_bahan', 'Tepung Terigu Premix')->first();
+                                if($stItem) $totalPremixCabang += $stItem->stok;
+                            }
+                        @endphp
+                        <div class="p-4 rounded-xl bg-cocoa-900 text-gold-300 border-2 border-gold-400 space-y-1 shadow">
+                            <span class="text-xs font-black uppercase text-gold-400 flex items-center gap-1.5">
+                                <i class="fa-solid fa-warehouse text-amber-500"></i> Total Stok Premix di Pusat (Lodaya)
+                            </span>
+                            <div class="text-2xl font-display font-black text-white">
+                                {{ number_format($stokPremixPusat) }} Kg
+                            </div>
+                            <span class="text-[11px] text-emerald-400 font-bold block">
+                                <i class="fa-solid fa-check-circle mr-1"></i> Kapasitas Dapur Utama
+                            </span>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-gold-200 border-2 border-gold-400 space-y-1 shadow">
+                            <span class="text-xs font-black uppercase text-cocoa-900 flex items-center gap-1.5">
+                                <i class="fa-solid fa-store text-amber-700"></i> Total Stok Premix di Seluruh Cabang
+                            </span>
+                            <div class="text-2xl font-display font-black text-cocoa-950">
+                                {{ number_format($totalPremixCabang, 1) }} Kg
+                            </div>
+                            <span class="text-[11px] text-amber-800 font-bold block">
+                                Tersebar di {{ count($cabangs) }} toko cabang aktif
+                            </span>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-white/90 border-2 border-gold-400 space-y-1 shadow flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-black uppercase text-cocoa-900 block">Total Item & Kategori Logistik</span>
+                                <div class="text-2xl font-display font-black text-cocoa-950">
+                                    {{ count($bahanBakus) }} Item
+                                </div>
+                            </div>
+                            <span class="text-[11px] text-cocoa-700 font-bold block">
+                                Bahan Pokok, Kemasan, Glaze, Topping & Seragam
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- TABEL MATRIX STOK PUSAT & CABANG FOR ADMIN -->
+                    <div class="overflow-x-auto max-h-[520px] overflow-y-auto custom-scrollbar border-2 border-gold-400 rounded-xl bg-white/90">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-gold-300/90 text-cocoa-950 font-black uppercase border-b-2 border-gold-400 sticky top-0 z-10">
+                                    <th class="py-3 px-3">ID</th>
+                                    <th class="py-3 px-4">Nama Bahan Baku / Barang</th>
+                                    <th class="py-3 px-3">Kategori</th>
+                                    <th class="py-3 px-4 text-center bg-cocoa-900 text-gold-300">🏢 Stok Tersedia di Pusat (Lodaya)</th>
+                                    <th class="py-3 px-4 bg-amber-500 text-cocoa-950">📍 Stok Tersedia di Setiap Cabang</th>
+                                    <th class="py-3 px-3 text-center">Status Global</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gold-200 font-semibold text-cocoa-950">
+                                @foreach($bahanBakus->groupBy('kategori') as $kategori => $items)
+                                    @foreach($items as $bahan)
+                                        @php
+                                            $stok = $bahan->stok_pusat;
+                                            $maxCapacity = $bahan->satuan == 'Pcs' ? 15000 : 2000;
+                                            $pct = min(100, round(($stok / $maxCapacity) * 100));
+                                            $statusStok = $pct < 25 ? 'Perlu Restock' : 'Aman';
+                                            $statusColor = $pct < 25 ? 'text-white bg-red-600 font-bold' : 'text-white bg-emerald-600 font-bold';
+                                        @endphp
+                                        <tr class="hover:bg-gold-100/60 transition">
+                                            <td class="py-2.5 px-3 font-mono text-cocoa-700 font-bold">#{{ $bahan->id }}</td>
+                                            <td class="py-2.5 px-4 font-black text-cocoa-950 text-xs">{{ $bahan->nama_bahan }}</td>
+                                            <td class="py-2.5 px-3">
+                                                <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-900 font-bold text-[10px]">📦 {{ $kategori }}</span>
+                                            </td>
+                                            <td class="py-2.5 px-4 text-center bg-cocoa-900/5 font-black text-cocoa-900 text-sm">
+                                                {{ number_format($stok) }} <span class="text-[10px] font-normal text-cocoa-700">{{ $bahan->satuan }}</span>
+                                            </td>
+                                            <td class="py-2.5 px-4 bg-amber-500/10 border-x border-gold-300">
+                                                <div class="flex flex-wrap gap-1.5">
+                                                    @foreach($cabangs as $c)
+                                                        @php
+                                                            $cStokItem = $c->stok_cabangs->where('nama_bahan', $bahan->nama_bahan)->first();
+                                                            $valCStok = $cStokItem ? number_format($cStokItem->stok, 1) : '0';
+                                                        @endphp
+                                                        <span class="inline-flex items-center gap-1 bg-gold-100 border border-gold-400 text-cocoa-950 px-2 py-0.5 rounded text-[10px] font-bold shadow-2xs">
+                                                            <span class="text-cocoa-800">{{ str_replace('Donat Menak ', '', $c->nama_cabang) }}:</span>
+                                                            <strong class="text-amber-800 font-black">{{ $valCStok }}</strong> {{ $bahan->satuan }}
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            </td>
+                                            <td class="py-2.5 px-3 text-center">
+                                                <span class="px-2.5 py-0.5 rounded-md text-[10px] {{ $statusColor }} shadow-2xs">{{ $statusStok }}</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
 
             <!-- 1. PROSES PERMINTAAN BELANJA CABANG -->
             <div class="yellow-card rounded-2xl p-6 space-y-5">
@@ -966,30 +1088,31 @@
                                 <i class="fa-solid fa-pen-to-square text-amber-600"></i>
                                 <span>Input Stok & Penjualan Donat</span>
                             </h3>
-                            <p class="text-xs text-cocoa-800 font-medium">Catat penjualan donat hari ini untuk dianalisis AI ROP</p>
+                            <p class="text-xs text-cocoa-800 font-medium">Catat penjualan donat & update sisa stok seluruh bahan baku cabang</p>
                         </div>
 
-                        <form id="formInputPenjualan" onsubmit="submitLaporanCabang(event, {{ $myCabang->id }})" class="space-y-4">
+                        <!-- FORM 1: INPUT PENJUALAN HARIAN & PREMIX -->
+                        <form id="formInputPenjualan" onsubmit="submitLaporanCabang(event, {{ $myCabang->id }})" class="space-y-3">
                             <div>
                                 <label class="block text-xs font-black text-cocoa-950 mb-1">Total Penjualan Donat Hari Ini (Pcs):</label>
                                 <input type="number" id="input_donat" required min="0" placeholder="Contoh: 320"
-                                    class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                                    class="w-full px-4 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
                             </div>
 
                             <div>
                                 <label class="block text-xs font-black text-cocoa-950 mb-1">Sisa Stok Premix di Toko Sekarang (Kg):</label>
                                 <input type="number" id="input_stok" required min="0" step="0.5" placeholder="Contoh: 45"
                                     value="{{ $calc['sisa_stok_saat_ini_kg'] ?? 45 }}"
-                                    class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
+                                    class="w-full px-4 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
                             </div>
 
                             <button type="submit"
-                                class="w-full py-3.5 px-4 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black text-xs tracking-wide shadow-lg transition flex items-center justify-center gap-2 border-2 border-gold-400">
-                                <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Simpan & Perbarui ROP AI
+                                class="w-full py-2.5 px-4 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black text-xs tracking-wide shadow transition flex items-center justify-center gap-2 border-2 border-gold-400">
+                                <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Simpan Penjualan & ROP AI
                             </button>
                         </form>
 
-                        <div class="bg-gold-200 p-3.5 rounded-xl border-2 border-gold-400 text-xs space-y-1.5">
+                        <div class="bg-gold-200 p-3 rounded-xl border-2 border-gold-400 text-xs space-y-1">
                             <div class="flex justify-between font-bold text-cocoa-900">
                                 <span>Batas Pesan Ulang (ROP):</span>
                                 <span class="text-cocoa-950 font-black">{{ $calc['reorder_point_kg'] ?? 20 }} Kg</span>
@@ -998,6 +1121,49 @@
                                 <span>Saran Pemesanan (EOQ):</span>
                                 <span class="text-amber-700 font-black">{{ $calc['saran_order_kg'] ?? 50 }} Kg</span>
                             </div>
+                        </div>
+
+                        <!-- FORM 2: PENCATATAN SISA STOK TOKO (SEMUA BAHAN BAKU / BARANG) -->
+                        <div class="pt-3 border-t-2 border-gold-400">
+                            <h4 class="text-xs font-black uppercase text-cocoa-950 mb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-boxes-packing text-amber-700"></i> Update Sisa Stok Semua Bahan Baku Cabang:
+                            </h4>
+                            <form id="formUpdateStokCabang" onsubmit="submitUpdateStokCabang(event, {{ $myCabang->id }})" class="space-y-2.5">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-cocoa-900 mb-1">Pilih Bahan Baku / Barang Cabang:</label>
+                                    <select required onchange="pilihStokBahanCabang(this)"
+                                        class="w-full px-3 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-xs focus:border-amber-600 focus:outline-none">
+                                        <option value="">-- Pilih Bahan Baku / Barang --</option>
+                                        @foreach($bahanBakus->groupBy('kategori') as $kategori => $items)
+                                            <optgroup label="📦 {{ $kategori }}">
+                                                @foreach($items as $bb)
+                                                    @php
+                                                        $stokItem = $myCabang->stok_cabangs->where('nama_bahan', $bb->nama_bahan)->first();
+                                                        $valStok = $stokItem ? $stokItem->stok : 0;
+                                                    @endphp
+                                                    <option value="{{ $bb->nama_bahan }}" data-satuan="{{ $bb->satuan }}" data-stok="{{ $valStok }}">{{ $bb->nama_bahan }} (Stok Toko: {{ $valStok }} {{ $bb->satuan }})</option>
+                                                @endforeach
+                                            </optgroup>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-cocoa-900 mb-1">Sisa Stok di Toko:</label>
+                                        <input type="number" required min="0" step="0.1" placeholder="15"
+                                            class="w-full px-3 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-xs focus:border-amber-600 focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-bold text-cocoa-900 mb-1">Satuan:</label>
+                                        <input type="text" value="Kg" readonly
+                                            class="w-full px-3 py-2 rounded-xl bg-gold-100 border-2 border-gold-400 text-cocoa-900 font-black text-xs">
+                                    </div>
+                                </div>
+                                <button type="submit"
+                                    class="w-full py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-cocoa-950 font-black text-xs tracking-wide shadow transition flex items-center justify-center gap-1.5 border-2 border-amber-600">
+                                    <i class="fa-solid fa-floppy-disk"></i> Update Sisa Stok Bahan Ini
+                                </button>
+                            </form>
                         </div>
                     </div>
 
@@ -1230,49 +1396,122 @@
                     </div>
                 </div>
 
-                <!-- 2. READ LAPORAN BAHAN BAKU & 3. AI PREDIKSI REORDER POINT MUSIMAN -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    <!-- READ LAPORAN BAHAN BAKU CABANG (5 KOLOM) -->
-                    <div class="lg:col-span-5 yellow-card rounded-2xl p-6 space-y-5">
-                        <div class="border-b-2 border-gold-400 pb-3">
-                            <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
+                <!-- 2. READ LAPORAN BAHAN BAKU (SISA STOK TOKO ANDA) -->
+                <div class="yellow-card rounded-2xl p-6 space-y-5">
+                    <div class="border-b-2 border-gold-400 pb-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div>
+                            <h3 class="text-xl font-display font-black text-cocoa-950 flex items-center gap-2">
                                 <i class="fa-solid fa-boxes-stacked text-amber-600"></i>
-                                <span>Read Laporan Bahan Baku Cabang</span>
+                                <span>Read Laporan Sisa Stok Toko Anda ({{ $myCabang->nama_cabang }})</span>
                             </h3>
-                            <p class="text-xs text-cocoa-800 font-medium">Status stok di {{ $myCabang->nama_cabang }} & pasokan pusat</p>
+                            <p class="text-xs text-cocoa-800 font-medium">Monitoring sisa stok bahan baku & barang terkini di toko Anda</p>
+                        </div>
+                        <span class="px-3.5 py-1.5 rounded-full bg-amber-500 text-cocoa-950 text-xs font-black border border-amber-600">
+                            <i class="fa-solid fa-layer-group mr-1"></i> 41+ Item Terdata
+                        </span>
+                    </div>
+
+                    <!-- RINGKASAN STOK PREMIX TEPUNG -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-4 rounded-xl bg-gold-200 border-2 border-gold-400 space-y-1 shadow">
+                            <span class="text-xs font-black uppercase text-cocoa-900 flex items-center gap-1.5">
+                                <i class="fa-solid fa-shop text-amber-700"></i> Stok Premix di Toko Anda ({{ $myCabang->nama_cabang }})
+                            </span>
+                            <div class="text-2xl font-display font-black text-cocoa-950">
+                                {{ $calc['sisa_stok_saat_ini_kg'] ?? $myCabang->sisa_stok_terkini }} Kg
+                            </div>
+                            <span class="text-[11px] text-amber-800 font-bold block">
+                                Pemakaian: ~{{ $calc['rata_rata_premix_harian_kg'] ?? 15 }} Kg/hari (Ketahanan ~{{ round(($calc['sisa_stok_saat_ini_kg'] ?? 45) / max($calc['rata_rata_premix_harian_kg'] ?? 15, 1)) }} hari)
+                            </span>
                         </div>
 
-                        <div class="space-y-3">
-                            <div class="p-4 rounded-xl bg-gold-200/90 border-2 border-gold-400 space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xs font-black text-cocoa-900">Stok Premix Tepung di Toko:</span>
-                                    <span class="text-base font-black text-cocoa-950">{{ $calc['sisa_stok_saat_ini_kg'] ?? $myCabang->sisa_stok_terkini }} Kg</span>
-                                </div>
-                                <div class="flex justify-between items-center text-xs">
-                                    <span class="text-cocoa-800">Pemakaian Harian Rata-rata:</span>
-                                    <span class="font-bold text-amber-800">{{ $calc['rata_rata_premix_harian_kg'] ?? 15 }} Kg/hari</span>
-                                </div>
-                                <div class="flex justify-between items-center text-xs">
-                                    <span class="text-cocoa-800">Ketahanan Stok Saat Ini:</span>
-                                    <span class="font-black text-emerald-800">~{{ round(($calc['sisa_stok_saat_ini_kg'] ?? 45) / max($calc['rata_rata_premix_harian_kg'] ?? 15, 1)) }} Hari</span>
+                        <div class="p-4 rounded-xl bg-white/90 border-2 border-gold-400 space-y-1 shadow flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-black uppercase text-cocoa-900 block">Total Item Bahan & Barang di Toko</span>
+                                <div class="text-2xl font-display font-black text-cocoa-950">
+                                    {{ $bahanBakus->count() }} Item
                                 </div>
                             </div>
-
-                            <h4 class="text-xs font-black uppercase text-cocoa-900 pt-1">Daftar Bahan Baku Utama (Dapur Pusat Lodaya):</h4>
-                            <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-1">
-                                @foreach($bahanBakus as $bb)
-                                    <div class="p-2.5 rounded-xl bg-white/80 border border-gold-400 flex items-center justify-between text-xs">
-                                        <span class="font-bold text-cocoa-950">{{ $bb->nama_bahan }}</span>
-                                        <span class="font-black text-amber-800">{{ number_format($bb->stok_pusat) }} {{ $bb->satuan }}</span>
-                                    </div>
-                                @endforeach
-                            </div>
+                            <span class="text-[11px] text-cocoa-700 font-bold block">
+                                Dikelompokkan dalam 5 kategori logistik
+                            </span>
                         </div>
                     </div>
 
-                    <!-- AI PREDIKSI REORDER POINT BERDASARKAN TRANSAKSI HARIAN & EVENT/MUSIM (7 KOLOM) -->
-                    <div class="lg:col-span-7 yellow-card rounded-2xl p-6 space-y-5">
-                        <div class="border-b-2 border-gold-400 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <!-- QUICK FORM UPDATE STOK BY OWNER CABANG -->
+                    <form id="formUpdateStokOwner" onsubmit="submitUpdateStokCabang(event, {{ $myCabang->id }})" class="p-3 bg-gold-200/80 rounded-xl border-2 border-gold-400 space-y-2">
+                        <div class="flex items-center justify-between text-xs font-black text-cocoa-950">
+                            <span><i class="fa-solid fa-pen-to-square text-amber-600 mr-1.5"></i> Update Sisa Stok Toko Anda:</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+                            <div class="sm:col-span-6">
+                                <select required onchange="pilihStokBahanCabang(this)"
+                                    class="w-full px-3 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-xs focus:border-amber-600 focus:outline-none">
+                                    <option value="">-- Pilih Bahan Baku / Barang --</option>
+                                    @foreach($bahanBakus->groupBy('kategori') as $kategori => $items)
+                                        <optgroup label="📦 {{ $kategori }}">
+                                            @foreach($items as $bb)
+                                                @php
+                                                    $stokItem = $myCabang->stok_cabangs->where('nama_bahan', $bb->nama_bahan)->first();
+                                                    $valStok = $stokItem ? $stokItem->stok : 0;
+                                                @endphp
+                                                <option value="{{ $bb->nama_bahan }}" data-satuan="{{ $bb->satuan }}" data-stok="{{ $valStok }}">{{ $bb->nama_bahan }} (Stok Toko: {{ $valStok }} {{ $bb->satuan }})</option>
+                                            @endforeach
+                                        </optgroup>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="sm:col-span-3">
+                                <input type="number" required min="0" step="0.1" placeholder="Stok"
+                                    class="w-full px-3 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-xs focus:border-amber-600 focus:outline-none">
+                            </div>
+                            <div class="sm:col-span-3 flex gap-1.5">
+                                <input type="text" value="Kg" readonly
+                                    class="w-14 px-2 py-2 rounded-xl bg-gold-100 border-2 border-gold-400 text-cocoa-900 font-black text-xs text-center">
+                                <button type="submit"
+                                    class="flex-1 py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-cocoa-950 font-black text-xs transition shadow border-2 border-amber-600">
+                                    Simpan
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- TABEL SISA STOK TOKO ANDA -->
+                    <div class="overflow-x-auto max-h-96 overflow-y-auto custom-scrollbar border-2 border-gold-400 rounded-xl bg-white/90">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-gold-300/80 text-cocoa-950 font-black uppercase border-b-2 border-gold-400 sticky top-0 z-10">
+                                    <th class="py-3 px-4">Nama Bahan Baku / Barang</th>
+                                    <th class="py-3 px-4">Kategori</th>
+                                    <th class="py-3 px-4 text-center bg-amber-500 text-cocoa-950">🏪 Sisa Stok Toko Anda ({{ $myCabang->nama_cabang }})</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gold-200 font-semibold text-cocoa-950">
+                                @foreach($bahanBakus->groupBy('kategori') as $kategori => $items)
+                                    @foreach($items as $bb)
+                                        @php
+                                            $stokItem = $myCabang->stok_cabangs->where('nama_bahan', $bb->nama_bahan)->first();
+                                            $valStokCabang = $stokItem ? number_format($stokItem->stok, 1) : '0';
+                                        @endphp
+                                        <tr class="hover:bg-gold-100/50 transition">
+                                            <td class="py-2.5 px-4 font-black text-cocoa-950">{{ $bb->nama_bahan }}</td>
+                                            <td class="py-2.5 px-4">
+                                                <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-900 font-bold text-[10px]">📦 {{ $bb->kategori }}</span>
+                                            </td>
+                                            <td class="py-2.5 px-4 text-center bg-amber-500/10 font-black text-amber-900 text-sm border-l border-gold-300">
+                                                {{ $valStokCabang }} <span class="text-[10px] font-normal text-amber-800">{{ $bb->satuan }}</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 3. AI PREDIKSI REORDER POINT MUSIMAN -->
+                <div class="yellow-card rounded-2xl p-6 space-y-5">
+                    <div class="border-b-2 border-gold-400 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div>
                                 <h3 class="text-base font-display font-black text-cocoa-950 flex items-center gap-2">
                                     <i class="fa-solid fa-robot text-amber-600"></i>
@@ -1365,10 +1604,14 @@
                         <form id="formPermintaanBelanja" onsubmit="submitPermintaanBelanja(event, {{ $myCabang->id }})" class="space-y-4">
                             <div>
                                 <label class="block text-xs font-black text-cocoa-950 mb-1">Pilih Bahan Baku yang Dibutuhkan:</label>
-                                <select id="belanja_bahan" required
+                                <select id="belanja_bahan"
                                     class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
-                                    @foreach($bahanBakus as $bb)
-                                        <option value="{{ $bb->nama_bahan }}" data-satuan="{{ $bb->satuan }}">{{ $bb->nama_bahan }} (Satuan: {{ $bb->satuan }})</option>
+                                    @foreach($bahanBakus->groupBy('kategori') as $kategori => $items)
+                                        <optgroup label="📦 {{ $kategori }}">
+                                            @foreach($items as $bb)
+                                                <option value="{{ $bb->nama_bahan }}" data-satuan="{{ $bb->satuan }}">{{ $bb->nama_bahan }} (Satuan: {{ $bb->satuan }})</option>
+                                            @endforeach
+                                        </optgroup>
                                     @endforeach
                                 </select>
                             </div>
@@ -1376,7 +1619,7 @@
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-xs font-black text-cocoa-950 mb-1">Jumlah Pesanan:</label>
-                                    <input type="number" id="belanja_jumlah" required min="1" step="0.5" placeholder="50"
+                                    <input type="number" id="belanja_jumlah" min="1" step="0.5" placeholder="50"
                                         class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
                                 </div>
                                 <div>
@@ -1392,9 +1635,44 @@
                                     class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
                             </div>
 
-                            <button type="submit"
+                            <!-- TOMBOL TAMBAH KE KERANJANG -->
+                            <button type="button" onclick="tambahItemKeranjang()"
+                                class="w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-cocoa-950 font-black text-xs tracking-wide shadow transition flex items-center justify-center gap-2 border-2 border-amber-600">
+                                <i class="fa-solid fa-cart-plus text-sm"></i> + Tambah Item ke Daftar Pesanan
+                            </button>
+
+                            <!-- DAFTAR ITEM KERANJANG BELANJA -->
+                            <div class="pt-3 border-t-2 border-gold-300">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-black text-cocoa-950 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-cart-shopping text-amber-700"></i> Daftar Pesanan (<span id="keranjangCount" class="font-display font-black text-amber-700">0</span> Item)
+                                    </span>
+                                    <button type="button" onclick="resetKeranjang()" class="text-[11px] text-red-600 hover:underline font-bold">Hapus Semua</button>
+                                </div>
+                                <div class="max-h-48 overflow-y-auto rounded-xl border-2 border-gold-400 bg-white/90 p-2 shadow-inner">
+                                    <table class="w-full text-left text-xs">
+                                        <thead class="text-cocoa-800 border-b-2 border-gold-300 font-black text-[10px] uppercase">
+                                            <tr>
+                                                <th class="py-1.5 px-2">Bahan / Barang</th>
+                                                <th class="py-1.5 px-2">Qty</th>
+                                                <th class="py-1.5 px-2">Catatan</th>
+                                                <th class="py-1.5 px-2 text-right">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="keranjangTableBody" class="divide-y divide-gold-200 text-cocoa-950 font-medium text-xs">
+                                            <tr id="keranjangEmptyRow">
+                                                <td colSpan="4" class="py-4 text-center text-cocoa-700 font-medium italic text-xs">
+                                                    Belum ada item di daftar pesanan. Pilih bahan dan klik "+ Tambah Item ke Daftar Pesanan".
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="btnSubmitKeranjang"
                                 class="w-full py-3.5 px-4 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black text-xs tracking-wide shadow-lg transition flex items-center justify-center gap-2 border-2 border-gold-400">
-                                <i class="fa-solid fa-paper-plane text-sm"></i> Kirim Permintaan Belanja ke Admin Pusat
+                                <i class="fa-solid fa-paper-plane text-sm"></i> Kirim Semua Permintaan (<span id="keranjangSubmitCount">0</span> Item) ke Pusat
                             </button>
                         </form>
                     </div>
@@ -1510,34 +1788,35 @@
                 </div>
             </section>
 
-            <!-- MATRIX STOK DAPUR PUSAT -->
+            <!-- MATRIX STOK DAPUR PUSAT & MONITOR STOK SEMUA CABANG -->
             <section class="yellow-card rounded-2xl p-6 space-y-4">
                 <div class="flex items-center justify-between border-b-2 border-gold-400 pb-3.5">
                     <div>
                         <h2 class="text-lg font-display font-black text-cocoa-950 tracking-wide flex items-center gap-2">
                             <i class="fa-solid fa-warehouse text-amber-600"></i>
-                            <span>Matrix Stok Bahan Baku - Dapur Pusat Lodaya (Hub 1)</span>
+                            <span>Matrix Stok Bahan Baku - Dapur Pusat Lodaya & Monitor Semua Cabang</span>
                         </h2>
-                        <p class="text-xs text-cocoa-800 font-medium">Wewenang Petugas Pusat untuk memastikan ketersediaan suplai premix dan kemasan</p>
+                        <p class="text-xs text-cocoa-800 font-medium">Wewenang Petugas Pusat untuk memantau ketersediaan suplai di Hub 1 sekaligus memonitor sisa stok di seluruh toko cabang</p>
                     </div>
                     <span class="px-3.5 py-1.5 rounded-full bg-gold-300 text-cocoa-950 text-xs font-black border-2 border-gold-500">
                         <i class="fa-solid fa-boxes-stacked mr-1"></i> {{ count($bahanBakus) }} Item Terdaftar
                     </span>
                 </div>
 
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs">
+                <div class="overflow-x-auto max-h-[500px] overflow-y-auto custom-scrollbar border-2 border-gold-400 rounded-xl bg-white/90">
+                    <table class="w-full text-left text-xs border-collapse">
                         <thead>
-                            <tr class="text-cocoa-800 uppercase border-b-2 border-gold-400 font-black">
-                                <th class="py-3 px-4">ID</th>
+                            <tr class="text-cocoa-950 uppercase border-b-2 border-gold-400 font-black bg-gold-300/80 sticky top-0 z-10">
+                                <th class="py-3 px-3">ID</th>
                                 <th class="py-3 px-4">Nama Bahan Baku</th>
-                                <th class="py-3 px-4">Satuan</th>
-                                <th class="py-3 px-4">Stok Dapur Pusat</th>
-                                <th class="py-3 px-4 w-1/3">Kapasitas & Status Pasokan</th>
-                                <th class="py-3 px-4 text-right">Aksi Petugas Pusat</th>
+                                <th class="py-3 px-3">Kategori</th>
+                                <th class="py-3 px-3 text-center bg-cocoa-900 text-gold-300">🏢 Stok Dapur Pusat</th>
+                                <th class="py-3 px-4 bg-amber-500 text-cocoa-950">📍 Sisa Stok Semua Cabang</th>
+                                <th class="py-3 px-3">Status Pasokan</th>
+                                <th class="py-3 px-3 text-right">Aksi Petugas Pusat</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gold-300 font-medium">
+                        <tbody class="divide-y divide-gold-200 font-medium text-cocoa-950">
                             @foreach($bahanBakus as $bahan)
                                 @php
                                     $stok = $bahan->stok_pusat;
@@ -1546,23 +1825,41 @@
                                     $statusStok = $pct < 25 ? 'Perlu Restock' : 'Aman';
                                     $statusColor = $pct < 25 ? 'text-white bg-red-600 font-bold' : 'text-white bg-emerald-600 font-bold';
                                 @endphp
-                                <tr class="hover:bg-gold-200 transition">
-                                    <td class="py-3.5 px-4 font-mono text-cocoa-700">#{{ $bahan->id }}</td>
-                                    <td class="py-3.5 px-4 font-black text-cocoa-950 text-sm">{{ $bahan->nama_bahan }}</td>
-                                    <td class="py-3.5 px-4"><span class="px-2.5 py-1 rounded-md bg-white text-cocoa-900 border border-gold-400 font-bold">{{ $bahan->satuan }}</span></td>
-                                    <td class="py-3.5 px-4 font-display font-black text-base text-amber-700">{{ number_format($stok) }}</td>
-                                    <td class="py-3.5 px-4">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-full bg-white h-2.5 rounded-full overflow-hidden border border-gold-400">
-                                                <div class="h-full bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full" style="width: {{ $pct }}%;"></div>
-                                            </div>
-                                            <span class="text-[10px] shrink-0 {{ $statusColor }} px-2.5 py-0.5 rounded-md">{{ $statusStok }}</span>
+                                <tr class="hover:bg-gold-100/60 transition">
+                                    <td class="py-3 px-3 font-mono text-cocoa-700 font-bold">#{{ $bahan->id }}</td>
+                                    <td class="py-3 px-4 font-black text-cocoa-950 text-xs">{{ $bahan->nama_bahan }}</td>
+                                    <td class="py-3 px-3">
+                                        <span class="px-2 py-0.5 rounded bg-gold-200 text-cocoa-900 font-bold text-[10px]">📦 {{ $bahan->kategori ?? 'Umum' }}</span>
+                                    </td>
+                                    <td class="py-3 px-3 text-center bg-cocoa-900/5 font-black text-amber-900 text-sm">
+                                        {{ number_format($stok) }} <span class="text-[10px] font-normal text-cocoa-700">{{ $bahan->satuan }}</span>
+                                    </td>
+                                    <td class="py-3 px-4 bg-amber-500/10 border-x border-gold-300">
+                                        <div class="flex flex-wrap gap-1">
+                                            @foreach($cabangs as $c)
+                                                @php
+                                                    $cStokItem = $c->stok_cabangs->where('nama_bahan', $bahan->nama_bahan)->first();
+                                                    $valCStok = $cStokItem ? number_format($cStokItem->stok, 1) : '0';
+                                                @endphp
+                                                <span class="inline-flex items-center gap-1 bg-gold-100 border border-gold-400 text-cocoa-950 px-1.5 py-0.5 rounded text-[10px] font-bold shadow-2xs">
+                                                    <span class="text-cocoa-800">{{ str_replace('Donat Menak ', '', $c->nama_cabang) }}:</span>
+                                                    <strong class="text-amber-800 font-black">{{ $valCStok }}</strong> {{ $bahan->satuan }}
+                                                </span>
+                                            @endforeach
                                         </div>
                                     </td>
-                                    <td class="py-3.5 px-4 text-right">
+                                    <td class="py-3 px-3">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-16 bg-white h-2 rounded-full overflow-hidden border border-gold-400">
+                                                <div class="h-full bg-gradient-to-r from-amber-500 to-emerald-500 rounded-full" style="width: {{ $pct }}%;"></div>
+                                            </div>
+                                            <span class="text-[10px] shrink-0 {{ $statusColor }} px-2 py-0.5 rounded">{{ $statusStok }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-right">
                                         <button onclick="updateStokDapur({{ $bahan->id }}, '{{ $bahan->nama_bahan }}')"
-                                            class="px-3.5 py-1.5 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 font-bold text-gold-300 border border-gold-400 transition shadow-sm">
-                                            <i class="fa-solid fa-plus mr-1"></i> Tambah Stok (PO)
+                                            class="px-3 py-1 rounded-lg bg-cocoa-900 hover:bg-cocoa-950 font-bold text-gold-300 border border-gold-400 transition shadow-xs text-xs">
+                                            <i class="fa-solid fa-plus mr-1"></i> Restock
                                         </button>
                                     </td>
                                 </tr>
@@ -1914,6 +2211,66 @@
             }
         }
 
+        // --- UPDATE STOK BAHAN BAKU / BARANG CABANG ---
+        function pilihStokBahanCabang(selectEl) {
+            const opt = selectEl.options[selectEl.selectedIndex];
+            if (!opt || !opt.value) return;
+            const sat = opt.getAttribute('data-satuan') || 'Unit';
+            const stok = opt.getAttribute('data-stok') || '0';
+            
+            // Cari input nilai & satuan yang relevan (di form yang sama)
+            const form = selectEl.closest('form');
+            if (form) {
+                const inputNilai = form.querySelector('input[type="number"]');
+                const inputSatuan = form.querySelector('input[readonly]');
+                if (inputNilai) inputNilai.value = stok;
+                if (inputSatuan) inputSatuan.value = sat;
+            }
+        }
+
+        async function submitUpdateStokCabang(e, cabangId) {
+            e.preventDefault();
+            const form = e.target;
+            const selectEl = form.querySelector('select');
+            const inputNilai = form.querySelector('input[type="number"]');
+            const inputSatuan = form.querySelector('input[readonly]');
+
+            if (!selectEl || !selectEl.value || !inputNilai) {
+                alert('Silakan pilih bahan baku dan masukkan sisa stok di toko.');
+                return;
+            }
+
+            const nama_bahan = selectEl.value;
+            const stok = parseFloat(inputNilai.value);
+            const satuan = inputSatuan ? inputSatuan.value : 'Unit';
+
+            try {
+                const res = await fetch('{{ route("api.update.stok.cabang") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        cabang_id: cabangId,
+                        nama_bahan: nama_bahan,
+                        stok: stok,
+                        satuan: satuan
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    alert('✅ ' + data.message);
+                    window.location.reload();
+                } else {
+                    alert('Gagal: ' + (data.message || 'Terjadi kesalahan'));
+                }
+            } catch (err) {
+                alert('Gagal memperbarui sisa stok cabang. Periksa koneksi atau coba lagi.');
+            }
+        }
+
+
         // --- LIVE CALCULATOR REKAP KEUANGAN ---
         function hitungLiveKeuangan() {
             const cash = parseFloat(document.getElementById('rekap_cash')?.value || 0);
@@ -2164,12 +2521,120 @@
             if (satEl) satEl.value = sat;
         });
 
+        let keranjangBelanjaItems = [];
+
+        function renderKeranjangBelanja() {
+            const tbody = document.getElementById('keranjangTableBody');
+            const countEl = document.getElementById('keranjangCount');
+            const submitCountEl = document.getElementById('keranjangSubmitCount');
+            if (!tbody) return;
+
+            if (countEl) countEl.textContent = keranjangBelanjaItems.length;
+            if (submitCountEl) submitCountEl.textContent = keranjangBelanjaItems.length;
+
+            if (keranjangBelanjaItems.length === 0) {
+                tbody.innerHTML = `
+                    <tr id="keranjangEmptyRow">
+                        <td colSpan="4" class="py-4 text-center text-cocoa-700 font-medium italic text-xs">
+                            Belum ada item di daftar pesanan. Pilih bahan dan klik "+ Tambah Item ke Daftar Pesanan".
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            keranjangBelanjaItems.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gold-100 transition';
+                tr.innerHTML = `
+                    <td class="py-2 px-2 font-black text-cocoa-950">${item.nama_bahan}</td>
+                    <td class="py-2 px-2 font-bold text-amber-700">${item.jumlah} <span class="text-[10px] text-cocoa-800">${item.satuan}</span></td>
+                    <td class="py-2 px-2 text-cocoa-800 text-[11px] truncate max-w-[120px]">${item.keterangan || '-'}</td>
+                    <td class="py-2 px-2 text-right">
+                        <button type="button" onclick="hapusItemKeranjang(${index})" class="text-red-600 hover:text-red-800 p-1 title="Hapus">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function tambahItemKeranjang() {
+            const bahanEl = document.getElementById('belanja_bahan');
+            const jumlahEl = document.getElementById('belanja_jumlah');
+            const satuanEl = document.getElementById('belanja_satuan');
+            const keteranganEl = document.getElementById('belanja_keterangan');
+
+            if (!bahanEl || !jumlahEl || !jumlahEl.value || parseFloat(jumlahEl.value) <= 0) {
+                alert('Silakan masukkan jumlah pesanan yang valid (minimal 1).');
+                if (jumlahEl) jumlahEl.focus();
+                return;
+            }
+
+            const nama_bahan = bahanEl.value;
+            const jumlah = parseFloat(jumlahEl.value);
+            const satuan = satuanEl ? satuanEl.value : 'Kg';
+            const keterangan = keteranganEl ? keteranganEl.value.trim() : '';
+
+            // Cek apakah item sudah ada di keranjang, kalau ada tambahkan jumlahnya
+            const existingIdx = keranjangBelanjaItems.findIndex(i => i.nama_bahan === nama_bahan);
+            if (existingIdx !== -1) {
+                keranjangBelanjaItems[existingIdx].jumlah += jumlah;
+                if (keterangan && !keranjangBelanjaItems[existingIdx].keterangan.includes(keterangan)) {
+                    keranjangBelanjaItems[existingIdx].keterangan += (keranjangBelanjaItems[existingIdx].keterangan ? '; ' : '') + keterangan;
+                }
+            } else {
+                keranjangBelanjaItems.push({
+                    nama_bahan,
+                    jumlah,
+                    satuan,
+                    keterangan: keterangan || '-'
+                });
+            }
+
+            renderKeranjangBelanja();
+            if (jumlahEl) jumlahEl.value = '';
+            if (keteranganEl) keteranganEl.value = '';
+        }
+
+        function hapusItemKeranjang(index) {
+            keranjangBelanjaItems.splice(index, 1);
+            renderKeranjangBelanja();
+        }
+
+        function resetKeranjang() {
+            if (keranjangBelanjaItems.length > 0 && confirm('Kosongkan semua daftar pesanan?')) {
+                keranjangBelanjaItems = [];
+                renderKeranjangBelanja();
+            }
+        }
+
         async function submitPermintaanBelanja(e, cabangId) {
             e.preventDefault();
-            const bahan = document.getElementById('belanja_bahan').value;
-            const jumlah = document.getElementById('belanja_jumlah').value;
-            const satuan = document.getElementById('belanja_satuan').value;
-            const keterangan = document.getElementById('belanja_keterangan').value;
+            
+            // Jika keranjang masih kosong tapi input form ada isinya, otomatis tambahkan dulu ke keranjang
+            const jumlahEl = document.getElementById('belanja_jumlah');
+            if (keranjangBelanjaItems.length === 0 && jumlahEl && parseFloat(jumlahEl.value) > 0) {
+                tambahItemKeranjang();
+            }
+
+            if (keranjangBelanjaItems.length === 0) {
+                alert('⚠️ Daftar pesanan masih kosong! Pilih bahan dan klik "+ Tambah Item ke Daftar Pesanan" terlebih dahulu.');
+                return;
+            }
+
+            if (!confirm(`Kirim ${keranjangBelanjaItems.length} item permintaan belanja ke Admin Pusat sekarang?`)) {
+                return;
+            }
+
+            const btnSubmit = document.getElementById('btnSubmitKeranjang');
+            const originalText = btnSubmit ? btnSubmit.innerHTML : '';
+            if (btnSubmit) {
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim Permintaan...';
+            }
 
             try {
                 const res = await fetch('{{ route("api.input.permintaan.belanja") }}', {
@@ -2180,19 +2645,27 @@
                     },
                     body: JSON.stringify({
                         cabang_id: cabangId,
-                        nama_bahan: bahan,
-                        jumlah: parseFloat(jumlah),
-                        satuan: satuan,
-                        keterangan: keterangan
+                        items: keranjangBelanjaItems
                     })
                 });
                 const data = await res.json();
                 if (data.status === 'success') {
                     alert('✅ ' + data.message);
+                    keranjangBelanjaItems = [];
                     location.reload();
+                } else {
+                    alert('Gagal: ' + (data.message || 'Terjadi kesalahan'));
+                    if (btnSubmit) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = originalText;
+                    }
                 }
             } catch (err) {
-                alert('Gagal mengirim permintaan belanja.');
+                alert('Gagal mengirim permintaan belanja. Periksa koneksi atau coba lagi.');
+                if (btnSubmit) {
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = originalText;
+                }
             }
         }
 

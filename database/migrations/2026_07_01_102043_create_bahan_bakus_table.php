@@ -14,8 +14,9 @@ return new class extends Migration
     Schema::create('bahan_bakus', function (Blueprint $table) {
         $table->id();
         $table->string('nama_bahan'); // Contoh: Tepung Terigu, Glaze Choco, Box Donat
+        $table->string('kategori')->default('Umum'); // Contoh: Kemasan, Glaze, Topping, Seragam, Bahan Pokok
         $table->integer('stok_pusat'); // Jumlah stok yang ada di Dapur Pusat
-        $table->string('satuan'); // Contoh: Kg, Gram, Pcs
+        $table->string('satuan'); // Contoh: Kg, Gram, Pcs, Dus, Pail, Pack
         $table->timestamps();
     });
 }
