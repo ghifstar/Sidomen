@@ -138,6 +138,13 @@ class DatabaseSeeder extends Seeder
                 'cabang_id' => 1,
             ],
             [
+                'name' => 'Pak Joko (Petugas Gudang Pusat)',
+                'email' => 'petugas.pusat@donatmenak.com',
+                'password' => bcrypt('password'),
+                'role' => 'petugas_pusat',
+                'cabang_id' => 1,
+            ],
+            [
                 'name' => 'Bapak Owner (Owner Cabang Donat Menak)',
                 'email' => 'owner.cabang@donatmenak.com',
                 'password' => bcrypt('password'),

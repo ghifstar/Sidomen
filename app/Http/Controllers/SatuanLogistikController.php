@@ -15,8 +15,8 @@ class SatuanLogistikController extends Controller
     public function index(\Illuminate\Http\Request $request)
     {
         // Parameter Role Aktif & Cabang Aktif: admin_pusat, kasir_cabang, owner_cabang
-        $activeRole = $request->query('role', 'admin_pusat'); 
-        $selectedCabangId = $request->query('cabang_id', 2); // Default cabang Cibiru (ID 2)
+        $activeRole = auth()->check() ? auth()->user()->role : 'admin_pusat';
+        $selectedCabangId = auth()->check() ? (auth()->user()->cabang_id ?? 2) : 2;
         $users = DB::table('users')->get();
 
         // 1. Ambil data Dapur Pusat (Cabang ID 1) dan Bahan Baku
@@ -144,7 +144,17 @@ class SatuanLogistikController extends Controller
             'liburan' => $nextLiburan->translatedFormat('d M Y'),
         ];
 
-        return view('welcome', compact(
+        $viewName = match($activeRole) {
+            'admin_pusat' => 'dashboards.admin_pusat',
+            'koordinator_logistik' => 'dashboards.admin_pusat',
+            'owner_cabang' => 'dashboards.owner_cabang',
+            'kasir_cabang' => 'dashboards.kasir_cabang',
+            'petugas_cabang' => 'dashboards.kasir_cabang',
+            'petugas_pusat' => 'dashboards.petugas_pusat',
+            default => 'dashboards.admin_pusat'
+        };
+
+        return view($viewName, compact(
             'dapurPusat',
             'bahanBakus',
             'cabangs',
