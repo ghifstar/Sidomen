@@ -260,5 +260,9 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        // 6. Generate 1 Year ROP Dataset for AI Training
+        $this->command->info('Generating 1-Year Historical ROP Dataset for all branches & materials...');
+        $this->command->call('dataset:generate-rop', ['days' => 365]);
     }
 }
