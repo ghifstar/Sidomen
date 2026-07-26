@@ -1527,63 +1527,120 @@
                         <!-- EVENT SELECTOR -->
                         <div class="space-y-2">
                             <label class="block text-xs font-black text-cocoa-950">Pilih Kondisi Hari / Musim Transaksi Cabang:</label>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-black">
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs font-black">
                                 <button type="button" onclick="ubahFaktorMusim(1.0, 'Hari Biasa (Normal)')" id="btn-musim-normal"
-                                    class="musim-btn py-2.5 px-3 rounded-xl bg-cocoa-900 text-gold-300 border-2 border-gold-500 shadow transition text-center">
-                                    🏢 Hari Biasa
+                                    class="musim-btn py-2.5 px-3 rounded-xl bg-cocoa-900 text-gold-300 border-2 border-gold-500 shadow transition text-center flex flex-col items-center justify-center gap-0.5">
+                                    <span>🏢 Hari Biasa</span>
+                                    <span class="text-[9px] font-medium opacity-80">Default harian</span>
+                                </button>
+                                <button type="button" onclick="ubahFaktorMusim(1.25, 'Payday (Gajian)')" id="btn-musim-payday"
+                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center flex flex-col items-center justify-center gap-0.5">
+                                    <span>💸 Payday</span>
+                                    <span class="text-[9px] font-bold text-amber-700">{{ $eventDates['payday'] ?? 'Tgl 25' }}</span>
                                 </button>
                                 <button type="button" onclick="ubahFaktorMusim(1.35, 'Akhir Pekan (Weekend)')" id="btn-musim-weekend"
-                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center">
-                                    🏖️ Akhir Pekan
+                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center flex flex-col items-center justify-center gap-0.5">
+                                    <span>🏖️ Akhir Pekan</span>
+                                    <span class="text-[9px] font-bold text-amber-700">{{ $eventDates['weekend'] ?? 'Sabtu Terdekat' }}</span>
                                 </button>
                                 <button type="button" onclick="ubahFaktorMusim(1.6, 'Musim Wisuda Kampus')" id="btn-musim-wisuda"
-                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center">
-                                    🎓 Musim Wisuda
+                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center flex flex-col items-center justify-center gap-0.5">
+                                    <span>🎓 Musim Wisuda</span>
+                                    <span class="text-[9px] font-bold text-amber-700">{{ $eventDates['wisuda'] ?? '19 Sep' }}</span>
                                 </button>
                                 <button type="button" onclick="ubahFaktorMusim(1.85, 'Musim Liburan Panjang')" id="btn-musim-liburan"
-                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center">
-                                    🎒 Libur Panjang
+                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center flex flex-col items-center justify-center gap-0.5">
+                                    <span>🎒 Libur Panjang</span>
+                                    <span class="text-[9px] font-bold text-amber-700">{{ $eventDates['liburan'] ?? '24 Des' }}</span>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- HASIL PREDIKSI AI ROP -->
-                        <div class="bg-gold-200/90 p-4 rounded-xl border-2 border-gold-400 space-y-4">
-                            <div class="flex items-center justify-between border-b border-gold-400 pb-2 text-xs font-black">
-                                <span class="text-cocoa-900">Kondisi Dipilih: <strong id="label-kondisi-musim" class="text-amber-700">Hari Biasa (Normal)</strong></span>
-                                <span class="text-cocoa-800">Multiplier: <strong id="val-multiplier">1.0x</strong></span>
+                        <!-- HASIL PREDIKSI AI ROP (TABEL SELURUH BAHAN BAKU) -->
+                        <div class="bg-gold-200/90 rounded-xl border-2 border-gold-400 space-y-4 overflow-hidden">
+                            <div class="p-4 flex items-center justify-between border-b-2 border-gold-400 bg-gold-300/50 text-xs font-black">
+                                <span class="text-cocoa-900">Kondisi AI Aktif: <strong id="label-kondisi-musim" class="text-amber-700 uppercase bg-amber-200 px-2 py-1 rounded">Hari Biasa (Normal)</strong></span>
+                                <span class="text-cocoa-800">Multiplier: <strong id="val-multiplier" class="bg-cocoa-900 text-gold-300 px-2 py-1 rounded">1.0x</strong></span>
                             </div>
 
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center text-xs">
-                                <div class="bg-white/90 p-3 rounded-xl border border-gold-400">
-                                    <span class="block text-[10px] text-cocoa-700 font-bold">Rata-Rata Harian</span>
-                                    <span class="text-sm font-black text-cocoa-950 block mt-0.5" id="ai-rop-harian">{{ $calc['rata_rata_premix_harian_kg'] ?? 15 }} Kg</span>
-                                </div>
-                                <div class="bg-white/90 p-3 rounded-xl border border-gold-400">
-                                    <span class="block text-[10px] text-cocoa-700 font-bold">Safety Stock</span>
-                                    <span class="text-sm font-black text-cocoa-950 block mt-0.5" id="ai-rop-safety">{{ $calc['safety_stock_kg'] ?? 15 }} Kg</span>
-                                </div>
-                                <div class="bg-white/90 p-3 rounded-xl border border-gold-400 col-span-2 sm:col-span-1">
-                                    <span class="block text-[10px] text-cocoa-700 font-bold">Lead Time Pengiriman</span>
-                                    <span class="text-sm font-black text-amber-800 block mt-0.5">{{ $calc['lead_time_hari'] ?? 2 }} Hari</span>
-                                </div>
+                            <div class="px-4 pb-2 flex items-center justify-between">
+                                <span class="text-[11px] text-cocoa-700 font-bold" id="ai-rop-status-text">✨ Stok di cabang Anda diprediksi aman untuk kondisi saat ini.</span>
+                                <span class="text-[10px] text-cocoa-600 font-black"><i class="fa-solid fa-clock mr-1"></i> Lead Time: {{ $calc['lead_time_hari'] ?? 2 }} Hari</span>
                             </div>
 
-                            <!-- PREDICTED REORDER POINT BOX -->
-                            <div class="bg-cocoa-900 text-gold-300 p-4 rounded-xl border-2 border-cocoa-950 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-md">
-                                <div>
-                                    <span class="text-[10px] text-gold-400 uppercase font-black tracking-wide block">Titik Pesan Ulang (AI Predicted ROP):</span>
-                                    <div class="text-2xl font-display font-black text-white" id="ai-rop-total">
-                                        {{ $calc['reorder_point_kg'] ?? 45 }} Kg
-                                    </div>
-                                    <span class="text-[11px] text-emerald-400 font-bold block mt-0.5" id="ai-rop-status-text">
-                                        ✨ Stok di cabang Anda saat ini masih aman
-                                    </span>
-                                </div>
-                                <button onclick="isiOtomatisPermintaan()" type="button"
-                                    class="px-4 py-2.5 rounded-xl bg-gold-400 hover:bg-gold-300 text-cocoa-950 font-black text-xs transition shadow">
-                                    <i class="fa-solid fa-cart-plus mr-1"></i> Ajukan Belanja AI
-                                </button>
+                            <div class="overflow-x-auto max-h-96 overflow-y-auto custom-scrollbar border-t-2 border-gold-400 bg-white/90">
+                                <table class="w-full text-left border-collapse text-xs">
+                                    <thead>
+                                        <tr class="bg-cocoa-900 text-gold-300 font-black uppercase sticky top-0 z-10 border-b border-cocoa-950">
+                                            <th class="py-3 px-4">Nama Bahan Baku</th>
+                                            <th class="py-3 px-4 text-center">Sisa Stok</th>
+                                            <th class="py-3 px-4 text-center" title="Batas Aman + Waktu Pengiriman">Prediksi ROP <i class="fa-solid fa-robot ml-1 text-gold-400"></i></th>
+                                            <th class="py-3 px-4 text-center">Status AI</th>
+                                            <th class="py-3 px-4 text-center">Aksi Belanja</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gold-200 font-semibold text-cocoa-950">
+                                        @php
+                                            $baseDonatAvg = $calc['rata_rata_donat_harian'] ?? 300;
+                                        @endphp
+                                        @foreach($bahanBakus->groupBy('kategori') as $kategori => $items)
+                                            <tr class="bg-gold-100"><td colspan="5" class="px-4 py-1.5 text-[10px] font-black text-amber-800 uppercase tracking-widest border-b border-gold-300">📦 Kategori: {{ $kategori }}</td></tr>
+                                            @foreach($items as $bb)
+                                                @php
+                                                    $stokItem = $myCabang->stok_cabangs->where('nama_bahan', $bb->nama_bahan)->first();
+                                                    $valStokCabang = $stokItem ? $stokItem->stok : 0;
+                                                    
+                                                    // Base formula sederhana per kategori untuk Prediksi
+                                                    $usageMultiplier = 0.001;
+                                                    $safetyStockBase = 2; // Default 2
+                                                    if ($bb->kategori === 'Bahan Pokok & Lemak') {
+                                                        $usageMultiplier = 0.05;
+                                                        $safetyStockBase = 15;
+                                                    } elseif ($bb->kategori === 'Kemasan') {
+                                                        $usageMultiplier = 1;
+                                                        $safetyStockBase = 50;
+                                                    } elseif ($bb->kategori === 'Glaze') {
+                                                        $usageMultiplier = 0.01;
+                                                        $safetyStockBase = 5;
+                                                    } elseif ($bb->kategori === 'Topping') {
+                                                        $usageMultiplier = 0.02;
+                                                        $safetyStockBase = 5;
+                                                    }
+                                                    
+                                                    // ROP Base = (Rata2 Harian * Penggunaan * LeadTime) + SafetyStock
+                                                    $ropBase = ($baseDonatAvg * $usageMultiplier * ($calc['lead_time_hari'] ?? 2)) + $safetyStockBase;
+                                                    $ropBase = round($ropBase, 2);
+                                                @endphp
+                                                <tr class="hover:bg-gold-100/50 transition rop-item-row" 
+                                                    data-bahan="{{ $bb->nama_bahan }}" 
+                                                    data-stok="{{ $valStokCabang }}" 
+                                                    data-rop-base="{{ $ropBase }}"
+                                                    data-satuan="{{ $bb->satuan }}">
+                                                    <td class="py-2.5 px-4 font-black">{{ $bb->nama_bahan }}</td>
+                                                    <td class="py-2.5 px-4 text-center font-bold">{{ number_format($valStokCabang, 1) }} <span class="text-[10px]">{{ $bb->satuan }}</span></td>
+                                                    <td class="py-2.5 px-4 text-center font-black text-amber-700 bg-amber-500/10 border-x border-gold-200">
+                                                        <span class="rop-calculated-val">{{ $ropBase }}</span> <span class="text-[10px]">{{ $bb->satuan }}</span>
+                                                    </td>
+                                                    <td class="py-2.5 px-4 text-center font-black rop-status-badge">
+                                                        @if($valStokCabang <= $ropBase)
+                                                            <span class="px-2 py-0.5 bg-red-500 text-white rounded text-[10px]">ORDER SEKARANG</span>
+                                                        @elseif($valStokCabang <= $ropBase * 1.25)
+                                                            <span class="px-2 py-0.5 bg-amber-500 text-cocoa-900 rounded text-[10px]">WASPADA</span>
+                                                        @else
+                                                            <span class="px-2 py-0.5 bg-emerald-600 text-white rounded text-[10px]">AMAN</span>
+                                                        @endif
+                                                    </td>
+                                                    <td class="py-2.5 px-4 text-center">
+                                                        <button onclick="isiOtomatisPermintaanItem('{{ $bb->nama_bahan }}', this)" type="button"
+                                                            class="px-2 py-1 rounded bg-cocoa-900 hover:bg-amber-600 text-gold-300 hover:text-white font-black text-[10px] transition shadow">
+                                                            <i class="fa-solid fa-cart-plus"></i> Order
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -2470,7 +2527,9 @@
         // =========================================================================
         // HANDLER MUSIM & AI REORDER POINT OWNER CABANG
         // =========================================================================
-        let baseRopKg = parseFloat(document.getElementById('ai-rop-total')?.innerText || '45');
+        // =========================================================================
+        // HANDLER MUSIM & AI REORDER POINT OWNER CABANG (Semua Bahan)
+        // =========================================================================
         function ubahFaktorMusim(faktor, namaMusim) {
             document.querySelectorAll('.musim-btn').forEach(btn => {
                 btn.classList.remove('bg-cocoa-900', 'text-gold-300', 'shadow');
@@ -2486,31 +2545,61 @@
             if (lbl) lbl.innerText = namaMusim;
             if (mult) mult.innerText = faktor + 'x';
 
-            const newRop = Math.round(baseRopKg * faktor * 10) / 10;
-            const totalEl = document.getElementById('ai-rop-total');
-            if (totalEl) totalEl.innerText = newRop + ' Kg';
-
             const statusText = document.getElementById('ai-rop-status-text');
             if (statusText) {
                 if (faktor > 1.3) {
-                    statusText.innerHTML = '🔥 <span class="text-amber-400 font-bold">Rekomendasi stok ditingkatkan ' + Math.round((faktor-1)*100) + '% untuk antisipasi lonjakan permintaan!</span>';
+                    statusText.innerHTML = '🔥 <span class="text-amber-700 font-bold">Rekomendasi stok AI dinaikkan ' + Math.round((faktor-1)*100) + '% untuk antisipasi lonjakan pesanan!</span>';
                 } else {
-                    statusText.innerHTML = '✨ Stok di cabang Anda saat ini masih aman untuk kondisi normal';
+                    statusText.innerHTML = '✨ Stok di cabang Anda diprediksi aman untuk kondisi normal.';
                 }
             }
+
+            // Loop seluruh baris bahan baku dan update angka ROP
+            document.querySelectorAll('.rop-item-row').forEach(row => {
+                const baseRop = parseFloat(row.getAttribute('data-rop-base'));
+                const sisaStok = parseFloat(row.getAttribute('data-stok'));
+                const newRop = Math.round(baseRop * faktor * 10) / 10;
+                
+                row.querySelector('.rop-calculated-val').innerText = newRop;
+                
+                const badgeTd = row.querySelector('.rop-status-badge');
+                if (sisaStok <= newRop) {
+                    badgeTd.innerHTML = '<span class="px-2 py-0.5 bg-red-500 text-white rounded text-[10px]">ORDER SEKARANG</span>';
+                } else if (sisaStok <= newRop * 1.25) {
+                    badgeTd.innerHTML = '<span class="px-2 py-0.5 bg-amber-500 text-cocoa-900 rounded text-[10px]">WASPADA</span>';
+                } else {
+                    badgeTd.innerHTML = '<span class="px-2 py-0.5 bg-emerald-600 text-white rounded text-[10px]">AMAN</span>';
+                }
+            });
         }
 
-        function isiOtomatisPermintaan() {
-            const ropEl = document.getElementById('ai-rop-total');
-            let ropVal = 50;
-            if (ropEl) {
-                ropVal = parseFloat(ropEl.innerText) || 50;
+        function isiOtomatisPermintaanItem(namaBahan, btnElement) {
+            // Set dropdown bahan baku
+            const selectBahan = document.getElementById('belanja_bahan');
+            if (selectBahan) {
+                for (let i = 0; i < selectBahan.options.length; i++) {
+                    if (selectBahan.options[i].value === namaBahan) {
+                        selectBahan.selectedIndex = i;
+                        break;
+                    }
+                }
+                selectBahan.dispatchEvent(new Event('change')); // trigger satuan update
             }
-            const jm = document.getElementById('belanja_jumlah');
-            if (jm) {
-                jm.value = ropVal;
-                jm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                jm.focus();
+            
+            // Set jumlah sesuai ROP target dari baris tabel
+            const row = btnElement.closest('tr');
+            if (row) {
+                const ropVal = row.querySelector('.rop-calculated-val')?.innerText;
+                const stokVal = parseFloat(row.getAttribute('data-stok'));
+                const ropNum = parseFloat(ropVal);
+                
+                const jm = document.getElementById('belanja_jumlah');
+                if (jm) {
+                    // Saran order: isi ulang sampai menutupi ROP + sedikit buffer (bebas)
+                    jm.value = Math.max((ropNum - stokVal) + (ropNum * 0.5), ropNum).toFixed(1);
+                    jm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    jm.focus();
+                }
             }
         }
 

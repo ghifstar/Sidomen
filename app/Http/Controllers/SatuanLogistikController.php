@@ -123,6 +123,27 @@ class SatuanLogistikController extends Controller
             ];
         }
 
+        // Kalkulasi Tanggal Terdekat untuk Event/Musim (Owner Cabang)
+        $now = \Carbon\Carbon::now();
+        
+        $nextWeekend = $now->copy()->next(\Carbon\Carbon::SATURDAY);
+        
+        $nextPayday = $now->copy()->day(25);
+        if ($now->day >= 25) $nextPayday->addMonth();
+        
+        $nextWisuda = $now->copy()->month(9)->day(19);
+        if ($now->greaterThan($nextWisuda)) $nextWisuda->addYear();
+        
+        $nextLiburan = $now->copy()->month(12)->day(24);
+        if ($now->greaterThan($nextLiburan)) $nextLiburan->addYear();
+
+        $eventDates = [
+            'weekend' => $nextWeekend->translatedFormat('d M Y'),
+            'payday' => $nextPayday->translatedFormat('d M Y'),
+            'wisuda' => $nextWisuda->translatedFormat('d M Y'),
+            'liburan' => $nextLiburan->translatedFormat('d M Y'),
+        ];
+
         return view('welcome', compact(
             'dapurPusat',
             'bahanBakus',
@@ -134,7 +155,8 @@ class SatuanLogistikController extends Controller
             'totalCabangWaspada',
             'activeRole',
             'selectedCabangId',
-            'users'
+            'users',
+            'eventDates'
         ));
     }
 
