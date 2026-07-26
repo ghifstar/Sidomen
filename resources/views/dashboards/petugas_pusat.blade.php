@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('content')
-            <!-- ========================================================================= -->
+    <!-- HEADER -->
+    <div class="bg-gold-200 border-b-2 border-gold-400 px-6 py-4 shadow-md rounded-2xl mb-6 flex justify-between items-center">
+        <div>
+            <h2 class="text-lg font-black text-cocoa-950 uppercase">🏭 Dashboard Petugas Pusat – Dapur Lodaya</h2>
+            <p class="text-xs font-semibold text-cocoa-800">Wewenang memantau ketersediaan stok bahan pokok dan glaze di Dapur Pusat Lodaya.</p>
+        </div>
+    </div>
+
+<!-- ========================================================================= -->
             <!-- KHUSUS ROLE PETUGAS PUSAT: MATRIX BAHAN BAKU DAPUR LODAYA & MONITOR STOK -->
             <!-- ========================================================================= -->
             <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

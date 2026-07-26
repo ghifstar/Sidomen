@@ -1,40 +1,14 @@
 @extends('layouts.app')
 @section('content')
-                        👑 Dashboard Admin Pusat — Logistik & Optimasi Rute
-                    @elseif($activeRole == 'owner_cabang')
-                        👔 Dashboard Owner Cabang — Analitik Eksekutif, AI ROP & Permintaan Belanja
-                    @else
-                        🏪 Dashboard Kasir Cabang — Operasional Laporan Keuangan & Sisa Bahan
-                    @endif
-                </h2>
-                <p class="text-xs font-semibold text-cocoa-800">
-                    @if($activeRole == 'admin_pusat' || $activeRole == 'koordinator_logistik')
-                        Wewenang memproses pengajuan permintaan belanja dari seluruh cabang dan menghitung optimasi rute pengiriman (TSP OSRM & Leaflet).
-                    @elseif($activeRole == 'owner_cabang')
-                        Wewenang membaca laporan keuangan harian & rekap bulanan, status bahan baku, prediksi AI Reorder Point berdasarkan event/libur, dan mengajukan permintaan belanja ke pusat.
-                    @else
-                        Wewenang menginput laporan keuangan harian (cash/cashless & pengeluaran) dan laporan sisa bahan harian toko cabang.
-                    @endif
-                </p>
-            </div>
-
-            @if($activeRole == 'kasir_cabang' || $activeRole == 'petugas_cabang' || $activeRole == 'owner_cabang')
-                <div class="flex items-center gap-2">
-                    <label class="text-xs font-black text-cocoa-900">Pilih Cabang:</label>
-                    <select onchange="window.location.href='?role={{ $activeRole }}&cabang_id=' + this.value"
-                        class="px-3 py-1.5 rounded-xl bg-white border-2 border-gold-500 text-cocoa-950 font-black text-xs focus:outline-none shadow-sm">
-                        @foreach($cabangs as $cab)
-                            <option value="{{ $cab->id }}" {{ $selectedCabangId == $cab->id ? 'selected' : '' }}>
-                                {{ $cab->nama_cabang }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            @endif
+    <!-- HEADER -->
+    <div class="bg-gold-200 border-b-2 border-gold-400 px-6 py-4 shadow-md rounded-2xl mb-6 flex justify-between items-center">
+        <div>
+            <h2 class="text-lg font-black text-cocoa-950 uppercase">👑 Dashboard Admin Pusat – Logistik & Optimasi Rute</h2>
+            <p class="text-xs font-semibold text-cocoa-800">Wewenang memproses pengajuan permintaan belanja dari seluruh cabang dan menghitung optimasi rute pengiriman.</p>
         </div>
+    </div>
 
-        @if($activeRole == 'admin_pusat' || $activeRole == 'koordinator_logistik')
-            <!-- ========================================================================= -->
+<!-- ========================================================================= -->
             <!-- DASHBOARD ADMIN PUSAT: STOK BAHAN BAKU, PERMINTAAN BELANJA & OPTIMASI RUTE -->
             <!-- ========================================================================= -->
 
