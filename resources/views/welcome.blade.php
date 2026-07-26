@@ -1100,70 +1100,60 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-black text-cocoa-950 mb-1">Sisa Stok Premix di Toko Sekarang (Kg):</label>
-                                <input type="number" id="input_stok" required min="0" step="0.5" placeholder="Contoh: 45"
-                                    value="{{ $calc['sisa_stok_saat_ini_kg'] ?? 45 }}"
+                                <label class="block text-xs font-black text-cocoa-950 mb-1">Total Penjualan Donat Hari Ini (Pcs):</label>
+                                <input type="number" id="input_donat" required min="0" placeholder="Contoh: 320"
                                     class="w-full px-4 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-sm focus:border-amber-600 focus:outline-none">
                             </div>
 
                             <button type="submit"
                                 class="w-full py-2.5 px-4 rounded-xl bg-cocoa-900 hover:bg-cocoa-950 text-gold-300 font-black text-xs tracking-wide shadow transition flex items-center justify-center gap-2 border-2 border-gold-400">
-                                <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Simpan Penjualan & ROP AI
+                                <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Simpan Penjualan Donat Harian
                             </button>
                         </form>
 
-                        <div class="bg-gold-200 p-3 rounded-xl border-2 border-gold-400 text-xs space-y-1">
-                            <div class="flex justify-between font-bold text-cocoa-900">
-                                <span>Batas Pesan Ulang (ROP):</span>
-                                <span class="text-cocoa-950 font-black">{{ $calc['reorder_point_kg'] ?? 20 }} Kg</span>
-                            </div>
-                            <div class="flex justify-between font-bold text-cocoa-900">
-                                <span>Saran Pemesanan (EOQ):</span>
-                                <span class="text-amber-700 font-black">{{ $calc['saran_order_kg'] ?? 50 }} Kg</span>
-                            </div>
-                        </div>
-
-                        <!-- FORM 2: PENCATATAN SISA STOK TOKO (SEMUA BAHAN BAKU / BARANG) -->
+                        <!-- PENCATATAN SISA STOK TOKO (SEMUA BAHAN BAKU / BARANG) -->
                         <div class="pt-3 border-t-2 border-gold-400">
                             <h4 class="text-xs font-black uppercase text-cocoa-950 mb-2 flex items-center gap-1.5">
-                                <i class="fa-solid fa-boxes-packing text-amber-700"></i> Update Sisa Stok Semua Bahan Baku Cabang:
+                                <i class="fa-solid fa-boxes-packing text-amber-700"></i> Update Sisa Stok Bahan Baku Cabang:
                             </h4>
-                            <form id="formUpdateStokCabang" onsubmit="submitUpdateStokCabang(event, {{ $myCabang->id }})" class="space-y-2.5">
-                                <div>
-                                    <label class="block text-[11px] font-bold text-cocoa-900 mb-1">Pilih Bahan Baku / Barang Cabang:</label>
-                                    <select required onchange="pilihStokBahanCabang(this)"
-                                        class="w-full px-3 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-xs focus:border-amber-600 focus:outline-none">
-                                        <option value="">-- Pilih Bahan Baku / Barang --</option>
+                            <div class="overflow-x-auto max-h-96 overflow-y-auto custom-scrollbar border-2 border-gold-400 rounded-xl bg-white/90">
+                                <table class="w-full text-left border-collapse text-xs">
+                                    <thead>
+                                        <tr class="bg-cocoa-900 text-gold-300 font-black uppercase sticky top-0 z-10 border-b border-cocoa-950">
+                                            <th class="py-2.5 px-3">Bahan Baku</th>
+                                            <th class="py-2.5 px-3">Sisa Stok</th>
+                                            <th class="py-2.5 px-3 text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gold-200 font-semibold text-cocoa-950">
                                         @foreach($bahanBakus->groupBy('kategori') as $kategori => $items)
-                                            <optgroup label="📦 {{ $kategori }}">
-                                                @foreach($items as $bb)
-                                                    @php
-                                                        $stokItem = $myCabang->stok_cabangs->where('nama_bahan', $bb->nama_bahan)->first();
-                                                        $valStok = $stokItem ? $stokItem->stok : 0;
-                                                    @endphp
-                                                    <option value="{{ $bb->nama_bahan }}" data-satuan="{{ $bb->satuan }}" data-stok="{{ $valStok }}">{{ $bb->nama_bahan }} (Stok Toko: {{ $valStok }} {{ $bb->satuan }})</option>
-                                                @endforeach
-                                            </optgroup>
+                                            <tr class="bg-gold-100"><td colspan="3" class="px-3 py-1.5 text-[10px] font-black text-amber-800 uppercase tracking-widest border-b border-gold-300">📦 {{ $kategori }}</td></tr>
+                                            @foreach($items as $bb)
+                                                @php
+                                                    $stokItem = $myCabang->stok_cabangs->where('nama_bahan', $bb->nama_bahan)->first();
+                                                    $valStokCabang = $stokItem ? $stokItem->stok : 0;
+                                                @endphp
+                                                <tr class="hover:bg-gold-100/50 transition">
+                                                    <td class="py-2.5 px-3 font-black">{{ $bb->nama_bahan }}</td>
+                                                    <td class="py-2.5 px-3">
+                                                        <div class="flex items-center gap-1">
+                                                            <input type="number" id="stok_inline_{{ Str::slug($bb->nama_bahan) }}" min="0" step="0.1" value="{{ $valStokCabang }}"
+                                                                class="w-16 px-2 py-1 rounded bg-white border border-gold-400 text-cocoa-950 font-bold focus:outline-none text-center">
+                                                            <span class="text-[10px] text-cocoa-800">{{ $bb->satuan }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="py-2.5 px-3 text-center">
+                                                        <button type="button" onclick="simpanStokInline(this, {{ $myCabang->id }}, '{{ $bb->nama_bahan }}', 'stok_inline_{{ Str::slug($bb->nama_bahan) }}')"
+                                                            class="px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-cocoa-950 font-black text-[10px] transition shadow flex items-center justify-center gap-1 mx-auto">
+                                                            <i class="fa-solid fa-floppy-disk"></i> Simpan
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
-                                    </select>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2">
-                                    <div>
-                                        <label class="block text-[11px] font-bold text-cocoa-900 mb-1">Sisa Stok di Toko:</label>
-                                        <input type="number" required min="0" step="0.1" placeholder="15"
-                                            class="w-full px-3 py-2 rounded-xl bg-white border-2 border-gold-400 text-cocoa-950 font-bold text-xs focus:border-amber-600 focus:outline-none">
-                                    </div>
-                                    <div>
-                                        <label class="block text-[11px] font-bold text-cocoa-900 mb-1">Satuan:</label>
-                                        <input type="text" value="Kg" readonly
-                                            class="w-full px-3 py-2 rounded-xl bg-gold-100 border-2 border-gold-400 text-cocoa-900 font-black text-xs">
-                                    </div>
-                                </div>
-                                <button type="submit"
-                                    class="w-full py-2.5 px-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-cocoa-950 font-black text-xs tracking-wide shadow transition flex items-center justify-center gap-1.5 border-2 border-amber-600">
-                                    <i class="fa-solid fa-floppy-disk"></i> Update Sisa Stok Bahan Ini
-                                </button>
-                            </form>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
@@ -2249,7 +2239,6 @@
         async function submitLaporanCabang(e, cabangId) {
             e.preventDefault();
             const donat = document.getElementById('input_donat').value;
-            const stok = document.getElementById('input_stok').value;
 
             try {
                 const res = await fetch('{{ route("api.input.penjualan") }}', {
@@ -2258,13 +2247,50 @@
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    body: JSON.stringify({ cabang_id: cabangId, total_donat_terjual: donat, sisa_stok_bahan: stok })
+                    body: JSON.stringify({ cabang_id: cabangId, total_donat_terjual: donat })
                 });
                 const data = await res.json();
                 alert(data.message || 'Berhasil disimpan!');
                 window.location.reload();
             } catch (err) {
                 alert('Gagal menyimpan laporan penjualan.');
+            }
+        }
+
+        // --- UPDATE SISA STOK INLINE (TABEL KASIR) ---
+        async function simpanStokInline(btn, cabangId, namaBahan, inputId) {
+            const valInput = document.getElementById(inputId);
+            if (!valInput) return;
+            const stok = valInput.value;
+
+            const icon = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('{{ route("api.update.stok.cabang") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ cabang_id: cabangId, nama_bahan: namaBahan, stok: stok })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    alert('Stok ' + namaBahan + ' berhasil diupdate!');
+                    valInput.classList.add('bg-emerald-100', 'border-emerald-500');
+                    setTimeout(() => {
+                        valInput.classList.remove('bg-emerald-100', 'border-emerald-500');
+                    }, 1500);
+                } else {
+                    alert('Gagal: ' + data.message);
+                }
+            } catch (err) {
+                alert('Gagal update stok bahan baku.');
+            } finally {
+                btn.innerHTML = icon;
+                btn.disabled = false;
             }
         }
 

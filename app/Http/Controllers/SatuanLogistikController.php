@@ -361,13 +361,17 @@ class SatuanLogistikController extends Controller
     {
         $validated = $request->validate([
             'cabang_id' => 'required|integer',
-            'total_donat_terjual' => 'required|numeric|min:0',
-            'sisa_stok_bahan' => 'required|numeric|min:0'
+            'total_donat_terjual' => 'required|numeric|min:0'
         ]);
 
         $tanggal = now()->format('Y-m-d');
         $cabangId = $validated['cabang_id'];
-        $stokPremix = $validated['sisa_stok_bahan'];
+        
+        $stokPremixRow = DB::table('stok_cabangs')
+            ->where('cabang_id', $cabangId)
+            ->where('nama_bahan', 'Premix Tepung')
+            ->first();
+        $stokPremix = $stokPremixRow ? $stokPremixRow->stok : 0;
 
         // Simpan / Update laporan hari ini di database penjualans
         $exists = DB::table('penjualans')
