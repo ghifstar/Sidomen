@@ -51,7 +51,16 @@
                         </span>
                     </div>
 
-                    
+                    <div class="flex items-center gap-1.5 bg-gold-300 p-1 rounded-xl border border-gold-500 text-xs font-black">
+                        <button type="button" onclick="switchKasirTab('pos')" id="btn-tab-pos"
+                            class="px-4 py-2 rounded-lg bg-cocoa-900 text-gold-300 shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-cart-shopping"></i> Mesin Kasir (POS)
+                        </button>
+                        <button type="button" onclick="switchKasirTab('laporan')" id="btn-tab-laporan"
+                            class="px-4 py-2 rounded-lg text-cocoa-900 hover:bg-gold-400 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-invoice-dollar"></i> Tutup Shift & Laporan Harian
+                        </button>
+                    </div>
                 </div>
 
                 <!-- ========================================================================= -->
