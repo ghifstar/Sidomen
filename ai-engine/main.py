@@ -1,3 +1,6 @@
+import json
+import urllib.request
+import urllib.error
 import math
 import statistics
 from typing import List, Optional, Any, Dict
@@ -45,6 +48,22 @@ class RuteRequest(BaseModel):
     cabang_tujuan: List[CabangTujuan]
 
 # --- Helper Functions ---
+
+def get_osrm_matrix(nodes):
+    # OSRM expects: lon,lat;lon,lat
+    coords_str = ";".join([f"{n.longitude},{n.latitude}" for n in nodes])
+    url = f"https://router.project-osrm.org/table/v1/driving/{coords_str}?annotations=distance,duration"
+    
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'MenakBot/1.0'})
+        with urllib.request.urlopen(req) as resp:
+            data = json.loads(resp.read().decode())
+            if data.get("code") == "Ok":
+                return data["distances"], data["durations"]
+    except Exception as e:
+        print("OSRM Matrix Error:", e)
+    return None, None
+
 
 def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     """
@@ -146,7 +165,7 @@ def hitung_rop(req: RopRequest):
 def optimasi_rute(req: RuteRequest):
     """
     Optimasi rute pengiriman logistik menggunakan algoritma Nearest Neighbor TSP
-    (Traveling Salesperson Problem) berbasis jarak permukaan bumi Haversine.
+    berbasis jarak jalan raya sesungguhnya (Algoritma Dijkstra) dari OSRM Matrix API.
     """
     pusat = req.dapur_pusat
     tujuan_list = req.cabang_tujuan
@@ -160,38 +179,47 @@ def optimasi_rute(req: RuteRequest):
             "pesan": "Tidak ada cabang tujuan yang dipilih."
         }
 
-    unvisited = list(tujuan_list)
-    current_node = pusat
+    all_nodes = [pusat] + tujuan_list
+    distances, durations = get_osrm_matrix(all_nodes)
+
+    unvisited_indices = list(range(1, len(all_nodes)))
+    current_idx = 0
     rute_ordered = [pusat.dict()]
     total_jarak = 0.0
     langkah_detail = []
-
+    
     step_num = 1
-    while unvisited:
-        # Cari cabang terdekat dari node saat ini
-        best_next = None
+    while unvisited_indices:
+        best_next_idx = None
         min_dist = float('inf')
+        min_duration = 0
         
-        for cand in unvisited:
-            dist = haversine_distance(
-                current_node.latitude, current_node.longitude,
-                cand.latitude, cand.longitude
-            )
+        for cand_idx in unvisited_indices:
+            if distances and distances[current_idx][cand_idx] is not None:
+                dist = distances[current_idx][cand_idx] / 1000.0 # meter ke km
+                duration = durations[current_idx][cand_idx] / 60.0 # detik ke menit
+            else:
+                dist = haversine_distance(
+                    all_nodes[current_idx].latitude, all_nodes[current_idx].longitude,
+                    all_nodes[cand_idx].latitude, all_nodes[cand_idx].longitude
+                )
+                duration = (dist / 24.0) * 60
+                
             if dist < min_dist:
                 min_dist = dist
-                best_next = cand
-        
-        # Pindah ke node terdekat
+                best_next_idx = cand_idx
+                min_duration = duration
+                
         total_jarak += min_dist
+        best_next = all_nodes[best_next_idx]
         rute_ordered.append(best_next.dict())
-        unvisited.remove(best_next)
+        unvisited_indices.remove(best_next_idx)
         
-        # Hitung waktu tempuh antar titik (asumsi kecepatan rata-rata dalam kota Bandung = 24 km/jam)
-        waktu_jalan_menit = round((min_dist / 24.0) * 60)
+        waktu_jalan_menit = round(min_duration)
         
         langkah_detail.append({
             "urutan": step_num,
-            "dari": current_node.nama_cabang,
+            "dari": all_nodes[current_idx].nama_cabang,
             "ke": best_next.nama_cabang,
             "jarak_km": round(min_dist, 2),
             "estimasi_jalan_menit": waktu_jalan_menit,
@@ -199,45 +227,48 @@ def optimasi_rute(req: RuteRequest):
             "status": best_next.status_inventaris
         })
         
-        current_node = best_next
+        current_idx = best_next_idx
         step_num += 1
 
-    # Rute kembali ke Dapur Pusat (Round trip)
-    dist_back = haversine_distance(
-        current_node.latitude, current_node.longitude,
-        pusat.latitude, pusat.longitude
-    )
+    if distances and distances[current_idx][0] is not None:
+        dist_back = distances[current_idx][0] / 1000.0
+        duration_back = durations[current_idx][0] / 60.0
+    else:
+        dist_back = haversine_distance(
+            all_nodes[current_idx].latitude, all_nodes[current_idx].longitude,
+            pusat.latitude, pusat.longitude
+        )
+        duration_back = (dist_back / 24.0) * 60
+        
     total_jarak += dist_back
     rute_ordered.append(pusat.dict())
     
     langkah_detail.append({
         "urutan": step_num,
-        "dari": current_node.nama_cabang,
+        "dari": all_nodes[current_idx].nama_cabang,
         "ke": pusat.nama_cabang + " (Kembali)",
         "jarak_km": round(dist_back, 2),
-        "estimasi_jalan_menit": round((dist_back / 24.0) * 60),
+        "estimasi_jalan_menit": round(duration_back),
         "kebutuhan_logistik_kg": 0,
         "status": "Selesai"
     })
 
-    # Total waktu = perjalanan jalan + 15 menit bongkar muat per titik cabang
     total_bongkar_muat_menit = len(tujuan_list) * 15
-    total_waktu_menit = round((total_jarak / 24.0) * 60) + total_bongkar_muat_menit
+    total_waktu_menit = round(sum(step["estimasi_jalan_menit"] for step in langkah_detail)) + total_bongkar_muat_menit
 
     return {
         "status": "success",
         "total_jarak_km": round(total_jarak, 2),
         "estimasi_waktu_menit": total_waktu_menit,
         "detail_waktu": {
-            "waktu_tempuh_jalan_menit": round((total_jarak / 24.0) * 60),
+            "waktu_tempuh_jalan_menit": round(sum(step["estimasi_jalan_menit"] for step in langkah_detail)),
             "waktu_bongkar_muat_menit": total_bongkar_muat_menit
         },
         "rute_pengiriman": rute_ordered,
         "langkah_detail": langkah_detail,
-        "hemat_jarak_estimasi_km": round(total_jarak * 0.28, 2), # Estimasi penghematan dibanding rute acak
-        "pesan": f"Optimasi TSP berhasil: 1 Dapur Pusat -> {len(tujuan_list)} Cabang -> Kembali ke Pusat ({round(total_jarak, 1)} Km)."
+        "pesan": f"Optimasi TSP (OSRM Dijkstra) berhasil: 1 Dapur Pusat -> {len(tujuan_list)} Cabang -> Kembali ke Pusat ({round(total_jarak, 1)} Km)."
     }
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8002)

@@ -282,13 +282,14 @@
             }
         }
 
-        const bandungBranches = [
-            { id: 1, name: 'Dapur Pusat Lodaya (Hub 1)', lat: -6.9314, lng: 107.6231, isPusat: true },
-            { id: 2, name: 'Donat Menak Cibiru', lat: -6.9382, lng: 107.7164 },
-            { id: 3, name: 'Donat Menak Sarijadi', lat: -6.8778, lng: 107.5819 },
-            { id: 4, name: 'Donat Menak Lembang', lat: -6.8172, lng: 107.6144 },
-            { id: 5, name: 'Donat Menak Buah Batu', lat: -6.9472, lng: 107.6253 },
-        ];
+        const serverCabangs = @json($cabangs ?? []);
+        const bandungBranches = serverCabangs.map(c => ({
+            id: c.id,
+            name: c.nama_cabang,
+            lat: parseFloat(c.latitude),
+            lng: parseFloat(c.longitude),
+            isPusat: c.id === 1
+        }));
 
         function drawAllBranchesMarkers() {
             if (!leafletMap) return;
@@ -363,10 +364,36 @@
             const coordStringUnopt = waypointsUnopt.map(w => `${w.lng},${w.lat}`).join(';');
 
             // 2. URUTAN TEROPTIMASI AI TSP (Emas): Nearest-Neighbor loop geografis terpendek
-            let optList = [...selectedList];
-            optList.sort((a, b) => a.lng - b.lng);
-            const waypointsOpt = [pusat, ...optList, pusat];
-            const coordStringOpt = waypointsOpt.map(w => `${w.lng},${w.lat}`).join(';');
+            let coordStringOpt = "";
+            try {
+                const reqIds = selectedList.map(item => item.id);
+                const aiResp = await fetch('{{ route("api.optimasi.rute") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({ cabang_ids: reqIds })
+                });
+                const aiData = await aiResp.json();
+                
+                if (aiData.status !== 'success') {
+                    console.error('AI error', aiData);
+                    alert('Gagal mendapatkan rute dari AI TSP: ' + (aiData.message || 'Error'));
+                    return;
+                }
+                
+                const waypointsOpt = aiData.rute_pengiriman.map(node => ({ lat: node.latitude, lng: node.longitude }));
+                coordStringOpt = waypointsOpt.map(w => `${w.lng},${w.lat}`).join(';');
+            } catch (err) {
+                console.error(err);
+                alert('Gagal menghubungi backend untuk TSP AI.');
+                if (btn) {
+                    btn.innerHTML = '<i class="fa-solid fa-truck-fast"></i> Kalkulasi Rute Optimal';
+                    btn.disabled = false;
+                }
+                return;
+            }
 
             try {
                 const osrmUnoptUrl = `https://router.project-osrm.org/route/v1/driving/${coordStringUnopt}?overview=full&geometries=geojson`;

@@ -11,12 +11,18 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 1. Masukkan Data Dummy Cabang Donat Menak (Area Bandung)
-        $cabangs = [
-            ['nama_cabang' => 'Donat Menak Pusat (Dapur)', 'alamat' => 'Jl. Lodaya No.10, Bandung', 'latitude' => -6.9314, 'longitude' => 107.6231],
-            ['nama_cabang' => 'Donat Menak Cibiru', 'alamat' => 'Jl. AH. Nasution No.1, Cipadung, Bandung', 'latitude' => -6.9298, 'longitude' => 107.7180],
-            ['nama_cabang' => 'Donat Menak Sarijadi', 'alamat' => 'Jl. Sarimanah No. 25, Sarijadi, Bandung', 'latitude' => -6.8785, 'longitude' => 107.5750],
-            ['nama_cabang' => 'Donat Menak Lembang', 'alamat' => 'Jl. Raya Lembang No. 388, Lembang', 'latitude' => -6.8170, 'longitude' => 107.6150],
-            ['nama_cabang' => 'Donat Menak Katapang', 'alamat' => 'Kp. Muara Ciwidey, RT 02/RW 01, Katapang', 'latitude' => -7.0090, 'longitude' => 107.5250],
+                $cabangs = [
+            ['nama_cabang' => 'Toko Pusat', 'alamat' => 'Jl. Ibu ganirah no. 70 (belakang unjani), Cibeber, Cimahi Selatan', 'latitude' => -6.9171, 'longitude' => 107.5458],
+            ['nama_cabang' => 'Toko Batujajar', 'alamat' => 'Jl. Raya Batujajar No. 330, Kab. Bandung Barat', 'latitude' => -6.9183, 'longitude' => 107.4914],
+            ['nama_cabang' => 'Toko Patrol', 'alamat' => 'Jl. Kolonel Matsuri No. 177, Patrol, Parongpong', 'latitude' => -6.8031, 'longitude' => 107.5800],
+            ['nama_cabang' => 'Toko Cibiru', 'alamat' => 'Jl. A.H. Nasution No.82 (Depan Kampus UIN)', 'latitude' => -6.9308, 'longitude' => 107.7178],
+            ['nama_cabang' => 'Toko Jati', 'alamat' => 'Jl. Jati no. 83, Kel. Cibabat, Kec. Cimahi Utara', 'latitude' => -6.8745, 'longitude' => 107.5568],
+            ['nama_cabang' => 'Toko Lembang', 'alamat' => 'Jl. Raya Lembang No.388', 'latitude' => -6.8111, 'longitude' => 107.6171],
+            ['nama_cabang' => 'Toko Derwati', 'alamat' => 'Jl. Derwati no.50, kec. Rancasari, kab. Bandung', 'latitude' => -6.9646, 'longitude' => 107.6829],
+            ['nama_cabang' => 'Toko Cikutra', 'alamat' => 'Jl. Cikutra no. 230, kec.neglasari, kota bandung', 'latitude' => -6.8993, 'longitude' => 107.6372],
+            ['nama_cabang' => 'Toko Sarijadi', 'alamat' => 'Jl. Sarimanah no. 25, sarijadi, kec. Sukasari, kota bandung', 'latitude' => -6.8713, 'longitude' => 107.5804],
+            ['nama_cabang' => 'Toko Subang', 'alamat' => 'Jl raya cagak subang, kab. Subang', 'latitude' => -6.6669, 'longitude' => 107.6974],
+            ['nama_cabang' => 'Toko Baksil', 'alamat' => 'Jl. Siliwangi no 31b', 'latitude' => -6.9103, 'longitude' => 107.6195],
         ];
 
         foreach ($cabangs as $cabang) {
@@ -97,7 +103,7 @@ class DatabaseSeeder extends Seeder
 
         // 3. Masukkan Data Dummy Penjualan Harian (30 Hari Terakhir untuk Melatih AI)
         // Kita lewati cabang ID 1 (karena ID 1 berfungsi sebagai Dapur Pusat)
-        for ($cabangId = 2; $cabangId <= 5; $cabangId++) {
+        for ($cabangId = 2; $cabangId <= 11; $cabangId++) {
             $sisaStokBahan = 100; // Stok awal bahan di cabang (dalam Kg)
 
             for ($i = 30; $i >= 0; $i--) {

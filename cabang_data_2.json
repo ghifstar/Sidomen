@@ -1,0 +1,57 @@
+[
+    {
+        "alamat": "Cibeber, Cimahi Selatan",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "alamat": "Batujajar, Bandung Barat",
+        "lat": "-6.9183485",
+        "lon": "107.4914121"
+    },
+    {
+        "alamat": "Parongpong, Bandung Barat",
+        "lat": "-6.8031668",
+        "lon": "107.5800716"
+    },
+    {
+        "alamat": "UIN Sunan Gunung Djati Bandung",
+        "lat": "-6.9308464",
+        "lon": "107.7178471"
+    },
+    {
+        "alamat": "Cibabat, Cimahi",
+        "lat": "-6.8745613",
+        "lon": "107.5568926"
+    },
+    {
+        "alamat": "Lembang, Bandung Barat",
+        "lat": "-6.8111033",
+        "lon": "107.6171239"
+    },
+    {
+        "alamat": "Derwati, Bandung",
+        "lat": "-6.9646914",
+        "lon": "107.6829553"
+    },
+    {
+        "alamat": "Cikutra, Bandung",
+        "lat": "-6.8993026",
+        "lon": "107.6372911"
+    },
+    {
+        "alamat": "Sarijadi, Bandung",
+        "lat": "-6.8713141",
+        "lon": "107.5804271"
+    },
+    {
+        "alamat": "Jalan Raya Cagak, Subang",
+        "lat": null,
+        "lon": null
+    },
+    {
+        "alamat": "Siliwangi, Bandung",
+        "lat": "-6.9103114",
+        "lon": "107.6195560"
+    }
+]

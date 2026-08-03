@@ -36,7 +36,7 @@ class SatuanLogistikController extends Controller
         // 3. Status koneksi ke Python FastAPI Engine
         $aiStatus = false;
         try {
-            $statusCheck = Http::timeout(2)->get('http://127.0.0.1:8000/api/status');
+            $statusCheck = Http::timeout(2)->get('http://127.0.0.1:8002/api/status');
             if ($statusCheck->successful()) {
                 $aiStatus = true;
             }
@@ -77,7 +77,7 @@ class SatuanLogistikController extends Controller
                         ];
                     })->toArray();
 
-                    $aiResp = Http::timeout(4)->post('http://127.0.0.1:8000/api/hitung-rop', [
+                    $aiResp = Http::timeout(4)->post('http://127.0.0.1:8002/api/hitung-rop', [
                         'lead_time' => $leadTime,
                         'safety_stock' => $safetyStock,
                         'sisa_stok_saat_ini' => $sisaStokSaatIni,
@@ -263,7 +263,7 @@ class SatuanLogistikController extends Controller
         }
 
         try {
-            $response = Http::timeout(5)->post('http://127.0.0.1:8000/api/rute-distribusi', [
+            $response = Http::timeout(5)->post('http://127.0.0.1:8002/api/rute-distribusi', [
                 'dapur_pusat' => [
                     'id' => $pusat->id,
                     'nama_cabang' => $pusat->nama_cabang,
@@ -278,7 +278,7 @@ class SatuanLogistikController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Gagal menghubungi server Python FastAPI di port 8000: ' . $e->getMessage()
+                'message' => 'Gagal menghubungi server Python FastAPI di port 8002: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -304,7 +304,7 @@ class SatuanLogistikController extends Controller
         }
 
         try {
-            $response = Http::timeout(3)->post('http://127.0.0.1:8000/api/hitung-rop', [
+            $response = Http::timeout(3)->post('http://127.0.0.1:8002/api/hitung-rop', [
                 'lead_time' => $leadTime,
                 'safety_stock' => $safetyStock,
                 'riwayat_penjualan' => $riwayat
@@ -339,7 +339,7 @@ class SatuanLogistikController extends Controller
         $safetyStock = 15;
 
         try {
-            $response = Http::post('http://127.0.0.1:8000/api/hitung-rop', [
+            $response = Http::post('http://127.0.0.1:8002/api/hitung-rop', [
                 'lead_time' => $leadTime,
                 'safety_stock' => $safetyStock,
                 'riwayat_penjualan' => $riwayatPenjualan
@@ -359,7 +359,7 @@ class SatuanLogistikController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Gagal terhubung ke server Python di port 8000. Pastikan Uvicorn menyala.'
+                'message' => 'Gagal terhubung ke server Python di port 8002. Pastikan Uvicorn menyala.'
             ], 500);
         }
     }
