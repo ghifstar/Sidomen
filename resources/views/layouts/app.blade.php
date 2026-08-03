@@ -266,7 +266,11 @@
         }
 
         const serverCabangs = @json($cabangs ?? []);
-        const bandungBranches = serverCabangs.map(c => ({
+        const dapurPusat = @json($dapurPusat ?? null);
+        let allCabangData = serverCabangs;
+        if(dapurPusat) { allCabangData = [dapurPusat, ...serverCabangs]; }
+        
+        const bandungBranches = allCabangData.map(c => ({
             id: c.id,
             name: c.nama_cabang,
             lat: parseFloat(c.latitude),
@@ -326,7 +330,7 @@
             currentRouteLayers.forEach(l => leafletMap.removeLayer(l));
             currentRouteLayers = [];
 
-            const pusat = bandungBranches[0];
+            const pusat = bandungBranches.find(b => b.isPusat) || bandungBranches[0];
             const selectedList = [];
             checkboxes.forEach(cb => {
                 selectedList.push({
