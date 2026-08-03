@@ -138,10 +138,10 @@ class SatuanLogistikController extends Controller
         if ($now->greaterThan($nextLiburan)) $nextLiburan->addYear();
 
         $eventDates = [
-            'weekend' => $nextWeekend->translatedFormat('d M Y'),
-            'payday' => $nextPayday->translatedFormat('d M Y'),
-            'wisuda' => $nextWisuda->translatedFormat('d M Y'),
-            'liburan' => $nextLiburan->translatedFormat('d M Y'),
+            'weekend' => $nextWeekend->translatedFormat('d M') . ' - ' . $nextWeekend->copy()->addDay()->translatedFormat('d M Y'),
+            'payday' => $nextPayday->translatedFormat('d M') . ' - ' . $nextPayday->copy()->addDays(7)->translatedFormat('d M Y'),
+            'wisuda' => $nextWisuda->translatedFormat('d M') . ' - ' . $nextWisuda->copy()->addDays(14)->translatedFormat('d M Y'),
+            'liburan' => $nextLiburan->translatedFormat('d M') . ' - ' . $nextLiburan->copy()->addDays(9)->translatedFormat('d M Y'),
         ];
 
         $viewName = match($activeRole) {
