@@ -365,6 +365,7 @@
 
             // 2. URUTAN TEROPTIMASI AI TSP (Emas): Nearest-Neighbor loop geografis terpendek
             let coordStringOpt = "";
+            let waypointsOpt = [];
             try {
                 const reqIds = selectedList.map(item => item.id);
                 const aiResp = await fetch('{{ route("api.optimasi.rute") }}', {
@@ -383,7 +384,13 @@
                     return;
                 }
                 
-                const waypointsOpt = aiData.rute_pengiriman.map(node => ({ lat: node.latitude, lng: node.longitude }));
+                waypointsOpt = aiData.rute_pengiriman.map(node => ({ 
+                    lat: node.latitude, 
+                    lng: node.longitude,
+                    name: node.nama_cabang,
+                    isPusat: node.id === 1,
+                    weight: node.permintaan_kg || 50
+                }));
                 coordStringOpt = waypointsOpt.map(w => `${w.lng},${w.lat}`).join(';');
             } catch (err) {
                 console.error(err);
