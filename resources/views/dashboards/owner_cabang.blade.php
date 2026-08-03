@@ -327,7 +327,14 @@
                                     </thead>
                                     <tbody class="divide-y divide-gold-200 font-semibold text-cocoa-950">
                                         @php
-                                            $baseDonatAvg = $calc['rata_rata_donat_harian'] ?? 300;
+                                            // Menggunakan nilai prediksi Linear Regression (7 Hari Ke Depan) dari Python AI
+                                            $grafik = $ai['grafik_tren'] ?? [];
+                                            $prediksi7Hari = $grafik['prediksi_7_hari_donat'] ?? [];
+                                            
+                                            // Rata-rata dari prediksi regresi linier masa depan
+                                            $baseDonatAvg = count($prediksi7Hari) > 0 
+                                                ? array_sum($prediksi7Hari) / count($prediksi7Hari) 
+                                                : ($calc['rata_rata_donat_harian'] ?? 300);
                                         @endphp
                                         @foreach($bahanBakus->groupBy('kategori') as $kategori => $items)
                                             <tr class="bg-gold-100"><td colspan="5" class="px-4 py-1.5 text-[10px] font-black text-amber-800 uppercase tracking-widest border-b border-gold-300">📦 Kategori: {{ $kategori }}</td></tr>
