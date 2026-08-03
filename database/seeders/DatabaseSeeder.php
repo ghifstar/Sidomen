@@ -13,10 +13,10 @@ class DatabaseSeeder extends Seeder
         // 1. Masukkan Data Dummy Cabang Donat Menak (Area Bandung)
         $cabangs = [
             ['nama_cabang' => 'Donat Menak Pusat (Dapur)', 'alamat' => 'Jl. Lodaya No.10, Bandung', 'latitude' => -6.9314, 'longitude' => 107.6231],
-            ['nama_cabang' => 'Donat Menak Cibiru', 'alamat' => 'Jl. Raya Cibiru No.45, Bandung', 'latitude' => -6.9382, 'longitude' => 107.7164],
-            ['nama_cabang' => 'Donat Menak Sarijadi', 'alamat' => 'Jl. Sarijadi Blok 8, Bandung', 'latitude' => -6.8778, 'longitude' => 107.5819],
-            ['nama_cabang' => 'Donat Menak Lembang', 'alamat' => 'Jl. Raya Lembang No.12, Bandung', 'latitude' => -6.8172, 'longitude' => 107.6144],
-            ['nama_cabang' => 'Donat Menak Buah Batu', 'alamat' => 'Jl. Buah Batu No.150, Bandung', 'latitude' => -6.9472, 'longitude' => 107.6253],
+            ['nama_cabang' => 'Donat Menak Cibiru', 'alamat' => 'Jl. AH. Nasution No.1, Cipadung, Bandung', 'latitude' => -6.9298, 'longitude' => 107.7180],
+            ['nama_cabang' => 'Donat Menak Sarijadi', 'alamat' => 'Jl. Sarimanah No. 25, Sarijadi, Bandung', 'latitude' => -6.8785, 'longitude' => 107.5750],
+            ['nama_cabang' => 'Donat Menak Lembang', 'alamat' => 'Jl. Raya Lembang No. 388, Lembang', 'latitude' => -6.8170, 'longitude' => 107.6150],
+            ['nama_cabang' => 'Donat Menak Katapang', 'alamat' => 'Kp. Muara Ciwidey, RT 02/RW 01, Katapang', 'latitude' => -7.0090, 'longitude' => 107.5250],
         ];
 
         foreach ($cabangs as $cabang) {
@@ -173,8 +173,8 @@ class DatabaseSeeder extends Seeder
                 'cabang_id' => 4,
             ],
             [
-                'name' => 'Maya (Kasir Cabang Buah Batu)',
-                'email' => 'kasir.buahbatu@donatmenak.com',
+                'name' => 'Maya (Kasir Cabang Katapang)',
+                'email' => 'kasir.katapang@donatmenak.com',
                 'password' => bcrypt('password'),
                 'role' => 'kasir_cabang',
                 'cabang_id' => 5,

@@ -1,0 +1,9 @@
+Donat Menak Cibeber, Cimahi (fallback to region): -6.8936465, 107.5183581
+Donat Menak Cibiru, Bandung (fallback to region): -6.9144839, 107.7229943
+Donat Menak Sarijadi, Bandung (fallback to region): -6.8713141, 107.5804271
+Donat Menak Pesantren, Cimahi (fallback to region): -6.8781401, 107.5577713
+Donat Menak Batujajar (fallback to region): -6.4343394, 106.5829924
+Donat Menak Patrol, Bandung (fallback to region): -7.1426465, 107.5618426
+Donat Menak Lembang (fallback to region): -7.1177409, 107.8550206
+Donat Menak Cikutra, Bandung (fallback to region): -6.8993026, 107.6372911
+Donat Menak Margaasih (fallback to region): -6.9309792, 107.5421506
