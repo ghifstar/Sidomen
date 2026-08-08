@@ -273,7 +273,7 @@
                         <!-- EVENT SELECTOR -->
                         <div class="space-y-2">
                             <label class="block text-xs font-black text-cocoa-950">Pilih Kondisi Hari / Musim Transaksi Cabang:</label>
-                            <div class="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs font-black">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs font-black">
                                 <button type="button" onclick="ubahFaktorMusim(1.0, 'Hari Biasa (Normal)')" id="btn-musim-normal"
                                     class="musim-btn py-2.5 px-3 rounded-xl bg-cocoa-900 text-gold-300 border-2 border-gold-500 shadow transition text-center flex flex-col items-center justify-center gap-0.5">
                                     <span>🏢 Hari Biasa</span>
@@ -283,11 +283,6 @@
                                     class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center flex flex-col items-center justify-center gap-0.5">
                                     <span>💸 Payday</span>
                                     <span class="text-[9px] font-bold text-amber-700">{{ $eventDates['payday'] ?? 'Tgl 25' }}</span>
-                                </button>
-                                <button type="button" onclick="ubahFaktorMusim(1.35, 'Akhir Pekan (Weekend)')" id="btn-musim-weekend"
-                                    class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center flex flex-col items-center justify-center gap-0.5">
-                                    <span>🏖️ Akhir Pekan</span>
-                                    <span class="text-[9px] font-bold text-amber-700">{{ $eventDates['weekend'] ?? 'Sabtu Terdekat' }}</span>
                                 </button>
                                 <button type="button" onclick="ubahFaktorMusim(1.6, 'Musim Wisuda Kampus')" id="btn-musim-wisuda"
                                     class="musim-btn py-2.5 px-3 rounded-xl bg-gold-200 text-cocoa-950 border-2 border-gold-400 hover:bg-gold-300 transition text-center flex flex-col items-center justify-center gap-0.5">
