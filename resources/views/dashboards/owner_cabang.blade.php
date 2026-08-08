@@ -302,6 +302,25 @@
                             </div>
                         </div>
 
+                        <!-- PENJELASAN KLASIFIKASI STATUS AI -->
+                        <div class="p-3 bg-white/80 border-2 border-gold-300 rounded-xl shadow-sm space-y-2">
+                            <span class="text-xs font-black text-cocoa-950 block"><i class="fa-solid fa-circle-info text-amber-600 mr-1"></i> Panduan Status AI (Klasifikasi Stok):</span>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-[10px]">
+                                <div class="bg-emerald-50 border border-emerald-200 p-2 rounded-lg shadow-sm">
+                                    <span class="px-2 py-0.5 bg-emerald-600 text-white rounded font-bold mb-1 inline-block">AMAN</span>
+                                    <p class="text-cocoa-800 font-semibold leading-tight">Sisa stok melimpah (di atas ROP + 25%). Belum perlu memesan barang tambahan.</p>
+                                </div>
+                                <div class="bg-amber-50 border border-amber-200 p-2 rounded-lg shadow-sm">
+                                    <span class="px-2 py-0.5 bg-amber-500 text-cocoa-900 rounded font-bold mb-1 inline-block">WASPADA</span>
+                                    <p class="text-cocoa-800 font-semibold leading-tight">Stok mendekati batas kritis. Peringatan dini untuk segera bersiap melakukan order.</p>
+                                </div>
+                                <div class="bg-red-50 border border-red-200 p-2 rounded-lg shadow-sm">
+                                    <span class="px-2 py-0.5 bg-red-500 text-white rounded font-bold mb-1 inline-block">ORDER SEKARANG</span>
+                                    <p class="text-cocoa-800 font-semibold leading-tight">Stok sudah kritis (di bawah batas ROP). Segera pesan sekarang sebelum kehabisan!</p>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- HASIL PREDIKSI AI ROP (TABEL SELURUH BAHAN BAKU) -->
                         <div class="bg-gold-200/90 rounded-xl border-2 border-gold-400 space-y-4 overflow-hidden">
                             <div class="p-4 flex items-center justify-between border-b-2 border-gold-400 bg-gold-300/50 text-xs font-black">
